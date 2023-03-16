@@ -1,0 +1,13 @@
+version: "3"
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "${APP_PORT}:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - APP_API_URL_BACKEND_1=${APP_API_URL_BACKEND_1}
+    command:
+      - yarn dev -H 0.0.0.0 -p 3000
