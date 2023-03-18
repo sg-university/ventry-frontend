@@ -3,7 +3,7 @@ import Client from "@/clients/client";
 import Service from "@/services/service";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
-import AccountPermissionMap from "@/models/entities/role";
+import ItemCombinationMap from "@/models/entities/item_combination_map";
 import CreateOneRequest
     from "@/models/value_objects/contracts/requests/managements/item_combination_maps/create_one_request";
 import DeleteOneByIdRequest
@@ -25,23 +25,23 @@ class ItemCombinationMapService extends Service {
         this.client = new BackendOneClient();
     }
 
-    createOne(request: CreateOneRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
+    createOne(request: CreateOneRequest): Promise<AxiosResponse<Content<ItemCombinationMap>>> {
         return this.client.instance.post(`${this.path}`, request.body);
     }
 
-    deleteOneById(request: DeleteOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
+    deleteOneById(request: DeleteOneByIdRequest): Promise<AxiosResponse<Content<ItemCombinationMap>>> {
         return this.client.instance.delete(`${this.path}/${request.id}`);
     }
 
-    readAll(): Promise<AxiosResponse<Content<AccountPermissionMap[]>>> {
+    readAll(): Promise<AxiosResponse<Content<ItemCombinationMap[]>>> {
         return this.client.instance.get(`${this.path}`);
     }
 
-    readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
+    readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<ItemCombinationMap>>> {
         return this.client.instance.get(`${this.path}/${request.id}`);
     }
 
-    patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
+    patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<ItemCombinationMap>>> {
         return this.client.instance.patch(`${this.path}/${request.id}`, request.body);
     }
 

@@ -4,7 +4,7 @@ import Service from "@/services/service";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import CreateOneRequest from "@/models/value_objects/contracts/requests/managements/accounts/create_one_request";
-import AccountPermissionMap from "@/models/entities/role";
+import Account from "@/models/entities/account";
 import DeleteOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/accounts/delete_one_by_id_request";
 import ReadOneByIdRequest from "@/models/value_objects/contracts/requests/managements/accounts/read_one_by_id_request";
@@ -23,23 +23,23 @@ class AccountService extends Service {
         this.client = new BackendOneClient();
     }
 
-    createOne(request: CreateOneRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
+    createOne(request: CreateOneRequest): Promise<AxiosResponse<Content<Account>>> {
         return this.client.instance.post(`${this.path}`, request.body);
     }
 
-    deleteOneById(request: DeleteOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
+    deleteOneById(request: DeleteOneByIdRequest): Promise<AxiosResponse<Content<Account>>> {
         return this.client.instance.delete(`${this.path}/${request.id}`);
     }
 
-    readAll(): Promise<AxiosResponse<Content<AccountPermissionMap[]>>> {
+    readAll(): Promise<AxiosResponse<Content<Account[]>>> {
         return this.client.instance.get(`${this.path}`);
     }
 
-    readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
+    readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<Account>>> {
         return this.client.instance.get(`${this.path}/${request.id}`);
     }
 
-    patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
+    patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<Account>>> {
         return this.client.instance.patch(`${this.path}/${request.id}`, request.body);
     }
 

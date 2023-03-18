@@ -3,7 +3,7 @@ import Client from "@/clients/client";
 import Service from "@/services/service";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
-import AccountPermissionMap from "@/models/entities/role";
+import AccountPermissionMap from "@/models/entities/account_permission_map";
 import CreateOneRequest
     from "@/models/value_objects/contracts/requests/managements/account_permission_maps/create_one_request";
 import DeleteOneByIdRequest

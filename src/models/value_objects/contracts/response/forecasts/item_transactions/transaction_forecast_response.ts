@@ -1,7 +1,7 @@
 import MetricForecast from "@/models/value_objects/metric_forecast";
 import PredictionForecast from "@/models/value_objects/prediction_forecast";
 
-class ItemTransactionForecastResponse extends Response {
+class TransactionForecastResponse extends Response {
     predictionForecast: PredictionForecast;
     metricForecast: MetricForecast;
 
@@ -12,4 +12,4 @@ class ItemTransactionForecastResponse extends Response {
     }
 }
 
-export default ItemTransactionForecastResponse;
+export default TransactionForecastResponse;
