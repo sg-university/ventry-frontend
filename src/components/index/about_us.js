@@ -2,6 +2,7 @@ import * as ReactBootstrap from "react-bootstrap";
 import AboutImg from "@/assets/images/ventry.svg";
 import "@/styles/index/about_us.scss";
 import "@/styles/index/landing.scss"
+import Image from "next/image"
 
 function AboutUs() {
     return (
@@ -16,7 +17,7 @@ function AboutUs() {
                 </ReactBootstrap.Row>
                 <ReactBootstrap.Row lg>
                     <ReactBootstrap.Col>
-                        <ReactBootstrap.Image
+                        <Image
                             src={AboutImg}
                             alt="About Ventry"
                             className="about-img"

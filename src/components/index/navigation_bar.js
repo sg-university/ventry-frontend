@@ -2,6 +2,7 @@ import * as ReactBootstrap from "react-bootstrap";
 import LogoNavImage from "@/assets/images/logo_nav.svg";
 import "@/styles/index/navigation_bar.scss";
 import "@/styles/index/landing.scss";
+import Image from "next/image";
 
 function NavigationBar() {
     return (
@@ -15,7 +16,7 @@ function NavigationBar() {
         >
             <ReactBootstrap.Container>
                 <ReactBootstrap.Navbar.Brand href="#">
-                    <ReactBootstrap.Image src={LogoNavImage} alt="Logo"/>
+                    <Image src={LogoNavImage} alt="Logo"/>
                 </ReactBootstrap.Navbar.Brand>
                 <ReactBootstrap.Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <ReactBootstrap.Navbar.Collapse

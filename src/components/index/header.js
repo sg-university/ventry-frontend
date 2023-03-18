@@ -2,6 +2,7 @@ import * as ReactBootstrap from "react-bootstrap";
 import HeaderImg from "@/assets/images/header.svg";
 import "@/styles/index/header.scss";
 import "@/styles/index/landing.scss";
+import Image from "next/image";
 
 function Header() {
     return (
@@ -20,7 +21,7 @@ function Header() {
                         </ReactBootstrap.Button>
                     </ReactBootstrap.Col>
                     <ReactBootstrap.Col lg>
-                        <ReactBootstrap.Image
+                        <Image
                             src={HeaderImg}
                             alt="Header Image"
                             className="header-img"
