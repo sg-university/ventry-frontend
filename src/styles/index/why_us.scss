@@ -1,3 +1,5 @@
+$primary-blue: #007bff;
+
 .page.landing root {
   --blue: #007bff;
   --font-title: #001933;
@@ -20,7 +22,7 @@
 }
 
 .page.landing .why-us span {
-  color: var(--blue);
+  color: $primary-blue;
 }
 
 .page.landing .why-us h3 {
@@ -28,7 +30,7 @@
   font-size: 24px;
   line-height: 36px;
   text-align: center;
-  color: var(--blue);
+  color: $primary-blue;
 }
 
 .page.landing .why-us p {

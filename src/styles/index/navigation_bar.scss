@@ -1,3 +1,5 @@
+$primary-blue: #007bff;
+
 /* Navbar */
 .page.landing body {
   font-size: 18px !important;
@@ -16,17 +18,17 @@
 }
 
 .page.landing .register {
-  color: var(--blue) !important;
+  color: $primary-blue !important;
   background-color: #fff;
   padding: 6px 24px !important;
-  border: 1px solid var(--blue);
+  border: 1px solid $primary-blue;
   border-radius: 4px;
   transition: all 0.2s ease;
 }
 
 .page.landing .register:hover {
-  color: #ffffff !important;
-  background-color: var(--blue);
+  color: $primary-blue !important;
+  background-color: $primary-blue;
 }
 
 .page.landing .login {
@@ -34,13 +36,15 @@
 }
 
 .page.landing .nav-mobile {
+  // display: flex;
+  justify-content: space-between;
   margin: auto;
   text-align: center;
   font-weight: 500;
 }
 
 .page.landing .link:hover {
-  color: var(--blue) !important;
+  color: $primary-blue !important;
   font-weight: 500;
 }
 
@@ -48,7 +52,12 @@
   .page.landing p {
     font-size: 18px !important;
   }
-
+  .page.landing .nav-mobile {
+    flex-direction: column;
+    margin: auto;
+    text-align: center;
+    font-weight: 500;
+  }
   /* Navbar */
   .page.landing .login {
     margin-right: 0px;
@@ -59,4 +68,5 @@
     margin: auto;
     margin-bottom: 4px;
   }
+  
 }

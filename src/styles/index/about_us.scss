@@ -1,3 +1,5 @@
+$primary-blue: #007bff;
+
 root {
   --blue: #007bff;
   --font-title: #001933;
@@ -20,7 +22,7 @@ root {
 }
 
 .page.landing .about-us span {
-  color: var(--blue);
+  color: $primary-blue;
 }
 
 .page.landing .about-us p {
