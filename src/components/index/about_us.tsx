@@ -1,7 +1,6 @@
 import * as ReactBootstrap from "react-bootstrap";
 import AboutImg from "@/assets/images/ventry.svg";
 import "@/styles/index/about_us.scss";
-import "@/styles/index/landing.scss"
 import Image from "next/image"
 
 function AboutUs() {

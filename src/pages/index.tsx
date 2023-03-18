@@ -5,8 +5,9 @@ import WhyUs from "@/components/index/why_us";
 import OurTeam from "@/components/index/our_team";
 import Interested from "@/components/index/interested";
 import Footer from "@/components/index/footer";
+import "@/styles/index/index.scss";
 
-function Index() {
+export default function Index() {
 
     return (
         <div className="page landing">
@@ -22,4 +23,3 @@ function Index() {
 }
 
 
-export default Index

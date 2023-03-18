@@ -1,10 +1,5 @@
 $primary-blue: #007bff;
 
-.page.landing root {
-  --blue: #007bff;
-  --font-title: #001933;
-  --body-text: #666666;
-}
 
 /* Why Us */
 .page.landing .why-us {
@@ -83,7 +78,7 @@ $primary-blue: #007bff;
 
 @media (max-width: 992px) {
   .page.landing p {
-    font-size: 18px !important;
+    font-size: 18px ;
   }
   /* Why Us */
   .page.landing .use {

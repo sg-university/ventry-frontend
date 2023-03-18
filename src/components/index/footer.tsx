@@ -2,7 +2,6 @@ import Image from "next/image"
 import * as ReactBootstrap from "react-bootstrap";
 import Logo from "@/assets/images/footer.svg";
 import "@/styles/index/footer.scss";
-import "@/styles/index/landing.scss";
 
 function Footer() {
     return (

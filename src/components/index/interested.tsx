@@ -3,7 +3,6 @@ import * as ReactBootstrap from "react-bootstrap";
 import CloudTopLeft from "@/assets/images/cloud_top_left.svg";
 import CloudBottomRight from "@/assets/images/cloud_bottom_right.svg";
 import "@/styles/index/interested.scss";
-import "@/styles/index/landing.scss";
 
 
 function Interested() {
