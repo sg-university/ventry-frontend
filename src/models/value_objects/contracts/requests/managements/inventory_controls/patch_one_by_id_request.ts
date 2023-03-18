@@ -3,12 +3,12 @@ import PatchBody from "@/models/value_objects/contracts/requests/managements/acc
 
 class PatchOneByIdRequest extends Request {
     id: string
-    entity: PatchBody
+    body: PatchBody
 
-    constructor(id: string, entity: PatchBody) {
+    constructor(id: string, body: PatchBody) {
         super();
         this.id = id;
-        this.entity = entity;
+        this.body = body;
     }
 }
 

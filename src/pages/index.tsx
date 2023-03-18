@@ -1,46 +1,25 @@
-import {useEffect, useState} from "react";
-import Role from "@/models/entities/role";
-import RoleService from "@/services/role_service";
-import Content from "@/models/value_objects/contracts/content";
+import NavigationBar from "@/components/index/navigation_bar";
+import Header from "@/components/index/header";
+import AboutUs from "@/components/index/about_us";
+import WhyUs from "@/components/index/why_us";
+import OurTeam from "@/components/index/our_team";
+import Interested from "@/components/index/interested";
+import Footer from "@/components/index/footer";
 
-function Home() {
-    const [data, setData] = useState<Role[]>([])
-
-    useEffect(() => {
-        const roleService = new RoleService()
-        roleService
-            .readAll()
-            .then((response) => {
-                const content: Content<Role[]> = response.data
-                setData(content.data)
-            })
-    }, [])
+function Index() {
 
     return (
-        <>
-            <table>
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    data.map((role: Role, index: number) => {
-                        return (
-                            <tr key={index}>
-                                <td>{role.id}</td>
-                                <td>{role.name}</td>
-                            </tr>
-                        )
-                    })
-                }
-                </tbody>
-            </table>
-        </>
-    )
+        <div className="page landing">
+            <NavigationBar/>
+            <Header/>
+            <AboutUs/>
+            <WhyUs/>
+            <OurTeam/>
+            <Interested/>
+            <Footer/>
+        </div>
+    );
 }
 
 
-export default Home
+export default Index

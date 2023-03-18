@@ -1,0 +1,58 @@
+.page.landing root {
+  --blue: #007bff;
+  --font-title: #001933;
+  --body-text: #666666;
+}
+
+/* About Us */
+.page.landing .about-us {
+  margin-top: 120px;
+}
+
+.page.landing .about-us h2 {
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 138.2%;
+  letter-spacing: -0.01em;
+  color: var(--font-title);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page.landing .about-us span {
+  color: var(--blue);
+}
+
+.page.landing .about-us p {
+  font-size: 18px;
+  line-height: 164.6%;
+  color: var(--body-text);
+}
+
+.page.landing .about-img {
+  width: 100%;
+  margin: auto;
+}
+
+@media (max-width: 992px) {
+  .page.landing p {
+    font-size: 18px !important;
+  }
+
+  /* About Us */
+  .page.landing .about-us,
+  .page.landing .why-us,
+  .page.landing .our-team {
+    margin-top: 64px;
+  }
+  .page.landing .about-us h2 {
+    margin-bottom: 24px;
+  }
+  .page.landing .about-img {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+}

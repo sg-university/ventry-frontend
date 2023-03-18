@@ -1,13 +1,11 @@
 import BackendOneClient from "@/clients/backend_one_client";
 import Client from "@/clients/client";
 import Service from "@/services/service";
-import Entity from "@/models/entities/entity";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
-import ItemCombinationMap from "@/models/entities/role";
+import AccountPermissionMap from "@/models/entities/role";
 import CreateOneRequest
     from "@/models/value_objects/contracts/requests/managements/item_combination_maps/create_one_request";
-import AccountPermissionMap from "@/models/entities/role";
 import DeleteOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/item_combination_maps/delete_one_by_id_request";
 import ReadOneByIdRequest
@@ -28,7 +26,7 @@ class ItemCombinationMapService extends Service {
     }
 
     createOne(request: CreateOneRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
-        return this.client.instance.post(`${this.path}`, request.entity);
+        return this.client.instance.post(`${this.path}`, request.body);
     }
 
     deleteOneById(request: DeleteOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
@@ -44,7 +42,7 @@ class ItemCombinationMapService extends Service {
     }
 
     patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
-        return this.client.instance.patch(`${this.path}/${request.id}`, request.entity);
+        return this.client.instance.patch(`${this.path}/${request.id}`, request.body);
     }
 
 

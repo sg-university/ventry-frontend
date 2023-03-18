@@ -1,0 +1,91 @@
+.page.landing root {
+  --blue: #007bff;
+  --font-title: #001933;
+  --body-text: #666666;
+}
+
+/* Why Us */
+.page.landing .why-us {
+  margin-top: 120px;
+}
+
+.page.landing .why-us h2 {
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 138.2%;
+  letter-spacing: -0.01em;
+  color: var(--font-title);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page.landing .why-us span {
+  color: var(--blue);
+}
+
+.page.landing .why-us h3 {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  text-align: center;
+  color: var(--blue);
+}
+
+.page.landing .why-us p {
+  font-size: 18px;
+  line-height: 164.6%;
+  text-align: center;
+  color: var(--body-text);
+  margin-top: 8px;
+  margin-bottom: 56px;
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.page.landing .why-us img {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  margin-top: 48px;
+  width: 32%;
+}
+
+.page.landing .use {
+  background: #ffffff;
+  box-shadow: 0px 25px 35px -5px rgba(112, 144, 176, 0.15);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 40px;
+}
+
+.page.landing .use:hover {
+  transform: translateY(-12px);
+}
+
+.page.landing .use .user {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.page.landing .spacing {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@media (max-width: 992px) {
+  .page.landing p {
+    font-size: 18px !important;
+  }
+  /* Why Us */
+  .page.landing .use {
+    margin-bottom: 40px;
+    margin-right: 0;
+  }
+}

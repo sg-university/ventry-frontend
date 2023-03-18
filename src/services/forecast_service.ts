@@ -20,11 +20,11 @@ class ForecastService extends Service {
     }
 
     forecastStockByItemId(request: StockForecastByItemIdRequest): Promise<AxiosResponse<Content<Role>>> {
-        return this.client.instance.post(`${this.path}/items/${request.itemId}/stock`, request);
+        return this.client.instance.post(`${this.path}/items/${request.itemId}/stock`, request.body);
     }
 
     forecastTransactionByItemId(request: StockForecastByItemIdRequest): Promise<AxiosResponse<Content<Role>>> {
-        return this.client.instance.post(`${this.path}/items/${request.itemId}/transaction`, request);
+        return this.client.instance.post(`${this.path}/items/${request.itemId}/transaction`, request.body);
     }
 
 

@@ -25,7 +25,7 @@ class TransactionService extends Service {
     }
 
     createOne(request: CreateOneRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
-        return this.client.instance.post(`${this.path}`, request.entity);
+        return this.client.instance.post(`${this.path}`, request.body);
     }
 
     deleteOneById(request: DeleteOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
@@ -41,7 +41,7 @@ class TransactionService extends Service {
     }
 
     patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<AccountPermissionMap>>> {
-        return this.client.instance.patch(`${this.path}/${request.id}`, request.entity);
+        return this.client.instance.patch(`${this.path}/${request.id}`, request.body);
     }
 
 }

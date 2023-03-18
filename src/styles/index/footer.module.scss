@@ -1,0 +1,32 @@
+/* Footer */
+.page.landing .footer {
+  background: #003166;
+}
+
+.page.landing .footer img {
+  margin: 40px auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12%;
+}
+
+.page.landing .footer p {
+  font-size: 20px;
+  line-height: 138.2%;
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: #fafafa;
+}
+
+@media (max-width: 992px) {
+  .page.landing .footer img {
+    width: 20%;
+  }
+}
+
+@media (max-width: 430px) {
+  .page.landing .footer img {
+    width: 28%;
+  }
+}

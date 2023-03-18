@@ -1,15 +1,16 @@
 import Request from "@/models/value_objects/contracts/requests/request";
+import TransactionForecastBody
+    from "@/models/value_objects/contracts/requests/forecasts/item_transactions/transaction_forecast_body";
 
 class TransactionForecastByItemIdRequest extends Request {
     itemId: string
-    horizon: number
-    resample: string
 
-    constructor(itemId: string, horizon: number, resample: string) {
+    body: TransactionForecastBody
+
+    constructor(itemId: string, body: TransactionForecastBody) {
         super();
         this.itemId = itemId;
-        this.horizon = horizon;
-        this.resample = resample;
+        this.body = body;
     }
 }
 

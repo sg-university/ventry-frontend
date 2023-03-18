@@ -1,0 +1,72 @@
+.page.landing root {
+  --blue: #007bff;
+  --font-title: #001933;
+  --body-text: #666666;
+}
+
+/* Our Team */
+.page.landing .our-team {
+  margin-top: 120px;
+}
+
+.page.landing .our-team h2 {
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 138.2%;
+  letter-spacing: -0.01em;
+  color: var(--font-title);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page.landing .our-team span {
+  color: var(--blue);
+}
+
+.page.landing .our-team p {
+  margin-bottom: 0px;
+}
+
+.page.landing .our-team h3 {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  text-align: center;
+  color: var(--blue);
+}
+
+.page.landing .our-team p {
+  font-size: 18px;
+  line-height: 164.6%;
+  text-align: center;
+  color: var(--body-text);
+  margin-top: 8px;
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.page.landing .our-team img {
+  margin: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  margin-top: 48px;
+  width: 32%;
+}
+
+.page.landing .member span {
+  font-size: 16px;
+  line-height: 164.6%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  color: #a4a4a4;
+  margin-top: 8px;
+}
+
+@media (max-width: 992px) {
+  .page.landing p {
+    font-size: 18px !important;
+  }
+}
