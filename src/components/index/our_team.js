@@ -3,8 +3,8 @@ import * as ReactBootstrap from "react-bootstrap";
 import Kharisma from "@/assets/images/kharisma.png";
 import Mario from "@/assets/images/mario.png";
 import Kevin from "@/assets/images/kevin.png";
-import "@/styles/index/our_team.module.scss";
-import "@/styles/index/landing.module.scss";
+import "@/styles/index/our_team.scss";
+import "@/styles/index/landing.scss";
 
 function OurTeam() {
     return (

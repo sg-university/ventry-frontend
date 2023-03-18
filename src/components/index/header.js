@@ -1,7 +1,7 @@
 import * as ReactBootstrap from "react-bootstrap";
 import HeaderImg from "@/assets/images/header.svg";
-import "@/styles/index/header.module.scss";
-import "@/styles/index/landing.module.scss";
+import "@/styles/index/header.scss";
+import "@/styles/index/landing.scss";
 
 function Header() {
     return (

@@ -1,7 +1,7 @@
 import * as ReactBootstrap from "react-bootstrap";
 import LogoNavImage from "@/assets/images/logo_nav.svg";
-import "@/styles/index/navigation_bar.module.scss";
-import "@/styles/index/landing.module.scss";
+import "@/styles/index/navigation_bar.scss";
+import "@/styles/index/landing.scss";
 
 function NavigationBar() {
     return (
