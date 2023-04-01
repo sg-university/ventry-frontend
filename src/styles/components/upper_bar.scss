@@ -1,0 +1,13 @@
+.component.upper-bar {
+  display: flex;
+  align-items: center;
+  height: 10%;
+}
+
+.component.upper-bar .dropdown-wrapper #nav-dropdown {
+  color: black;
+}
+
+.component.upper-bar .image-wrapper .image {
+  width: 6vh;
+}

@@ -10,7 +10,7 @@ export default function MessageModal(props: any) {
 
     const dispatch = useDispatch();
 
-    function handleOnHide() {
+    const handleOnHide = () => {
         dispatch(messageModalSlice.actions.configure({...messageModalState, isShow: false}))
     }
 

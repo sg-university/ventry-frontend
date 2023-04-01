@@ -5,36 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/authentications/login_request.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/authentications/register_request.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/response/authentications/login_response.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/response/authentications/register_response.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/authentications/register.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/authentication_service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/slices/authentication_slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/slices/message_modal_slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/slices/store.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/register/register.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/side_bar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/upper_bar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/layouts/authenticated.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/managements/items.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/slices/page_slice.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/components/side_bar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/components/upper_bar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/layouts/authenticated.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/pages/managements/items.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/about_us.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/footer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/header.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/interested.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/navigation_bar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/our_team.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/why_us.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/profile_account.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/account.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/about_us.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/about_us.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/interested.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/interested.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/navigation_bar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/navigation_bar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/our_team.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/our_team.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/why_us.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/why_us.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/message_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/message_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/authentications/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentications/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/authentications/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentications/register.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/globals.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/globals.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/about_us.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/index/about_us.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/index/header.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/interested.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/index/interested.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/landing.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/index/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/navigation_bar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/index/navigation_bar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/our_team.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/index/our_team.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/why_us.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/index/why_us.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/authentication_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/authentication_slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index/about_us.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/about_us.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index/footer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/footer.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index/header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/header.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index/interested.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/interested.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index/navigation_bar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/navigation_bar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index/our_team.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/our_team.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/index/why_us.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/why_us.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/login/login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/authentications/login.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/register/register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/authentications/register.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +52,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
+        <option value="SCSS File" />
+        <option value="Sass File" />
       </list>
     </option>
   </component>
@@ -72,7 +81,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Data/Apps/ventry-frontend/src/styles/register",
+    "last_opened_file_path": "C:/Data/Apps/ventry-frontend/src/components",
+    "list.type.of.created.stylesheet": "Sass",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -86,18 +96,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Data\Apps\ventry-frontend\src\components" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\slices" />
       <recent name="C:\Data\Apps\ventry-frontend\src\styles\register" />
       <recent name="C:\Data\Apps\ventry-frontend\src\pages\authentications" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\slices" />
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\response\authentications" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Data\Apps\ventry-frontend\src\styles\components" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\styles\pages\authentications" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\pages\managements" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\styles\pages" />
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\response\forecasts\item_transactions" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\response\forecasts\item_stocks" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\assets" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\assets\images" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\styles" />
     </key>
   </component>
   <component name="RunManager" selected="npm.run-1">
@@ -148,6 +158,7 @@
       <workItem from="1679115674191" duration="15324000" />
       <workItem from="1679132451087" duration="6703000" />
       <workItem from="1679144845738" duration="11162000" />
+      <workItem from="1680338461071" duration="13539000" />
     </task>
     <servers />
   </component>

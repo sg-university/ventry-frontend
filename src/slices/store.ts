@@ -3,14 +3,16 @@ import storage from "redux-persist/lib/storage";
 import {Action, combineReducers} from "redux";
 import {ThunkAction} from "redux-thunk";
 import {createWrapper} from "next-redux-wrapper";
-import authenticationSlice from "@/slices/authentication_slice";
 import {configureStore} from "@reduxjs/toolkit";
+import authenticationSlice from "@/slices/authentication_slice";
 import messageModalSlice from "@/slices/message_modal_slice";
+import pageSlice from "@/slices/page_slice";
 
 
 const rootReducer = combineReducers({
     [authenticationSlice.name]: authenticationSlice.reducer,
     [messageModalSlice.name]: messageModalSlice.reducer,
+    [pageSlice.name]: pageSlice.reducer,
 });
 
 let store: any;
@@ -26,7 +28,7 @@ export const makeStore = () => {
     } else {
         const persistConfig = {
             key: "persist",
-            whitelist: ["authentication", "messageModal"],
+            whitelist: ["authentication"],
             storage,
         };
         const persistedReducer = persistReducer(persistConfig, rootReducer);

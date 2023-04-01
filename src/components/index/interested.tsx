@@ -2,7 +2,7 @@ import Image from "next/image"
 import * as ReactBootstrap from "react-bootstrap";
 import CloudTopLeft from "@/assets/images/cloud_top_left.svg";
 import CloudBottomRight from "@/assets/images/cloud_bottom_right.svg";
-import "@/styles/index/interested.scss";
+import "@/styles/pages/index/interested.scss";
 
 
 function Interested() {

@@ -20,7 +20,7 @@ export default createSlice({
             state.entity = action.payload;
             state.isLoggedIn = true;
         },
-        logout: (state, action) => {
+        logout: (state) => {
             state.entity = null;
             state.isLoggedIn = false;
             storage.removeItem("persist")

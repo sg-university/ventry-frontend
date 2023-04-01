@@ -3,7 +3,7 @@ import * as ReactBootstrap from "react-bootstrap";
 import Forecasting from "@/assets/icons/forecasting.svg";
 import UserFriendly from "@/assets/icons/user_friendly.svg";
 import EasyToUse from "@/assets/icons/easy_to_use.svg";
-import "@/styles/index/why_us.scss";
+import "@/styles/pages/index/why_us.scss";
 
 function WhyUs() {
     return (

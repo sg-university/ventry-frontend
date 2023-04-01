@@ -3,7 +3,7 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import LogoImage from "@/assets/images/auth_logo.svg";
 import SplashImage from "@/assets/images/auth_register.svg";
-import "@/styles/login/login.scss";
+import "@/styles/pages/authentications/login.scss";
 import MessageModal from "@/components/message_modal";
 import Image from "next/image";
 import AuthenticationService from "@/services/authentication_service";

@@ -1,0 +1,22 @@
+.component.side-bar {
+  display: flex;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.component.side-bar .top {
+  display: flex;
+  align-items: center;
+  height: 10%;
+}
+
+
+.component.side-bar .bottom {
+  text-align: center;
+}
+
+
+.component.side-bar .bottom .btn-wrapper {
+  padding: 20px 5px;
+  font-size: 2.5vh;
+}

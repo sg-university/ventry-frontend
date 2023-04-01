@@ -8,7 +8,7 @@ import {wrapper} from "@/slices/store";
 function App({Component, pageProps}: AppProps) {
     const store: any = useStore();
     return (
-        <PersistGate persistor={store.__persist} loading={<div>Loading..</div>}>
+        <PersistGate persistor={store.__persist}>
             <Component {...pageProps} />
         </PersistGate>
     );

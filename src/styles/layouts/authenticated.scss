@@ -1,0 +1,18 @@
+.layout.authenticated {
+  display: flex;
+  flex: 1;
+  flex-flow: row;
+}
+
+.layout.authenticated .page {
+  background-color: #fafafa;
+  overflow: auto;
+}
+
+.layout.authenticated .rightPage {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  align-items: flex-end;
+}
+
