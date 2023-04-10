@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import LogoImage from "@/assets/images/auth_logo.svg";
@@ -17,6 +16,7 @@ import RegisterResponse from "@/models/value_objects/contracts/response/authenti
 import Image from "next/image";
 import RoleService from "@/services/role_service";
 import Role from "@/models/entities/role";
+import Link from "next/link";
 
 export default function Register() {
 
@@ -87,6 +87,8 @@ export default function Register() {
             });
     }
 
+    let [isFirstPage, setFirstPage] = React.useState(true);
+
     return (
         <div className="page register-auth">
             <div className="left-section">
@@ -120,50 +122,61 @@ export default function Register() {
                     >
                         {(props) => (
                             <Form>
-                                <fieldset className="form-group">
-                                    <label htmlFor="name">Name</label>
-                                    <Field type="text" name="name" className="form-control"/>
-                                    <ErrorMessage name="name" component="div" className="text-danger"/>
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <Field type="email" name="email" className="form-control"/>
-                                    <ErrorMessage name="email" component="div" className="text-danger"/>
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label htmlFor="password">Password</label>
-                                    <Field
-                                        type="password" name="password" className="form-control"/>
-                                    <ErrorMessage name="password" component="div" className="text-danger"/>
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label htmlFor="confirmPassword">Confirm password</label>
-                                    <Field type="password" name="confirmPassword" className="form-control"/>
-                                    <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label htmlFor="roleId">Role</label>
-                                    <Field as="select" name="roleId" className="form-control">
-                                        {
-                                            roles.map((role: Role, index) => {
-                                                return (
-                                                    <option key={index} value={role.id}>{role.name}</option>
-                                                )
-                                            })
-                                        }
-                                    </Field>
-                                    <ErrorMessage name="roleId" component="div" className="text-danger"/>
-                                </fieldset>
-                                <button type="submit" className="btn btn-primary">
-                                    Register
-                                </button>
+                                <div className="firstPageForm" style={{display: isFirstPage ? '' : 'none' }}>
+                                    <fieldset className="form-group">
+                                        <label htmlFor="name">Name</label>
+                                        <Field type="text" name="name" className="form-control"/>
+                                        <ErrorMessage name="name" component="div" className="text-danger"/>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label htmlFor="email">Email</label>
+                                        <Field type="email" name="email" className="form-control"/>
+                                        <ErrorMessage name="email" component="div" className="text-danger"/>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label htmlFor="password">Password</label>
+                                        <Field
+                                            type="password" name="password" className="form-control"/>
+                                        <ErrorMessage name="password" component="div" className="text-danger"/>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label htmlFor="confirmPassword">Confirm password</label>
+                                        <Field type="password" name="confirmPassword" className="form-control"/>
+                                        <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label htmlFor="roleId">Role</label>
+                                        <Field as="select" name="roleId" className="form-control">
+                                            {
+                                                roles.map((role: Role, index) => {
+                                                    return (
+                                                        <option key={index} value={role.id}>{role.name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </Field>
+                                        <ErrorMessage name="roleId" component="div" className="text-danger"/>
+                                    </fieldset>
+                                    <button type="button" className="btn btn-primary">Next</button>
+                                </div>
+                                <div className="secondPageButtons" style={{display: isFirstPage ? 'none' : '' }}>
+                                    <fieldset className="form-group">
+                                        <label htmlFor="name">Name</label>
+                                        <Field type="text" name="name" className="form-control"/>
+                                        <ErrorMessage name="name" component="div" className="text-danger"/>
+                                    </fieldset>
+                                    <button type="button" className="btn btn-primary">Previous</button>
+                                    <button type="submit" className="btn btn-primary">
+                                        Register
+                                    </button>
+                                </div>
                             </Form>
                         )}
                     </Formik>
                 </div>
                 <div className="suggest-login">
                     <div className="text">
-                        Already have an account? Login at <a href="/authentications/login">here</a>
+                        Already have an account? Login at <Link href="/authentications/login">here</Link>
                     </div>
                 </div>
             </div>

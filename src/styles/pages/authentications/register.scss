@@ -3,6 +3,7 @@
     display: flex;
     flex: 1;
     flex-flow: row;
+    height: 100vh;
   }
 
   .page.register-auth .left-section {
@@ -130,4 +131,15 @@
 
 .page.register-auth .right-section .suggest-login a {
   color: #007bff;
+}
+
+.page.register-auth .right-section .secondPageButtons {
+  display: flex;
+  flex: 1;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.page.register-auth .right-section .secondPageButtons button{
+  width: 46%;
 }
