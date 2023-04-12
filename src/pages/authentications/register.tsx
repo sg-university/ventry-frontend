@@ -27,31 +27,52 @@ export default function Register() {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        const roleService: RoleService = new RoleService();
-        roleService.readAll().then((result: AxiosResponse<Content<Role[]>>) => {
-            const content = result.data;
-            setRoles(content.data);
-        })
-    }, []);
+    const [accountData, setAccountData] = useState({});
 
-    const registerSchema = Yup.object().shape({
+    const [isFirstPage, setFirstPage] = useState(true);
+
+    // useEffect(() => {
+    //     const roleService: RoleService = new RoleService();
+    //     roleService.readAll().then((result: AxiosResponse<Content<Role[]>>) => {
+    //         const content = result.data;
+    //         setRoles(content.data);
+    //     })
+    // }, []);
+
+    const registerSchemaAccount = Yup.object().shape({
         name: Yup.string().required("Required"),
         email: Yup.string().email("Invalid email").required("Required"),
         password: Yup.string().required("Required"),
         confirmPassword: Yup.string()
             .required("Required")
             .oneOf([Yup.ref("password"), ""], "Passwords must match"),
-        roleId: Yup.string().required("Required"),
+        // roleId: Yup.string().required("Required"),
     });
 
-    const handleSubmit = (values: any, actions: any) => {
-        const authenticationService = new AuthenticationService();
+    const registerSchemaCompany = Yup.object().shape({
+        companyName: Yup.string().required("Required"),
+        companyDescription: Yup.string().required("Required"),
+        companyAddress: Yup.string().required("Required"),
+    });
+
+    const handleSubmitAccount = (values: any, actions: any) => {
         const request: RegisterRequest = {
             name: values.name,
             email: values.email,
-            password: values.password,
-            roleId: values.roleId
+            password: values.password
+            // roleId: values.roleId
+        }
+        setAccountData(request);
+        setFirstPage(!isFirstPage);
+    }
+
+    const handleSubmitCompany = (values: any, actions: any) => {
+        const authenticationService = new AuthenticationService();
+        const request: RegisterRequest = {//ganti jadi company
+            name: values.name,
+            email: values.email,
+            password: values.password
+            // roleId: values.roleId
         }
         authenticationService.register(request)
             .then((result: AxiosResponse<Content<RegisterResponse>>) => {
@@ -88,7 +109,7 @@ export default function Register() {
             });
     }
 
-    let [isFirstPage, setFirstPage] = React.useState(true);
+
 
     return (
         <div className="page register-auth">
@@ -107,23 +128,24 @@ export default function Register() {
             <div className="right-section">
                 <div className="title">
                     <h1>Sign-up</h1>
+                    <h6>{isFirstPage ? 'Account Information' : 'Company Information'}</h6>
                 </div>
-                <div className="form">
+                <div className="form" style={{display: isFirstPage ? 'block' : 'none' }}>
                     <Formik
-                        validationSchema={registerSchema}
+                        validationSchema={registerSchemaAccount}
                         initialValues={{
                             name: "",
                             email: "",
                             password: "",
-                            confirmPassword: "",
-                            roleId: ""
+                            confirmPassword: ""
+                            // roleId: ""
                         }}
-                        onSubmit={handleSubmit}
+                        onSubmit={handleSubmitAccount}
                         enableReinitialize
                     >
                         {(props) => (
                             <Form>
-                                <div className="firstPageForm" style={{display: isFirstPage ? '' : 'none' }}>
+                                <div className="firstPageForm">
                                     <fieldset className="form-group">
                                         <label htmlFor="name">Name</label>
                                         <Field type="text" name="name" className="form-control"/>
@@ -136,8 +158,7 @@ export default function Register() {
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label htmlFor="password">Password</label>
-                                        <Field
-                                            type="password" name="password" className="form-control"/>
+                                        <Field type="password" name="password" className="form-control"/>
                                         <ErrorMessage name="password" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group">
@@ -145,28 +166,60 @@ export default function Register() {
                                         <Field type="password" name="confirmPassword" className="form-control"/>
                                         <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
                                     </fieldset>
-                                    <fieldset className="form-group">
-                                        <label htmlFor="roleId">Role</label>
-                                        <Field as="select" name="roleId" className="form-control">
-                                            {
-                                                roles.map((role: Role, index) => {
-                                                    return (
-                                                        <option key={index} value={role.id}>{role.name}</option>
-                                                    )
-                                                })
-                                            }
-                                        </Field>
-                                        <ErrorMessage name="roleId" component="div" className="text-danger"/>
-                                    </fieldset>
-                                    <button type="button" className="btn btn-primary">Next</button>
+                                    {/*<fieldset className="form-group">*/}
+                                    {/*    <label htmlFor="roleId">Role</label>*/}
+                                    {/*    <Field as="select" name="roleId" className="form-control">*/}
+                                    {/*        {*/}
+                                    {/*            roles.map((role: Role, index) => {*/}
+                                    {/*                return (*/}
+                                    {/*                    <option key={index} value={role.id}>{role.name}</option>*/}
+                                    {/*                )*/}
+                                    {/*            })*/}
+                                    {/*        }*/}
+                                    {/*    </Field>*/}
+                                    {/*    <ErrorMessage name="roleId" component="div" className="text-danger"/>*/}
+                                    {/*</fieldset>*/}
+
+                                    <button type="submit" className="btn btn-primary">
+                                        Next
+                                    </button>
                                 </div>
-                                <div className="secondPageButtons" style={{display: isFirstPage ? 'none' : '' }}>
-                                    <fieldset className="form-group">
-                                        <label htmlFor="name">Name</label>
-                                        <Field type="text" name="name" className="form-control"/>
-                                        <ErrorMessage name="name" component="div" className="text-danger"/>
-                                    </fieldset>
-                                    <button type="button" className="btn btn-primary">Previous</button>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
+
+
+                <div className="formCompany" style={{display: isFirstPage ? 'none' : 'block' }}>
+                    <Formik
+                        validationSchema={registerSchemaCompany}
+                        initialValues={{
+                            companyName: "",
+                            companyDescription: "",
+                            companyAddress: ""
+                        }}
+                        onSubmit={handleSubmitCompany}
+                        enableReinitialize
+                    >
+                        {(props) => (
+                            <Form>
+                                <fieldset className="form-group">
+                                    <label htmlFor="companyName">Company Name</label>
+                                    <Field type="text" name="companyName" className="form-control"/>
+                                    <ErrorMessage name="companyName" component="div" className="text-danger"/>
+                                </fieldset>
+                                <fieldset className="form-group">
+                                    <label htmlFor="companyDescription">Company Description</label>
+                                    <Field type="text" name="companyDescription" className="form-control" component="textarea" rows="4"/>
+                                    <ErrorMessage name="companyDescription" component="div" className="text-danger"/>
+                                </fieldset>
+                                <fieldset className="form-group">
+                                    <label htmlFor="companyAddress">Company Address</label>
+                                    <Field type="text" name="companyAddress" className="form-control" component="textarea" rows="4"/>
+                                    <ErrorMessage name="companyAddress" component="div" className="text-danger"/>
+                                </fieldset>
+                                <div className="secondPageButtons">
+                                    <button onClick={() => setFirstPage(!isFirstPage)} type="button" className="btn btn-primary">Previous</button>
                                     <button type="submit" className="btn btn-primary">
                                         Register
                                     </button>
