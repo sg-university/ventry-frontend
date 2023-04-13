@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
-import {Image, NavDropdown} from 'react-bootstrap';
-
+import { NavDropdown } from 'react-bootstrap';
+import Image from "next/image";
 import AccountImage from "@/assets/images/account.svg";
 
 import "@/styles/components/upper_bar.scss";
@@ -13,6 +13,7 @@ import authenticationSlice, {AuthenticationState} from "@/slices/authentication_
 import AccountService from "@/services/account_service";
 import Account from "@/models/entities/account";
 import ReadOneByIdRequest from "@/models/value_objects/contracts/requests/managements/accounts/read_one_by_id_request";
+
 
 export default function UpperBar() {
 
@@ -60,7 +61,7 @@ export default function UpperBar() {
     return (
         <div className="component upper-bar">
             <div className="image-wrapper">
-                <Image roundedCircle className="image" src={AccountImage} alt="account"/>
+                <Image className="image" src={AccountImage} alt="account"/>
             </div>
             <div className="dropdown-wrapper">
                 <NavDropdown title={pageState.accountManagement.account?.name} id="nav-dropdown">
