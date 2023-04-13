@@ -1,7 +1,13 @@
 .component.upper-bar {
   display: flex;
   align-items: center;
-  height: 10%;
+  justify-content: flex-end;
+  height: 8vh;
+  background-color: #fafafa;
+  .image-wrapper {
+    padding-right: 1vw;
+  }
+  padding-right: 3vw;
 }
 
 .component.upper-bar .dropdown-wrapper #nav-dropdown {
