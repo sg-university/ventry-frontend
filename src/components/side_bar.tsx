@@ -16,7 +16,6 @@ import History from "@mui/icons-material/Restore";
 import Chart from "@mui/icons-material/BarChart";
 import Account from "@mui/icons-material/Person";
 import Store from "@mui/icons-material/Store";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -169,7 +168,9 @@ export default function SideBar() {
               }}  
               onClick={handleHistroyClick}
             >
-              <ListItemIcon><History/></ListItemIcon>
+              <ListItemIcon>
+                <History className={router.pathname == "/managements/history/transaction" ? "link active" : "link"}/>
+              </ListItemIcon>
               <ListItemText>
               <Link href="/managements/history/transaction" className={router.pathname == "/managements/history/transaction" ? "link active" : "link"}>
                   History
@@ -205,7 +206,9 @@ export default function SideBar() {
               }}  
               onClick={handleForecastingClick}
             >
-              <ListItemIcon><Chart/></ListItemIcon>
+              <ListItemIcon>
+                <Chart className={router.pathname == "/managements/forecasting/transaction" ? "link active" : "link"}/>
+              </ListItemIcon>
               <ListItemText>
                 <Link href="/managements/forecasting/transaction" className={router.pathname == "/managements/forecasting/transaction" ? "link active" : "link"}>
                   Forecasting
@@ -259,7 +262,9 @@ export default function SideBar() {
               }}  
               onClick={handleCompanyClick}
             >
-              <ListItemIcon><Store/></ListItemIcon>
+              <ListItemIcon>
+                <Store className={router.pathname == "/managements/forecasting/transaction" ? "link active" : "link"}/>
+              </ListItemIcon>
               <ListItemText>
                 <Link href="/managements/company" className={router.pathname == "/managements/company" ? "link active" : "link"}>
                   Company Management
