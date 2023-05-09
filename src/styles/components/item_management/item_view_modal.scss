@@ -1,0 +1,77 @@
+$primary-blue: #007bff;
+
+.component.item-view-modal .active {
+  color: white;
+  background-color: $primary-blue;
+}
+
+.component.item-view-modal .body {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.component.item-view-modal .body .main{
+  width: 100%;
+  div {
+    margin: 0 0 0.5vh 0;
+  }
+  hr{
+    width: 100%;
+  }
+  .button {
+    display: flex;
+    justify-content: flex-end;
+    .btn{
+      margin: 0 0 0 1vw;
+    }
+  }
+}
+
+.component.item-view-modal .body .bundle{
+  hr{
+    width: 100%;
+  }
+  .button {
+    display: flex;
+    align-self: flex-end;
+  }
+}
+
+.component.item-view-modal .body .main .image {
+  display: flex;
+  flex: 1;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.component.item-view-modal .body .main .image img {
+  margin: 0 0 0 1vh;
+  max-width: 50%;
+  height: 100%;
+}
+
+.component.item-view-modal .body .bundle {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.component.item-view-modal .body .bundle .table-ic {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}

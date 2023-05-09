@@ -1,0 +1,185 @@
+@media (min-width: 768px) {
+  .page.item-transaction-history {
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+    min-height: 92vh;
+  }
+
+  .page.item-transaction-history .header {
+    // min-height: 0;
+    // display: flex;
+    // flex: 2;
+    // flex-flow: row wrap;
+    // justify-content: center;
+    // align-items: center;
+    // padding: 2vh 2vh 2vh 2vh;
+    // width: 100%;
+    // height: 100%;
+    display: flex;
+    justify-content: space-between;
+    min-height: 0;
+    padding: 2vw 5vw 0vw 5vw;
+  }
+
+  .page.item-transaction-history .header .left-section {
+    display: flex;
+    flex: 7;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+  }
+
+  .page.item-transaction-history .header .right-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .page.item-transaction-history .body {
+    padding: 2vw 5vw 2vw 5vw;
+    width: 100%;
+    height: 100%;
+    .empty-data{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+@media (min-width: 0px) and (max-width: 768px) {
+  .page.item-transaction-history {
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .page.item-transaction-history .header {
+    min-height: 0;
+    display: flex;
+    flex: 6;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh 2vh 2vh 2vh;
+    width: 100%;
+    height: 100%;
+  }
+
+  .page.item-transaction-history .header .left-section {
+    display: flex;
+    flex: 7;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
+  }
+
+  .page.item-transaction-history .header .right-section {
+    display: flex;
+    flex: 3;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .page.item-transaction-history .body {
+    min-height: 0;
+    display: flex;
+    flex: 4;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.page.item-transaction-history .header .left-section .description {
+  color: gray;
+}
+
+.page.company-account .header .right-section .btn {
+  padding: 1vh 1.5vw;
+}
+
+.page.item-transaction-history .header .right-section .control button img {
+  max-width: 30%;
+  margin: 0 2vh 0 0;
+}
+
+.page.item-transaction-history .card {
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  margin: 2vh 2vh 2vh 0vh;
+  width: 100%;
+}
+
+.page.item-transaction-history .card .image {
+  display: flex;
+  flex: 0 0 15%;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.page.item-transaction-history .card .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page.item-transaction-history .card .content {
+  display: flex;
+  flex: 5;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2vh 2vh 2vh 2vh;
+  width: 100%;
+  height: 100%;
+}
+
+.page.item-transaction-history .card .content .left {
+  .id {
+    font-weight: bold;
+  }
+}
+
+.page.item-transaction-history .card .content .right {
+  padding-right: 5vw;
+  .total {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  .quantity {
+    color: #007bff;
+  }
+}
+
+.page.item-transaction-history .card .control button {
+  margin: 0 2vh 0 0;
+  width: 100%;
+  height: 100%;
+}
+
+.page.item-transaction-history .card .control {
+  display: flex;
+  flex: 1;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
