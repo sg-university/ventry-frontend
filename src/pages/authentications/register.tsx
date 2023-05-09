@@ -166,19 +166,6 @@ export default function Register() {
                                         <Field type="password" name="confirmPassword" className="form-control"/>
                                         <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
                                     </fieldset>
-                                    {/*<fieldset className="form-group">*/}
-                                    {/*    <label htmlFor="roleId">Role</label>*/}
-                                    {/*    <Field as="select" name="roleId" className="form-control">*/}
-                                    {/*        {*/}
-                                    {/*            roles.map((role: Role, index) => {*/}
-                                    {/*                return (*/}
-                                    {/*                    <option key={index} value={role.id}>{role.name}</option>*/}
-                                    {/*                )*/}
-                                    {/*            })*/}
-                                    {/*        }*/}
-                                    {/*    </Field>*/}
-                                    {/*    <ErrorMessage name="roleId" component="div" className="text-danger"/>*/}
-                                    {/*</fieldset>*/}
 
                                     <button type="submit" className="btn btn-primary">
                                         Next
