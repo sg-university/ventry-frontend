@@ -1,5 +1,5 @@
 import Request from "@/models/value_objects/contracts/requests/request";
-import PatchBody from "@/models/value_objects/contracts/requests/managements/account_permission_maps/patch_body";
+import PatchBody from "@/models/value_objects/contracts/requests/managements/roles/patch_body";
 
 class PatchOneByIdRequest extends Request {
     id: string

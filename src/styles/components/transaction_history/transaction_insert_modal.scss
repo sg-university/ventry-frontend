@@ -1,0 +1,73 @@
+.component.product-insert-modal .body {
+  display: flex;
+  flex: 1;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.component.product-insert-modal .body .main .form .table-p,
+.component.product-insert-modal .body .main .form .table-sp,
+.component.product-insert-modal .body .main .form table {
+  width: 100%;
+  height: 100%;
+}
+
+.component.product-insert-modal .body .main .form form fieldset {
+  display: flex;
+  flex: 1;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+.component.product-insert-modal .body .main .form,
+.component.product-insert-modal .body .main .form form {
+  display: flex;
+  flex: 1;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  .quantity {
+    margin-left: 1vw;
+  }
+  hr {
+    width: 100%;
+  }
+  .button {
+    display: flex;
+    align-self: flex-end;
+  }
+}
+
+.component.product-insert-modal .body .main .form form .row {
+  display: flex;
+  flex: 1;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin: 0 0 2vh 0;
+}
+
+.component.product-insert-modal .body .main .form form .column {
+  display: flex;
+  flex: 1;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  margin: 0 0 2vh 0;
+  .table-p {
+    max-height: 40vh;
+    overflow: auto;
+  }
+}
+
+.component.product-insert-modal .body .main .form form .row fieldset {
+  margin: 0vh 1vh 0vh 1vh;
+}

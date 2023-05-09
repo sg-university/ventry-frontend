@@ -1,0 +1,122 @@
+@media (min-width: 768px) {
+  .page.account-profile {
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+    // justify-content: center;
+    // align-items: center;
+    min-height: 92vh;
+  }
+
+  .page.account-profile .header {
+    min-height: 0;
+    // display: flex;
+    // flex: 1;
+    // flex-flow: row wrap;
+    // justify-content: center;
+    // align-items: center;
+    padding: 2vw 5vw 2vw 5vw;
+    width: 100%;
+    height: 100%;
+  }
+
+  .page.account-profile .header .left-section {
+    display: flex;
+    flex: 8;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
+  }
+
+  .page.account-profile .header .right-section {
+    display: flex;
+    flex: 2;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+  }
+
+  .page.account-profile .body {
+    display: flex;
+    flex: 8;
+    flex-flow: column;
+    justify-content: center;
+    width: 93%;
+    height: 100%;
+    padding: 2vw 5vw 2vw 5vw;
+  }
+
+  .page.account-profile .body .image img {
+    max-width: 15%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .page.account-profile .body .form form {
+    width: 65%;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 768px) {
+  .page.account-profile {
+    display: flex;
+    align-items: center;
+  }
+
+  .page.account-profile .header {
+    padding: 2vh 8vh 2vh 8vh;
+  }
+
+  .page.account-profile .body {
+    padding: 2vh 4vh 2vh 4vh;
+  }
+
+  .page.account-profile .body .image img {
+    max-width: 30%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .page.account-profile .body .form form {
+    width: 100%;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 425px) {
+  .page.account-profile .header {
+    padding: 2vh 4vh 2vh 4vh;
+  }
+}
+
+.page.account-profile .header .left-section .description {
+  color: gray;
+}
+
+.page.account-profile .body .image {
+  display: flex;
+  flex: 3;
+  flex-flow: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  margin: 0 0 4vh 6vh;
+}
+
+.page.account-profile .body .form {
+  display: flex;
+  flex: 6;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0 0 12vh 0;
+}
+
+.page.account-profile .body .form button {
+  margin: 4vh 0 0 0;
+  width: 100%;
+}
+
+.page.account-profile .body .control {
+  padding: 0 0 12vh 0;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import LogoImage from "@/assets/images/auth_logo.svg";
@@ -46,8 +46,8 @@ export default function Login() {
                     }
                     dispatch(messageModalSlice.actions.configure(messageModalState))
                 } else {
-                    dispatch(authenticationSlice.actions.login(content.data.entity));
                     router.push(`/managements/items`)
+                    dispatch(authenticationSlice.actions.login(content.data.entity));
                 }
             })
             .catch((error) => {
@@ -63,6 +63,10 @@ export default function Login() {
                 actions.setSubmitting(false);
             });
     }
+
+    useEffect(() => {
+      router.prefetch('/managements/items')
+    }, [router])
 
     return (
         <div className="page login-auth">
@@ -94,12 +98,12 @@ export default function Login() {
                     >
                         {(props) => (
                             <Form>
-                                <fieldset className="form-group">
+                                <fieldset className="form-group pb-2">
                                     <label htmlFor="email">Email</label>
                                     <Field type="email" name="email" className="form-control"/>
                                     <ErrorMessage name="email" component="div" className="text-danger"/>
                                 </fieldset>
-                                <fieldset className="form-group">
+                                <fieldset className="form-group pb-2">
                                     <label htmlFor="password">Password</label>
                                     <Field type="password" name="password" className="form-control"/>
                                     <ErrorMessage name="password" component="div" className="text-danger"/>

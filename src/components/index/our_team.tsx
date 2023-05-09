@@ -25,7 +25,7 @@ function OurTeam() {
                     </ReactBootstrap.Col>
                     <ReactBootstrap.Col md>
                         <Image src={Mario} alt="Mario Christanto"/>
-                        <h3>Mario</h3>
+                        <h3>Mario Christanto</h3>
                         <p>2301926945</p>
                         <span>Computer Science</span>
                     </ReactBootstrap.Col>
