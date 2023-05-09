@@ -1,6 +1,6 @@
 import Entity from "@/models/entities/entity";
 
-class ItemCombinationMap extends Entity {
+class TransactionItemMap extends Entity {
     id: string;
     transactionId: string;
     itemId: string;
@@ -21,4 +21,4 @@ class ItemCombinationMap extends Entity {
     }
 }
 
-export default ItemCombinationMap;
+export default TransactionItemMap;
