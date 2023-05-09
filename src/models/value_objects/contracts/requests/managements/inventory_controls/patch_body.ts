@@ -5,9 +5,9 @@ class PatchBody extends ValueObject {
     itemId: string;
     quantityBefore: number;
     quantityAfter: number;
-    timestamp: Date;
+    timestamp: string;
 
-    constructor(accountId: string, itemId: string, quantityBefore: number, quantityAfter: number, timestamp: Date) {
+    constructor(accountId: string, itemId: string, quantityBefore: number, quantityAfter: number, timestamp: string) {
         super();
         this.accountId = accountId;
         this.itemId = itemId;
