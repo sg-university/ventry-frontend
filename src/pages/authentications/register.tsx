@@ -86,13 +86,14 @@ export default function Register() {
                     }
                     dispatch(messageModalSlice.actions.configure(messageModalState))
                 } else {
-                    dispatch(authenticationSlice.actions.register(content.data.entity));
-                    const messageModalState: MessageModalState = {
-                        title: "Status",
-                        content: content.message,
-                        isShow: true
-                    }
-                    dispatch(messageModalSlice.actions.configure(messageModalState))
+                  dispatch(authenticationSlice.actions.register(content.data.entity));
+                  const messageModalState: MessageModalState = {
+                    title: "Status",
+                    content: content.message,
+                    isShow: true
+                  }
+                  dispatch(messageModalSlice.actions.configure(messageModalState))
+                  router.push('/authentications/login')
                 }
             })
             .catch((error) => {
