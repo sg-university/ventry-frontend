@@ -5,53 +5,98 @@ import ItemCardImage from "@/assets/images/item_management_card.svg";
 import Image from "next/image";
 import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
-import {useEffect} from "react";
+import { useState, useEffect } from "react";
 import ItemService from "@/services/item_service";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
 import Item from "@/models/entities/item";
-import "@/styles/pages/managements/items.scss"
 import Authenticated from "@/layouts/authenticated";
+import ItemInsertModalComponent from "@/components/item_management/item_insert_modal";
+import ItemViewModalComponent from "@/components/item_management/item_view_modal";
+import { ItemUpdateModalComponent } from "@/components/item_management/item_update_modal";
+import "@/styles/pages/managements/items.scss"
+import LocationService from "@/services/location_service";
+import Location from "@/models/entities/location";
 
 export default function Items() {
-
+    const [modal, setModal] = useState("")
+    const [item, setItem] = useState({})
     const pageState: PageState = useSelector((state: any) => state.page);
 
     const dispatch = useDispatch();
 
+    const getAllItems = () => {
+      const itemService = new ItemService();
+      itemService
+        .readAll()
+        .then((result: AxiosResponse<Content<Item[]>>) => {
+              const content = result.data;
+              dispatch(pageSlice.actions.configureItemManagement({
+                  ...pageState.itemManagement,
+                  items: content.data
+              }))
+          })
+          .catch((error) => {
+              console.log(error)
+              const messageModalState: MessageModalState = {
+                  title: "Status",
+                  content: error.message,
+                  isShow: true
+              }
+              dispatch(messageModalSlice.actions.configure(messageModalState))
+          });
+    }
+
+    const getAllLocations = () => {
+      const locationService = new LocationService()
+      locationService
+        .readAll()
+        .then((result: AxiosResponse<Content<Location[]>>) => {
+          const content = result.data;
+          dispatch(pageSlice.actions.configureLocationManagement({
+              ...pageState.locationManagement,
+              locations: content.data
+          }))
+        })
+        .catch((error) => {
+            console.log(error)
+            const messageModalState: MessageModalState = {
+                title: "Status",
+                content: error.message,
+                isShow: true
+            }
+            dispatch(messageModalSlice.actions.configure(messageModalState))
+        });
+    }
+
     useEffect(() => {
-        const itemService = new ItemService();
-        itemService
-            .readAll()
-            .then((result: AxiosResponse<Content<Item[]>>) => {
-                const content = result.data;
-                dispatch(pageSlice.actions.configureItemManagement({
-                    ...pageState.itemManagement,
-                    items: content.data
-                }))
-            })
-            .catch((error) => {
-                console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
-                    content: error.message,
-                    isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
-            });
+      getAllItems(),
+      getAllLocations()
     }, [])
 
     const handleModalInsert = () => {
+      setModal("insertModal")
     }
 
     const handleModalView = (item: Item) => {
+      setItem(item)
+      setModal("viewModal")
+    }
+
+    const itemControllers = {
+      item,
+      setItem,
+      getAllItems
     }
 
     return (
         <Authenticated>
             <div className="page item-management">
                 <MessageModal/>
+                {modal == 'insertModal' && <ItemInsertModalComponent setModal={setModal} getAllItems={getAllItems}/>}
+                {modal == 'viewModal' && <ItemViewModalComponent setModal={setModal} item={item} getAllItems={getAllItems}/>}
+                {modal == 'updateModal' && <ItemUpdateModalComponent setModal={setModal} itemControllers={itemControllers}/>}
                 <div className="header">
                     <div className="left-section">
                         <div className="title">
@@ -69,9 +114,9 @@ export default function Items() {
                             <button
                                 type="button"
                                 className="btn btn-primary"
-                                onClick={() => handleModalInsert()}
+                                onClick={handleModalInsert}
                             >
-                                <Image src={ButtonPlusImage} alt="plus"/>
+                                <Image src={ButtonPlusImage} alt="plus" className="image"/>
                                 Insert Item
                             </button>
                         </div>
