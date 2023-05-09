@@ -1,7 +1,6 @@
 import Request from "@/models/value_objects/contracts/requests/request";
 
 class RegisterRequest extends Request {
-
     name: string;
     email: string;
     password: string;
