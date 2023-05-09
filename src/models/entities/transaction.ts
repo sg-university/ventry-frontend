@@ -4,11 +4,11 @@ class Transaction extends Entity {
     id: string;
     accountId: string;
     sellPrice: number;
-    timestamp: Date;
+    timestamp: string;
     createdAt: Date;
     updatedAt: Date;
 
-    constructor(id: string, accountId: string, sellPrice: number, timestamp: Date, createdAt: Date, updatedAt: Date) {
+    constructor(id: string, accountId: string, sellPrice: number, timestamp: string, createdAt: Date, updatedAt: Date) {
         super();
         this.id = id;
         this.accountId = accountId;
