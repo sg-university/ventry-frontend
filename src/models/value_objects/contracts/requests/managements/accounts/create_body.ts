@@ -1,13 +1,13 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class CreateBody extends ValueObject {
-    roleId: string
-    locationId: string
-    name: string
-    email: string
-    password: string
+    roleId: string | undefined
+    locationId: string | undefined
+    name: string | undefined
+    email: string | undefined
+    password: string | undefined
 
-    constructor(roleId: string, locationId: string, name: string, email: string, password: string) {
+    constructor(roleId: string | undefined, locationId: string | undefined, name: string | undefined, email: string | undefined, password: string | undefined) {
         super();
         this.roleId = roleId;
         this.locationId = locationId

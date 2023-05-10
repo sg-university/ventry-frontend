@@ -1,13 +1,13 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class CreateBody extends ValueObject {
-    accountId: string;
-    itemId: string;
+    accountId: string | undefined;
+    itemId: string | undefined;
     quantityBefore: number;
     quantityAfter: number;
-    timestamp: string;
+    timestamp: string | undefined;
 
-    constructor(accountId: string, itemId: string, quantityBefore: number, quantityAfter: number, timestamp: string) {
+    constructor(accountId: string | undefined, itemId: string | undefined, quantityBefore: number, quantityAfter: number, timestamp: string | undefined) {
         super();
         this.accountId = accountId;
         this.itemId = itemId;

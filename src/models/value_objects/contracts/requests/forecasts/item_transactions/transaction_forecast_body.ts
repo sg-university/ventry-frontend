@@ -2,10 +2,10 @@ import Request from "@/models/value_objects/contracts/requests/request";
 
 class TransactionForecastBody extends Request {
     horizon: number
-    resample: string
+    resample: string | undefined
     test_size: number
 
-    constructor(horizon: number, resample: string, test_size: number) {
+    constructor(horizon: number, resample: string | undefined, test_size: number) {
         super();
         this.horizon = horizon;
         this.resample = resample;

@@ -1,11 +1,11 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class PatchBody extends ValueObject {
-  name: string
-  description: string
-  address: string
+  name: string | undefined
+  description: string | undefined
+  address: string | undefined
 
-  constructor(name: string, description: string, address: string) {
+  constructor(name: string | undefined, description: string | undefined, address: string | undefined) {
       super();
       this.name = name;
       this.description = description;

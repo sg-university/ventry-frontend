@@ -1,14 +1,14 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class CreateBody extends ValueObject {
-    name: string;
-    description: string;
-    extension: string;
-    content: string;
+    name: string | undefined;
+    description: string | undefined;
+    extension: string | undefined;
+    content: string | undefined;
     createdAt: Date;
     updatedAt: Date;
 
-    constructor(name: string, description: string, extension: string, content: string, createdAt: Date, updatedAt: Date) {
+    constructor(name: string | undefined, description: string | undefined, extension: string | undefined, content: string | undefined, createdAt: Date, updatedAt: Date) {
         super();
         this.name = name;
         this.description = description;

@@ -2,10 +2,10 @@ import {createSlice} from '@reduxjs/toolkit';
 import {HYDRATE} from "next-redux-wrapper";
 
 export interface MessageModalState {
-    isShow: boolean;
-    type: string;
-    title: string;
-    content: string;
+    isShow: boolean | undefined;
+    type: string | undefined;
+    title: string | undefined;
+    content: string | undefined;
 }
 
 
@@ -13,9 +13,9 @@ export default createSlice({
     name: 'messageModal',
     initialState: <MessageModalState>{
         isShow: false,
-        type: "",
-        title: "",
-        content: "",
+        type: undefined,
+        title: undefined,
+        content: undefined,
     },
     reducers: {
         configure: (state, action) => {

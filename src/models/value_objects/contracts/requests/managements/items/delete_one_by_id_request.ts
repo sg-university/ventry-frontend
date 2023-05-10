@@ -1,9 +1,9 @@
 import Request from "@/models/value_objects/contracts/requests/request";
 
 class DeleteOneByIdRequest extends Request {
-    id: string
+    id: string | undefined
 
-    constructor(id: string) {
+    constructor(id: string | undefined) {
         super();
         this.id = id;
     }

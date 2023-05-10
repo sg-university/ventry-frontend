@@ -1,11 +1,11 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class PatchBody extends ValueObject {
-    superItemId: string;
-    subItemId: string;
+    superItemId: string | undefined;
+    subItemId: string | undefined;
     quantity: number;
 
-    constructor(superItemId: string, subItemId: string, quantity: number) {
+    constructor(superItemId: string | undefined, subItemId: string | undefined, quantity: number) {
         super();
         this.superItemId = superItemId;
         this.subItemId = subItemId;
