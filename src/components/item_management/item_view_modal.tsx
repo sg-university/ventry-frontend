@@ -228,22 +228,22 @@ export default function ItemViewModalComponent() {
       )
     };
 
-  useEffect(() => {
-    fetchItemBundles()
-}, [])
+    useEffect(() => {
+        fetchItemBundles()
+    }, [])
 
-const fetchItemBundles = () => {
-    itemBundleMapService
-        .readAllBySuperItemId({
-            superItemId: currentItem?.id
-        })
-        .then((response) => {
-            const content: Content<ItemBundleMap[]> = response.data;
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-}
+    const fetchItemBundles = () => {
+      itemBundleMapService
+          .readAllBySuperItemId({
+              superItemId: currentItem?.id
+          })
+          .then((response) => {
+              const content: Content<ItemBundleMap[]> = response.data;
+          })
+          .catch((error) => {
+              console.log(error)
+          });
+    }
 
     const handleSelectModalMenu = (eventKey: string | null) => {
         dispatch(pageSlice.actions.configureItemManagement({

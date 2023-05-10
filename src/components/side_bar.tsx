@@ -169,15 +169,15 @@ export default function SideBar() {
             >
               <ListItemIcon>
                 <History 
-                  className={ router.pathname == "/managements/history/transaction" || 
-                    router.pathname == "/managements/history/stock" ? "link active" : "link"
+                  className={ router.pathname == "/managements/histories/transaction" || 
+                    router.pathname == "/managements/histories/stock" ? "link active" : "link"
                   }
                 />
               </ListItemIcon>
               <ListItemText>
-              <Link href="/managements/history/transaction" 
-                className={router.pathname == "/managements/history/transaction" || 
-                  router.pathname == "/managements/history/stock" ? "link active" : "link"
+              <Link href="/managements/histories/transaction" 
+                className={router.pathname == "/managements/histories/transaction" || 
+                  router.pathname == "/managements/histories/stock" ? "link active" : "link"
                 }
               >
                   History
@@ -188,12 +188,12 @@ export default function SideBar() {
           </ListItem>
           <Collapse in={openHistory} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 4 }}>
-              <Link href="/managements/history/transaction" className={router.pathname == "/managements/history/transaction" ? "link active" : "link"}>
+              <Link href="/managements/histories/transaction" className={router.pathname == "/managements/histories/transaction" ? "link active" : "link"}>
                 <ListItemButton>
                   <ListItemText>Item Transaction History</ListItemText>
                 </ListItemButton>
               </Link>
-              <Link href="/managements/history/stock" className={router.pathname == "/managements/history/stock" ? "link active" : "link"}>
+              <Link href="/managements/histories/stock" className={router.pathname == "/managements/histories/stock" ? "link active" : "link"}>
                 <ListItemButton >
                   <ListItemText>Inventory Control History</ListItemText>
                 </ListItemButton>
@@ -213,7 +213,7 @@ export default function SideBar() {
                 <Chart className={router.pathname == "/managements/forecasting/transaction" ? "link active" : "link"}/>
               </ListItemIcon>
               <ListItemText>
-                <Link href="/managements/forecasting/transaction" 
+                <Link href="/managements/forecasts/transaction" 
                   className={router.pathname == "/managements/forecasting/transaction" ||
                     router.pathname == "/managements/forecasting/stock" ? "link active" : "link"
                   }
@@ -226,12 +226,12 @@ export default function SideBar() {
           </ListItem>
           <Collapse in={openForecasting} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 4 }}>
-              <Link href="/managements/forecasting/transaction" className={router.pathname == "/managements/forecasting/transaction" ? "link active" : "link"}>
+              <Link href="/managements/forecasts/transaction" className={router.pathname == "/managements/forecasting/transaction" ? "link active" : "link"}>
                 <ListItemButton>
                   <ListItemText>Item Transaction</ListItemText>
                 </ListItemButton>
               </Link>
-              <Link href="/managements/forecasting/stock" className={router.pathname == "/managements/forecasting/stock" ? "link active" : "link"}>
+              <Link href="/managements/forecasts/stock" className={router.pathname == "/managements/forecasting/stock" ? "link active" : "link"}>
                 <ListItemButton >
                   <ListItemText>Item Stock</ListItemText>
                 </ListItemButton>
@@ -266,15 +266,15 @@ export default function SideBar() {
             >
               <ListItemIcon>
                 <Store 
-                  className={router.pathname == "/managements/company/information" || 
-                    router.pathname == "/managements/company/account" ? "link active" : "link"
+                  className={router.pathname == "/managements/companies/information" || 
+                    router.pathname == "/managements/companies/account" ? "link active" : "link"
                   }
                 />
               </ListItemIcon>
               <ListItemText>
-                <Link href="/managements/company/information" 
-                  className={router.pathname == "/managements/company/information" || 
-                    router.pathname == "/managements/company/account" ? "link active" : "link"
+                <Link href="/managements/companies/information" 
+                  className={router.pathname == "/managements/companies/information" || 
+                    router.pathname == "/managements/companies/account" ? "link active" : "link"
                   }
                 >
                   Company Management
@@ -285,12 +285,12 @@ export default function SideBar() {
           </ListItem>
           <Collapse in={openCompany} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ pl: 4 }}>
-              <Link href="/managements/company/information" className={router.pathname == "/managements/company/information" ? "link active" : "link"}>
+              <Link href="/managements/companies/information" className={router.pathname == "/managements/companies/information" ? "link active" : "link"}>
                 <ListItemButton>
                   <ListItemText>Company Information</ListItemText>
                 </ListItemButton>
               </Link>
-              <Link href="/managements/company/account" className={router.pathname == "/managements/company/account" ? "link active" : "link"}>
+              <Link href="/managements/companies/account" className={router.pathname == "/managements/companies/account" ? "link active" : "link"}>
                 <ListItemButton >
                   <ListItemText>Company Account</ListItemText>
                 </ListItemButton>
