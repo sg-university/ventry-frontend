@@ -44,6 +44,7 @@ export default function ItemTransactionHistory() {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -63,6 +64,7 @@ export default function ItemTransactionHistory() {
             console.log(error)
             const messageModalState: MessageModalState = {
                 title: "Status",
+                type: "failed",
                 content: error.message,
                 isShow: true
             }
@@ -82,6 +84,7 @@ export default function ItemTransactionHistory() {
             console.log(error)
             const messageModalState: MessageModalState = {
                 title: "Status",
+                type: "failed",
                 content: error.message,
                 isShow: true
             }

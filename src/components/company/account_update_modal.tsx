@@ -42,6 +42,7 @@ function MainComponent(props) {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -61,6 +62,7 @@ function MainComponent(props) {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -85,12 +87,20 @@ function MainComponent(props) {
       .then((result: AxiosResponse<Content<Account>>) => {
         const content = result.data
         setCompanyAccount(content.data)
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Update Account Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         getAllAccount()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }

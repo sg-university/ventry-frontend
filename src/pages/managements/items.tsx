@@ -41,6 +41,7 @@ export default function Items() {
               console.log(error)
               const messageModalState: MessageModalState = {
                   title: "Status",
+                  type: "failed",
                   content: error.message,
                   isShow: true
               }
@@ -63,6 +64,7 @@ export default function Items() {
             console.log(error)
             const messageModalState: MessageModalState = {
                 title: "Status",
+                type: "failed",
                 content: error.message,
                 isShow: true
             }

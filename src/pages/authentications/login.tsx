@@ -54,6 +54,7 @@ export default function Login() {
                 console.log(error)
                 const messageModalState: MessageModalState = {
                     title: "Status",
+                    type: "failed",
                     content: error.message,
                     isShow: true
                 }

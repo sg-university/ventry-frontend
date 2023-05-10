@@ -33,12 +33,20 @@ function MainComponent(props) {
     locationService
       .patchOneById(request)
       .then(() => {
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Update Location Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         getAllLocations()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }

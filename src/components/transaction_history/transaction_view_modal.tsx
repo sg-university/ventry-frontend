@@ -11,6 +11,7 @@ import Content from "@/models/value_objects/contracts/content";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
 import { PageState } from "@/slices/page_slice";
 import "@/styles/components/transaction_history/transaction_view_modal.scss"
+import message_modal_slice from "@/slices/message_modal_slice";
 
 function MainComponent(props) {
   const pageState: PageState = useSelector((state: any) => state.page);
@@ -71,6 +72,7 @@ export default function TransactionViewModalComponent(props) {
   const [menu, setMenu] = useState('main')
   const { transaction, getAllTransaction, transactionItems} = props.transactionController
   const { setModal } = props
+  const dispatch = useDispatch();
 
   const handleShow = () => {
     setIsShow(!isShow)
@@ -90,6 +92,13 @@ export default function TransactionViewModalComponent(props) {
       .deleteOneById(request)
       .then(() => {
         handleShow()
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Delete Transaction Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         getAllTransaction()
       })
   }

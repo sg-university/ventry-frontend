@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Nav } from "react-bootstrap";
-import { useSelector} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 
 import {PageState} from "@/slices/page_slice";
 import "@/styles/components/inventory_control_history/inventory_control_view_modal.scss";
 import InventoryControlService from "@/services/inventory_control_service";
 import DeleteOneByIdRequest from "@/models/value_objects/contracts/requests/managements/inventory_controls/delete_one_by_id_request";
+import message_modal_slice, { MessageModalState } from "@/slices/message_modal_slice";
 
 function MainComponent(props) {
   const [item, setItem] = useState({})
@@ -53,7 +54,8 @@ export default function InventoryControlViewModalComponent(props) {
   const [isShow, setIsShow] = React.useState(true)
   const [menu, setMenu] = React.useState('main')
   const { inventoryControl, setModal, getAllInventoryControl } = props.inventoryControlController
-  
+  const dispatch = useDispatch();
+
   const handleShow = () => {
     setIsShow(!isShow)
     props.setModal("")
@@ -72,6 +74,13 @@ export default function InventoryControlViewModalComponent(props) {
       .deleteOneById(request)
       .then(() => {
         handleShow()
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Delete Inventory Control Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         getAllInventoryControl()
       })
   }

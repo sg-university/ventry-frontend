@@ -45,6 +45,7 @@ export default function UpperBar() {
                   console.log(error)
                   const messageModalState: MessageModalState = {
                       title: "Status",
+                      type: "failed",
                       content: error.message,
                       isShow: true
                   }

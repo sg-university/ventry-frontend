@@ -55,14 +55,14 @@ const updateItemSchema = Yup.object().shape({
 
 function MainComponent(props) { 
   const pageState: PageState = useSelector((state: any) => state.page);
-  const { setModal } = props
   const { item, getAllItems, setItem } = props.itemControllers
+  const { handleShow } = props
   const { account } = pageState.accountManagement
   const [locations, setLocations] = useState([] as Object[])
   const dispatch = useDispatch();
 
-  const recordChanges = (quantityBefore, quantityAfter) => {
-    console.log(item)
+  const recordChanges = (quantityBefore: number, quantityAfter: number) => {
+    if(quantityBefore == quantityAfter) return
     const date = new Date()
     const inventoryControlService = new InventoryControlService()
     const request: CreateOneRequest = {
@@ -80,6 +80,7 @@ function MainComponent(props) {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -102,13 +103,22 @@ function MainComponent(props) {
       .then(async (result: AxiosResponse<Content<Item>>) => {
         const content = result.data;
         await setItem(content.data)
-        recordChanges(quantityBefore, values.quantity)
+        if(values.is_record) recordChanges(quantityBefore, values.quantity)
+        handleShow()
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Update Item Success",
+          isShow: true
+        }
+        dispatch(messageModalSlice.actions.configure(messageModalState))
         getAllItems()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -116,7 +126,6 @@ function MainComponent(props) {
       })
       .finally(() => {
         actions.setSubmitting(false);
-        setModal("viewModal")
       });
   }
 
@@ -132,6 +141,7 @@ function MainComponent(props) {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -366,12 +376,20 @@ function ItemsComponent(props) {
     itemBundleService
       .deleteOneById(request)
       .then((result) => {
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Delete Item Success",
+          isShow: true
+        }
+        dispatch(messageModalSlice.actions.configure(messageModalState))
         getAllItemBundle()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -449,12 +467,20 @@ function ItemBundleForm(props) {
     itemBundleService
       .patchOneById(request)
       .then((result) => {
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Update Item Bundle Success",
+          isShow: true
+        }
+        dispatch(messageModalSlice.actions.configure(messageModalState))
         getAllItemBundle()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -477,12 +503,20 @@ function ItemBundleForm(props) {
     itemBundleService
       .createOne(request)
       .then(() => {
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Insert Item Bundle Success",
+          isShow: true
+        }
+        dispatch(messageModalSlice.actions.configure(messageModalState))
         getAllItemBundle()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -602,6 +636,7 @@ export function ItemUpdateModalComponent(props) {
             console.log(error)
             const messageModalState: MessageModalState = {
                 title: "Status",
+                type: "failed",
                 content: error.message,
                 isShow: true
             }
@@ -650,7 +685,7 @@ export function ItemUpdateModalComponent(props) {
               <MainComponent
                 item={props.item}
                 itemControllers={props.itemControllers}
-                setModal={props.setModal}
+                handleShow={handleShow}
               />
             ),
             items: (

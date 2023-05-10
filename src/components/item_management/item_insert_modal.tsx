@@ -65,12 +65,20 @@ function MainComponent(props) {
     itemService
       .createOne(request)
       .then(() => {
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Insert Item Success",
+          isShow: true
+        }
+        dispatch(messageModalSlice.actions.configure(messageModalState))
         getAllItems()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -94,6 +102,7 @@ function MainComponent(props) {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -293,12 +302,20 @@ function ItemsComponent(props) {
     itemBundleService
       .createOne(request)
       .then(() => {
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Insert Item Bundle Success",
+          isShow: true
+        }
+        dispatch(messageModalSlice.actions.configure(messageModalState))
         getAllItems()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }

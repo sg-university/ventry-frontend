@@ -50,11 +50,19 @@ function InformationComponent(props) {
       .then((result: AxiosResponse<Content<Company>>) => {
         const content = result.data;
         setCompany(content.data)
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Update Company Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -144,12 +152,20 @@ function LocationComponent(props) {
       .deleteOneById(request)
       .then((result: AxiosResponse<Content<Location>>) => {
         const content = result.data;
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Delete Location Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         getAllLocations()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -211,6 +227,7 @@ export default function Information() {
               console.log(error)
               const messageModalState: MessageModalState = {
                   title: "Status",
+                  type: "failed",
                   content: error.message,
                   isShow: true
               }
@@ -233,6 +250,7 @@ export default function Information() {
               console.log(error)
               const messageModalState: MessageModalState = {
                   title: "Status",
+                  type: "failed",
                   content: error.message,
                   isShow: true
               }
@@ -255,6 +273,7 @@ export default function Information() {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }

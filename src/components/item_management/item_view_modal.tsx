@@ -18,6 +18,7 @@ function MainComponent(props) {
   const { item, setModal, handleShow, getAllItems } = props
   const locations = pageState.locationManagement.locations
   const location = locations.find(l => l.id == item.locationId)
+  const dispatch = useDispatch();
 
   const handleModalUpdate = () => {
     setModal("updateModal")
@@ -32,6 +33,13 @@ function MainComponent(props) {
       .deleteOneById(request)
       .then(() => {
         handleShow()
+        const messageModalState: MessageModalState = {
+            title: "Status",
+            type: "success",
+            content: "Delete Item Success",
+            isShow: true
+        }
+        dispatch(messageModalSlice.actions.configure(messageModalState))
         getAllItems()
       })
   }
@@ -164,6 +172,7 @@ export default function ItemViewModalComponent(props) {
               console.log(error)
               const messageModalState: MessageModalState = {
                   title: "Status",
+                  type: "failed",
                   content: error.message,
                   isShow: true
               }

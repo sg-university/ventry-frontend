@@ -38,6 +38,7 @@ function MainComponent(props) {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -60,6 +61,7 @@ function MainComponent(props) {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -119,12 +121,20 @@ export default function AccountViewModalComponent(props) {
     accountService
       .deleteOneById(request)
       .then(() => {
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Delete Account Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         getAllAccount()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }

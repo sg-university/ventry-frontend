@@ -67,6 +67,7 @@ function MainComponent(props) {
             console.log(error)
             const messageModalState: MessageModalState = {
                 title: "Status",
+                type: "failed",
                 content: error.message,
                 isShow: true
             }
@@ -91,12 +92,20 @@ function MainComponent(props) {
       .then(async (result: AxiosResponse<Content<Transaction>>) => {
         const content = result.data;
         await createTransactionItem(content.data.id)
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Insert Transaction Success",
+          isShow: true
+        }
+        dispatch(messageModalSlice.actions.configure(messageModalState))
         getAllTransaction()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
