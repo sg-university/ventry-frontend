@@ -12,7 +12,7 @@ import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice
 import Authenticated from "@/layouts/authenticated";
 import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
-import "@/styles/pages/managements/history/stock.scss"
+import "@/styles/pages/managements/histories/stock.scss"
 import ItemService from "@/services/item_service";
 import Item from "@/models/entities/item";
 import InventoryControlViewModalComponent from "@/components/inventory_control_history/inventory_control_view_modal";

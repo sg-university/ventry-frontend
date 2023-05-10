@@ -5,43 +5,124 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/side_bar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/upper_bar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/layouts/authenticated.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/managements/items.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/slices/page_slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/components/side_bar.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/components/upper_bar.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/layouts/authenticated.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/pages/managements/items.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/read_all_by_company_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/read_all_by_super_item_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/read_all_by_location_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_all_by_item_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/read_all_by_account_id_request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/read_all_by_account_id_request.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/images/profile_account.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/account.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/about_us.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/about_us.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/footer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/interested.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/interested.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/navigation_bar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/navigation_bar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/our_team.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/our_team.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/why_us.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/why_us.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/message_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/message_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/company/account_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/account_insert_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/company/account_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/account_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/company/account_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/account_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/item_management/item_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/item_management/item_insert_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/item_management/item_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/item_management/item_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/item_management/item_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/item_management/item_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/side_bar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/side_bar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/upper_bar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/upper_bar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/content.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/content.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/authentications/login_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/authentications/login_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/authentications/register_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/authentications/register_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/forecasts/item_stocks/stock_forecast_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/forecasts/item_stocks/stock_forecast_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/forecasts/item_stocks/stock_forecast_by_item_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/forecasts/item_stocks/stock_forecast_by_item_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/forecasts/item_transactions/transaction_forecast_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/forecasts/item_transactions/transaction_forecast_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/forecasts/item_transactions/transaction_forecast_by_item_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/forecasts/item_transactions/transaction_forecast_by_item_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/account_permission_maps/create_body.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/account_permission_maps/create_one_request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/account_permission_maps/delete_one_by_id_request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/account_permission_maps/patch_body.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/account_permission_maps/patch_one_by_id_request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/account_permission_maps/read_one_by_id_request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/read_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/delete_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/delete_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/patch_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/patch_one_by_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/read_one_by_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/read_one_by_id_request.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/authentications/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentications/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/authentications/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentications/register.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/company/account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/companies/account.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/company/information.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/companies/information.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/forecasting/stock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/forecasts/stock.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/forecasting/transaction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/forecasts/transaction.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/history/stock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/histories/stock.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/history/transaction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/histories/transaction.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/items.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/items.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/account_service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/account_service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/company_service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/company_service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/item_bundle_map_service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/item_bundle_map_service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/item_service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/item_service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/location_service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/location_service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/role_service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/role_service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/slices/authentication_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/authentication_slice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/store.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/about_us.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/about_us.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/footer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/footer.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/header.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/interested.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/interested.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/navigation_bar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/navigation_bar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/our_team.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/our_team.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/index/why_us.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/why_us.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/login/login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/authentications/login.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/register/register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/authentications/register.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/message_modal_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/message_modal_slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/page_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/page_slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/company/account.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/companies/account.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/company/information.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/companies/information.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/history/stock.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/histories/stock.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/history/transaction.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/histories/transaction.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +162,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Data/Apps/ventry-frontend/src/components",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "last_opened_file_path": "C:/Data/Apps/ventry-frontend/src/models/value_objects/contracts/requests/managements/locations",
     "list.type.of.created.stylesheet": "Sass",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -96,11 +178,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Data\Apps\ventry-frontend\src\components" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\slices" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\styles\register" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\pages\authentications" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\response\authentications" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\locations" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\item_bundle_maps" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\items" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\accounts" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\transactions" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Data\Apps\ventry-frontend\src\styles\components" />
@@ -158,7 +240,17 @@
       <workItem from="1679115674191" duration="15324000" />
       <workItem from="1679132451087" duration="6703000" />
       <workItem from="1679144845738" duration="11162000" />
-      <workItem from="1680338461071" duration="13539000" />
+      <workItem from="1680338461071" duration="14225000" />
+      <workItem from="1680692632789" duration="51000" />
+      <workItem from="1680862797257" duration="1235000" />
+      <workItem from="1681108003827" duration="1682000" />
+      <workItem from="1681292295269" duration="1570000" />
+      <workItem from="1681365080279" duration="1059000" />
+      <workItem from="1681377034402" duration="613000" />
+      <workItem from="1683701821587" duration="92000" />
+      <workItem from="1683701931891" duration="9238000" />
+      <workItem from="1683718701100" duration="57000" />
+      <workItem from="1683718780588" duration="9771000" />
     </task>
     <servers />
   </component>

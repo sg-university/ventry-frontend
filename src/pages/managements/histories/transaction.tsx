@@ -16,7 +16,7 @@ import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
 import ProductCardImage from "@/assets/images/product_management_card.svg";
 import TransactionInsertModalComponent from "@/components/transaction_history/transaction_insert_modal";
 import TransactionViewModalComponent from "@/components/transaction_history/transaction_view_modal";
-import "@/styles/pages/managements/history/transaction.scss"
+import "@/styles/pages/managements/histories/transaction.scss"
 import TransactionUpdateModalComponent from "@/components/transaction_history/transaction_update_modal";
 import TransactionItemMapService from "@/services/transaction_item_map_service";
 import TransactionItemMap from "@/models/entities/transaction_item_map";

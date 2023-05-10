@@ -1,17 +1,17 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class CreateBody extends ValueObject {
-    locationId: string;
-    code: string;
-    name: string;
-    type: string;
-    description: string;
+    locationId: string | undefined;
+    code: string | undefined;
+    name: string | undefined;
+    type: string | undefined;
+    description: string | undefined;
     quantity: number;
-    unitName: string;
+    unitName: string | undefined;
     unitSellPrice: number;
     unitCostPrice: number;
     
-    constructor(locationId: string, code: string, name: string, type: string, description: string, quantity: number, unitName: string, unitSellPrice: number, unitCostPrice: number) {
+    constructor(locationId: string | undefined, code: string | undefined, name: string | undefined, type: string | undefined, description: string | undefined, quantity: number, unitName: string | undefined, unitSellPrice: number, unitCostPrice: number) {
       super();
       this.locationId = locationId;
       this.code = code;

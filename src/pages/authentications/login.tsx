@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import LogoImage from "@/assets/images/auth_logo.svg";
@@ -65,7 +65,7 @@ export default function Login() {
     }
 
     useEffect(() => {
-      router.prefetch('/managements/items')
+        router.prefetch('/managements/items')
     }, [router])
 
     return (

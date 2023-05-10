@@ -1,11 +1,11 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class PatchBody extends ValueObject {
-    accountId: string;
+    accountId: string | undefined;
     sellPrice: number;
-    timestamp: string;
+    timestamp: string | undefined;
 
-    constructor(accountId: string, sellPrice: number, timestamp: string) {
+    constructor(accountId: string | undefined, sellPrice: number, timestamp: string | undefined) {
         super();
         this.accountId = accountId;
         this.sellPrice = sellPrice;

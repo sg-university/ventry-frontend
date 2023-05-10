@@ -7,7 +7,7 @@ import MessageModal from "@/components/message_modal";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
 import Authenticated from "@/layouts/authenticated";
-import "@/styles/pages/managements/company/information.scss"
+import "@/styles/pages/managements/companies/information.scss"
 import LocationService from "@/services/location_service";
 import { AxiosResponse } from "axios";
 import Content from "@/models/value_objects/contracts/content";
