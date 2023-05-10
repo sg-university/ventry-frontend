@@ -12,6 +12,8 @@ import ReadOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/read_one_by_id_request";
 import PatchOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/patch_one_by_id_request";
+import ReadAllBySuperItemIdRequest
+    from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/read_all_by_super_item_id_request";
 
 class ItemBundleMapService extends Service {
 
@@ -37,6 +39,10 @@ class ItemBundleMapService extends Service {
         return this.client.instance.get(`${this.path}`);
     }
 
+    readAllBySuperItemId(request: ReadAllBySuperItemIdRequest): Promise<AxiosResponse<Content<ItemBundleMap[]>>> {
+        return this.client.instance.get(`${this.path}?super_item_id=${request.superItemId}`);
+    }
+
     readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<ItemBundleMap>>> {
         return this.client.instance.get(`${this.path}/${request.id}`);
     }
@@ -44,6 +50,7 @@ class ItemBundleMapService extends Service {
     patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<ItemBundleMap>>> {
         return this.client.instance.patch(`${this.path}/${request.id}`, request.body);
     }
+
 }
 
 

@@ -5,9 +5,13 @@ import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import Company from "@/models/entities/company";
 import CreateOneRequest from "@/models/value_objects/contracts/requests/managements/companies/create_one_request";
-import DeleteOneByIdRequest from "@/models/value_objects/contracts/requests/managements/companies/delete_one_by_id_request";
+import DeleteOneByIdRequest
+    from "@/models/value_objects/contracts/requests/managements/companies/delete_one_by_id_request";
 import ReadOneByIdRequest from "@/models/value_objects/contracts/requests/managements/companies/read_one_by_id_request";
-import PatchOneByIdRequest from "@/models/value_objects/contracts/requests/managements/companies/patch_one_by_id_request";
+import PatchOneByIdRequest
+    from "@/models/value_objects/contracts/requests/managements/companies/patch_one_by_id_request";
+import ReadOneByAccountIdRequest
+    from "@/models/value_objects/contracts/requests/managements/companies/read_all_by_account_id_request";
 
 class CompanyService extends Service {
 
@@ -35,6 +39,10 @@ class CompanyService extends Service {
 
     readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<Company>>> {
         return this.client.instance.get(`${this.path}/${request.id}`);
+    }
+
+    readAllByAccountId(request: ReadOneByAccountIdRequest): Promise<AxiosResponse<Content<Company[]>>> {
+        return this.client.instance.get(`${this.path}?account_id=${request.accountId}`);
     }
 
     patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<Company>>> {

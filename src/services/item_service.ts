@@ -8,6 +8,10 @@ import CreateOneRequest from "@/models/value_objects/contracts/requests/manageme
 import DeleteOneByIdRequest from "@/models/value_objects/contracts/requests/managements/items/delete_one_by_id_request";
 import ReadOneByIdRequest from "@/models/value_objects/contracts/requests/managements/items/read_one_by_id_request";
 import PatchOneByIdRequest from "@/models/value_objects/contracts/requests/managements/items/patch_one_by_id_request";
+import ReadAllByAccountIdRequest
+    from "@/models/value_objects/contracts/requests/managements/items/read_all_by_account_id_request";
+import ReadAllByLocationIdRequest
+    from "@/models/value_objects/contracts/requests/managements/items/read_all_by_location_id_request";
 
 class ItemService extends Service {
 
@@ -31,6 +35,14 @@ class ItemService extends Service {
 
     readAll(): Promise<AxiosResponse<Content<Item[]>>> {
         return this.client.instance.get(`${this.path}`);
+    }
+
+    readAllByAccountId(request: ReadAllByAccountIdRequest): Promise<AxiosResponse<Content<Item[]>>> {
+        return this.client.instance.get(`${this.path}?account_id=${request.accountId}`);
+    }
+
+    readAllByLocationId(request: ReadAllByLocationIdRequest): Promise<AxiosResponse<Content<Item[]>>> {
+        return this.client.instance.get(`${this.path}?location_id=${request.locationId}`);
     }
 
     readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<Item>>> {

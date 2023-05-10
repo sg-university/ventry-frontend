@@ -8,6 +8,8 @@ import CreateOneRequest from "@/models/value_objects/contracts/requests/manageme
 import DeleteOneByIdRequest from "@/models/value_objects/contracts/requests/managements/roles/delete_one_by_id_request";
 import ReadOneByIdRequest from "@/models/value_objects/contracts/requests/managements/roles/read_one_by_id_request";
 import PatchOneByIdRequest from "@/models/value_objects/contracts/requests/managements/roles/patch_one_by_id_request";
+import ReadAllByAccountIdRequest
+    from "@/models/value_objects/contracts/requests/managements/roles/read_all_by_account_id_request";
 
 class RoleService extends Service {
 
@@ -31,6 +33,10 @@ class RoleService extends Service {
 
     readAll(): Promise<AxiosResponse<Content<Role[]>>> {
         return this.client.instance.get(`${this.path}`);
+    }
+
+    readAllByAccountId(request: ReadAllByAccountIdRequest): Promise<AxiosResponse<Content<Role[]>>> {
+        return this.client.instance.get(`${this.path}?account_id=${request.accountId}`);
     }
 
     readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<Role>>> {

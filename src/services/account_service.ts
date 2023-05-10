@@ -10,6 +10,8 @@ import DeleteOneByIdRequest
 import ReadOneByIdRequest from "@/models/value_objects/contracts/requests/managements/accounts/read_one_by_id_request";
 import PatchOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/accounts/patch_one_by_id_request";
+import ReadAllByCompanyIdRequest
+    from "@/models/value_objects/contracts/requests/managements/accounts/read_all_by_company_id_request";
 
 class AccountService extends Service {
 
@@ -35,6 +37,10 @@ class AccountService extends Service {
         return this.client.instance.get(`${this.path}`);
     }
 
+    readAllByCompanyId(request: ReadAllByCompanyIdRequest) {
+        return this.client.instance.get(`${this.path}?company_id=${request.companyId}`);
+    }
+
     readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<Account>>> {
         return this.client.instance.get(`${this.path}/${request.id}`);
     }
@@ -42,7 +48,6 @@ class AccountService extends Service {
     patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<Account>>> {
         return this.client.instance.patch(`${this.path}/${request.id}`, request.body);
     }
-
 
 }
 
