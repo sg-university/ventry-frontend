@@ -3,7 +3,7 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Modal, Nav} from "react-bootstrap";
 import * as Yup from "yup";
 import ItemService from "@/services/item_service";
-import {PageState} from "@/slices/page_slice";
+import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
@@ -19,7 +19,6 @@ import Location from "@/models/entities/location";
 
 const insertMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
-    location: Yup.string().required("Required"),
     type: Yup.string().required("Required"),
     name: Yup.string().required("Required"),
     quantity: Yup.number()
@@ -45,25 +44,29 @@ const insertItemSchema = Yup.object().shape({
 });
 
 function MainComponent(props) {
+    const { handleShowModal, fetchItemsByLocation } = props
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {getAllItems, handleShow} = props
+    const itemService = new ItemService()
     const {account} = pageState.accountManagement
-    const [locations, setLocations] = useState([] as Object[])
     const dispatch = useDispatch();
 
     const handleInsertSubmit = (values: any, actions: any) => {
-        console.log(values)
-        const itemService = new ItemService()
-        const request: CreateOneItemRequest = {
-            body: {
-                locationId: values.location,
-                ...values
-            }
-        }
         itemService
-            .createOne(request)
+            .createOne({    
+                body: {
+                    locationId: account?.locationId,
+                    ...values
+                }
+            })
             .then(() => {
-                getAllItems()
+              fetchItemsByLocation()
+              const messageModalState: MessageModalState = {
+                title: "Status",
+                type: "success",
+                content: "Success Insert Item",
+                isShow: true
+              }
+              dispatch(messageModalSlice.actions.configure(messageModalState))
             })
             .catch((error) => {
                 console.log(error)
@@ -76,32 +79,9 @@ function MainComponent(props) {
             })
             .finally(() => {
                 actions.setSubmitting(false);
-                handleShow()
+                handleShowModal()
             });
     }
-
-    const getLocations = () => {
-        const locationService = new LocationService()
-        locationService
-            .readAll()
-            .then((result: AxiosResponse<Content<Location[]>>) => {
-                const content = result.data;
-                setLocations(content.data)
-            })
-            .catch((error) => {
-                console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
-                    content: error.message,
-                    isShow: true
-                }
-                dispatch(message_modal_slice.actions.configure(messageModalState))
-            });
-    }
-
-    useEffect(() => {
-        getLocations()
-    }, [])
 
     return (
         <div className="main form">
@@ -110,7 +90,6 @@ function MainComponent(props) {
                 initialValues={{
                     code: "",
                     type: "",
-                    location: locations.length > 0 ? locations[0].id : "",
                     name: "",
                     quantity: 0,
                     unitName: "",
@@ -152,22 +131,6 @@ function MainComponent(props) {
                                 <Field type="text" name="name" className="form-control"/>
                                 <ErrorMessage
                                     name="name"
-                                    component="div"
-                                    className="text-danger"
-                                />
-                            </fieldset>
-                        </div>
-
-                        <div className="row">
-                            <fieldset className="form-group pb-2">
-                                <label htmlFor="location" className="pb-1">Location</label>
-                                <Field as="select" name="location" className="form-control select-item">
-                                    {locations.map((val, idx) => (
-                                        <option key={val.id} value={val.id}>{val.name}</option>
-                                    ))}
-                                </Field>
-                                <ErrorMessage
-                                    name="location"
                                     component="div"
                                     className="text-danger"
                                 />
@@ -261,7 +224,7 @@ function MainComponent(props) {
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() => handleShow()}
+                                onClick={() => handleShowModal()}
                             >
                                 Close
                             </button>
@@ -274,7 +237,7 @@ function MainComponent(props) {
 }
 
 function ItemsComponent(props) {
-    const {getAllItems, handleShow} = props
+    const {fetchItemsByLocation, handleShowModal} = props
     const pageState: PageState = useSelector((state: any) => state.page);
 
     const dispatch = useDispatch();
@@ -291,12 +254,20 @@ function ItemsComponent(props) {
         itemBundleService
             .createOne(request)
             .then(() => {
-                getAllItems()
+              const messageModalState: MessageModalState = {
+                title: "Status",
+                type: "success",
+                content: "Success Insert Sub-Item",
+                isShow: true
+              }
+              dispatch(messageModalSlice.actions.configure(messageModalState))
+              fetchItemsByLocation()
             })
             .catch((error) => {
                 console.log(error)
                 const messageModalState: MessageModalState = {
                     title: "Status",
+                    type: "failed",
                     content: error.message,
                     isShow: true
                 }
@@ -304,7 +275,7 @@ function ItemsComponent(props) {
             })
             .finally(() => {
                 actions.setSubmitting(false);
-                handleShow()
+                handleShowModal()
             });
     }
 
@@ -372,7 +343,7 @@ function ItemsComponent(props) {
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() => handleShow()}
+                                onClick={() => handleShowModal()}
                             >
                                 Close
                             </button>
@@ -384,23 +355,52 @@ function ItemsComponent(props) {
     )
 }
 
-export default function ItemInsertModalComponent(props) {
-    const [isShow, setIsShow] = React.useState(true)
-    const [menu, setMenu] = React.useState('main')
+export default function ItemInsertModalComponent() {
+    const pageState: PageState = useSelector((state: any) => state.page);
+    const itemService = new ItemService()
+    const {
+      isShowModal,
+      currentModalMenu
+    } = pageState.itemManagement
+    const {account} = pageState.accountManagement
+    const dispatch = useDispatch();
 
-    const handleShow = () => {
-        setIsShow(!isShow)
-        props.setModal("")
-    };
+    const handleShowModal = () => {
+      dispatch(pageSlice.actions.configureItemManagement({
+              ...pageState.itemManagement,
+              currentModal: "noModal",
+              isShowModal: false,
+          })
+      )
+    }
 
     const handleSelectMenu = (eventKey, e) => {
-        setMenu(eventKey)
+        dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                currentModalMenu: eventKey,
+            })
+        )
+    }
+
+    const fetchItemsByLocation = () => {
+      itemService.readAllByLocationId({
+          locationId: account?.locationId
+      }).then((response) => {
+          console.log(response)
+          const content: Content<Item[]> = response.data;
+          dispatch(pageSlice.actions.configureItemManagement({
+              ...pageState.itemManagement,
+              items: content.data,
+          }))
+      }).catch((error) => {
+          console.log(error);
+      })
     }
 
     return (
         <Modal
-            show={isShow}
-            onHide={handleShow}
+            show={isShowModal}
+            onHide={handleShowModal}
             centered
             className="component item-insert-modal"
         >
@@ -409,10 +409,10 @@ export default function ItemInsertModalComponent(props) {
             </Modal.Header>
             <Nav variant="tabs" onSelect={handleSelectMenu}>
                 <Nav.Item>
-                    <Nav.Link eventKey="main" className={menu == "main" ? "active" : "menu"}>Main</Nav.Link>
+                    <Nav.Link eventKey="main" className={currentModalMenu == "main" ? "active" : "menu"}>Main</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link eventKey="items" className={menu == "items" ? "active" : "menu"}>Items Bundle</Nav.Link>
+                    <Nav.Link eventKey="items" className={currentModalMenu == "items" ? "active" : "menu"}>Items Bundle</Nav.Link>
                 </Nav.Item>
             </Nav>
 
@@ -421,25 +421,12 @@ export default function ItemInsertModalComponent(props) {
                     // Menu switch.
                     {
                         main: (
-                            <MainComponent
-                                getAllItems={props.getAllItems}
-                                handleShow={handleShow}
-                                // ref={(ref) => {
-                                //   this.refMainComponent = ref;
-                                // }}
-                            />
+                            <MainComponent fetchItemsByLocation={fetchItemsByLocation} handleShowModal={handleShowModal}/>
                         ),
                         items: (
-                            <ItemsComponent
-                                getAllItems={props.getAllItems}
-                                handleShow={handleShow}
-                                menu={menu}
-                                // ref={(ref) => {
-                                //   this.refCombinationComponent = ref;
-                                // }}
-                            />
+                            <ItemsComponent fetchItemsByLocation={fetchItemsByLocation} handleShowModal={handleShowModal}/>
                         ),
-                    }[menu]
+                    }[currentModalMenu]
                 }
             </Modal.Body>
         </Modal>

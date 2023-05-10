@@ -23,7 +23,6 @@ import Item from "@/models/entities/item";
 
 const updateMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
-    location: Yup.string().required("Required"),
     type: Yup.string().required("Required"),
     name: Yup.string().required("Required"),
     quantity: Yup.number()
@@ -127,22 +126,6 @@ function MainComponent() {
                                     <Field type="text" name="name" className="form-control"/>
                                     <ErrorMessage
                                         name="name"
-                                        component="div"
-                                        className="text-danger"
-                                    />
-                                </fieldset>
-                            </div>
-
-                            <div className="row">
-                                <fieldset className="form-group pb-2">
-                                    <label htmlFor="location" className="pb-1">Location</label>
-                                    <Field as="select" name="location" className="form-control select-item">
-                                        {locations.map((val, idx) => (
-                                            <option key={val.id} value={val.id}>{val.name}</option>
-                                        ))}
-                                    </Field>
-                                    <ErrorMessage
-                                        name="location"
                                         component="div"
                                         className="text-danger"
                                     />

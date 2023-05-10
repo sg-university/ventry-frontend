@@ -31,56 +31,43 @@ export default function Items() {
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, items} = pageState.itemManagement;
+    const {account} = pageState.accountManagement
 
     useEffect(() => {
-        fetchLocationItems()
+        fetchItemsByLocation()
     }, [])
 
-    const fetchLocationItems = () => {
-        locationService.readAllByAccountId({
-            accountId: authenticationState.entity?.id
-        }).then((result) => {
-            const content: Content<Location[]> = result.data;
-
-            itemService.readAllByLocationId({
-                locationId: content.data[0].id
-            }).then((response) => {
-                const content: Content<Item[]> = response.data;
-                dispatch(pageSlice.actions.configureItemManagement({
-                    ...pageState.itemManagement,
-                    items: content.data,
-                }))
-            }).catch((error) => {
-                console.log(error);
-            })
-        })
-    }
-
-    const handleClickButtonModalInsert = () => {
-        dispatch(pageSlice.actions.configureCompanyAccountManagement({
-            ...pageState.companyAccountManagement,
-            currentModal: "insertModal",
-            isShowModal: true
-        }))
-    }
-
-    const handleClickButtonDetails = (item: Item) => {
-        Promise.all([
-            locationService.readOneById({
-                id: item.locationId
-            })
-        ]).then((response) => {
-            const locationContent: Content<Location> = response[0].data;
+    const fetchItemsByLocation = () => {
+        itemService.readAllByLocationId({
+            locationId: account?.locationId
+        }).then((response) => {
+            const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
-                currentItem: item,
-                currentLocation: locationContent.data,
-                currentModal: "viewModal",
-                isShowModal: true
+                items: content.data,
             }))
         }).catch((error) => {
             console.log(error);
         })
+    }
+
+    const handleInsertModal = () => {
+        dispatch(pageSlice.actions.configureItemManagement({
+            ...pageState.itemManagement,
+            currentModal: "insertModal",
+            isShowModal: true,
+            currentModalMenu: "main"
+        }))
+    }
+
+    const handleViewModal = (item: Item) => {
+        dispatch(pageSlice.actions.configureItemManagement({
+            ...pageState.itemManagement,
+            currentItem: item,
+            currentModal: "viewModal",
+            currentModalMenu: "main",
+            isShowModal: true
+        }))
     }
 
 
@@ -108,7 +95,7 @@ export default function Items() {
                             <button
                                 type="button"
                                 className="btn btn-primary"
-                                onClick={() => handleClickButtonModalInsert}
+                                onClick={() => handleInsertModal()}
                             >
                                 <Image src={ButtonPlusImage} alt="plus" className="image"/>
                                 Insert Item
@@ -147,7 +134,7 @@ export default function Items() {
                                     <button
                                         type="button"
                                         className="btn btn-outline-primary"
-                                        onClick={() => handleClickButtonDetails(value)}
+                                        onClick={() => handleViewModal(value)}
                                     >
                                         Details
                                     </button>
