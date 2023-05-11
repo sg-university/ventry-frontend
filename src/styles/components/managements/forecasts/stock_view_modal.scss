@@ -1,0 +1,58 @@
+.component.stock-forecast-view-modal .body {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+}
+
+.component.stock-forecast-view-modal .body .sub {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  height: 100%;
+  width: 100%;
+}
+
+.component.stock-forecast-view-modal .body .sub .graph,
+.component.stock-forecast-view-modal .body .sub canvas {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  height: 100%;
+  width: 100%;
+}
+
+
+.component.stock-forecast-view-modal .body .options,
+.component.stock-forecast-view-modal .body .options form {
+  display: flex;
+  flex: 1;
+  flex-flow: row;
+  height: 100%;
+  width: 100%;
+}
+
+.component.stock-forecast-view-modal .body .options fieldset {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  height: 100%;
+  width: 100%;
+  margin: 0vh 2vh 2vh 2vh;
+}
+
+.component.stock-forecast-view-modal .body .options button {
+  margin: 0vh 2vh 2vh 2vh;
+}
+
+.component.stock-forecast-view-modal .body .metrics,
+.component.stock-forecast-view-modal .body .metrics .mae,
+.component.stock-forecast-view-modal .body .metrics .smape {
+  display: flex;
+  flex: 1;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+

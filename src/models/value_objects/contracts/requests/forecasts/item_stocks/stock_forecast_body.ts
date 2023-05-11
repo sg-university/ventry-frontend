@@ -3,13 +3,13 @@ import Request from "@/models/value_objects/contracts/requests/request";
 class StockForecastBody extends Request {
     horizon: number
     resample: string | undefined
-    test_size: number
+    testSize: number
 
-    constructor(horizon: number, resample: string | undefined, test_size: number) {
+    constructor(horizon: number, resample: string | undefined, testSize: number) {
         super();
         this.horizon = horizon;
         this.resample = resample;
-        this.test_size = test_size;
+        this.testSize = testSize;
     }
 }
 

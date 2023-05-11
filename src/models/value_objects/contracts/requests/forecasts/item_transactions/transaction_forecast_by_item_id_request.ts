@@ -5,9 +5,9 @@ import TransactionForecastBody
 class TransactionForecastByItemIdRequest extends Request {
     itemId: string | undefined
 
-    body: TransactionForecastBody
+    body: TransactionForecastBody | undefined
 
-    constructor(itemId: string | undefined, body: TransactionForecastBody) {
+    constructor(itemId: string | undefined, body: TransactionForecastBody | undefined) {
         super();
         this.itemId = itemId;
         this.body = body;

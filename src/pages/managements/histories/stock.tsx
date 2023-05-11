@@ -15,9 +15,9 @@ import ItemCardImage from "@/assets/images/item_management_card.svg";
 import "@/styles/pages/managements/histories/stock.scss"
 import ItemService from "@/services/item_service";
 import Item from "@/models/entities/item";
-import InventoryControlViewModalComponent from "@/components/inventory_control_history/inventory_control_view_modal";
-import InventoryControlUpdateModalComponent from "@/components/inventory_control_history/inventory_control_update_modal";
-import InventoryControlInsertModalComponent from "@/components/inventory_control_history/inventory_control_insert_modal";
+import InventoryControlViewModalComponent from "@/components/managements/histories/inventory_control/inventory_control_view_modal";
+import InventoryControlUpdateModalComponent from "@/components/managements/histories/inventory_control/inventory_control_update_modal";
+import InventoryControlInsertModalComponent from "@/components/managements/histories/inventory_control/inventory_control_insert_modal";
 
 export default function ItemTransactionHistory() {
   const [ inventoryControlHistory, setInventoryControlHistory ] = useState([] as object[])

@@ -3,12 +3,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Modal } from "react-bootstrap";
 import * as Yup from "yup";
 
-import "@/styles/components/company/account_insert_modal.scss";
+import "@/styles/components/managements/companies/account_insert_modal.scss";
 import { useDispatch, useSelector } from "react-redux";
 import message_modal_slice, { MessageModalState } from "@/slices/message_modal_slice";
 import LocationService from "@/services/location_service";
 import CreateOneRequest from "@/models/value_objects/contracts/requests/managements/locations/create_one_request";
-import "@/styles/components/location/location_insert_modal.scss"
+import "@/styles/components/managements/locations/location_insert_modal.scss"
 
 const insertSchema = Yup.object().shape({
   name: Yup.string("Must be string").required("Required"),

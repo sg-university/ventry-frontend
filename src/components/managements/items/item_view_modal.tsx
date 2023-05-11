@@ -7,7 +7,7 @@ import Content from "@/models/value_objects/contracts/content";
 import message_modal_slice, {MessageModalState} from "@/slices/message_modal_slice";
 import Image from "next/image";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
-import "@/styles/components/item_management/item_view_modal.scss";
+import "@/styles/components/managements/items/item_view_modal.scss";
 import ItemService from "@/services/item_service";
 import Item from "@/models/entities/item";
 import ItemBundleMapService from "@/services/item_bundle_map_service";

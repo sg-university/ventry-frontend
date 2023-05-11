@@ -10,7 +10,7 @@ import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice
 import Content from "@/models/value_objects/contracts/content";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
 import { PageState } from "@/slices/page_slice";
-import "@/styles/components/transaction_history/transaction_view_modal.scss"
+import "@/styles/components/managements/histories/transactions/transaction_view_modal.scss"
 
 function MainComponent(props) {
   const pageState: PageState = useSelector((state: any) => state.page);

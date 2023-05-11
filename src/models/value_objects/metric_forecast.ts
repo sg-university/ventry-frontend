@@ -1,13 +1,13 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class MetricForecast extends ValueObject {
-    smape: string
-    mape: string
+    smape: string | undefined
+    mae: string | undefined
 
-    constructor(smape: string, mape: string) {
+    constructor(smape: string | undefined, mae: string | undefined) {
         super();
         this.smape = smape;
-        this.mape = mape;
+        this.mae = mae;
     }
 }
 

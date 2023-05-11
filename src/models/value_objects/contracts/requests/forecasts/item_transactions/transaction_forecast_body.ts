@@ -1,15 +1,15 @@
 import Request from "@/models/value_objects/contracts/requests/request";
 
 class TransactionForecastBody extends Request {
-    horizon: number
+    horizon: number | undefined
     resample: string | undefined
-    test_size: number
+    testSize: number | undefined
 
-    constructor(horizon: number, resample: string | undefined, test_size: number) {
+    constructor(horizon: number | undefined, resample: string | undefined, testSize: number | undefined) {
         super();
         this.horizon = horizon;
         this.resample = resample;
-        this.test_size = test_size;
+        this.testSize = testSize;
     }
 }
 

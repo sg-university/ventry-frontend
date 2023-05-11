@@ -13,7 +13,7 @@ import ItemBundleService from "@/services/item_bundle_map_service";
 import CreateOneItemRequest from "@/models/value_objects/contracts/requests/managements/items/create_one_request";
 import CreateOneItemBundleRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/create_one_request";
-import "@/styles/components/item_management/item_insert_modal.scss";
+import "@/styles/components/managements/items/item_insert_modal.scss";
 import LocationService from "@/services/location_service";
 import Location from "@/models/entities/location";
 

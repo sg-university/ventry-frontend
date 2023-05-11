@@ -11,6 +11,8 @@ import ReadOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/transactions/read_one_by_id_request";
 import PatchOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/transactions/patch_one_by_id_request";
+import ReadAllByLocationIdRequest
+    from "@/models/value_objects/contracts/requests/managements/transactions/read_all_by_location_id_request";
 
 class TransactionService extends Service {
 
@@ -36,8 +38,12 @@ class TransactionService extends Service {
         return this.client.instance.get(`${this.path}`);
     }
 
+    readAllByLocationId(request: ReadAllByLocationIdRequest): Promise<AxiosResponse<Content<Transaction[]>>> {
+        return this.client.instance.get(`${this.path}?location_id=${request.locationId}`);
+    }
+
     readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<Transaction>>> {
-        return this.client.instance.get(`${this.path}/${request.id}`);
+        return this.client.instance.get(`${this.path}/${request.id}`)
     }
 
     patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<Transaction>>> {

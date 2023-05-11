@@ -4,6 +4,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import {useStore} from "react-redux";
 import {PersistGate} from "redux-persist/integration/react";
 import {wrapper} from "@/slices/store";
+import {Chart as ChartJS, registerables} from 'chart.js';
+import 'chartjs-adapter-moment';
+
+ChartJS.register(...registerables);
+
 
 function App({Component, pageProps}: AppProps) {
     const store: any = useStore();
@@ -14,4 +19,5 @@ function App({Component, pageProps}: AppProps) {
     );
 }
 
+2
 export default wrapper.withRedux(App);

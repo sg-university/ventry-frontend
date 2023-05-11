@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
 import ProductCardImage from "../../assets/images/product-management-card-img.svg";
-import "@/styles/components/transaction_history/transaction_update_modal.scss"
+import "@/styles/components/managements/histories/transactions/transaction_update_modal.scss"
 import { AxiosResponse } from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";

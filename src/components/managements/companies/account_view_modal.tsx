@@ -3,7 +3,7 @@ import {Modal} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 
 import pageSlice, {PageState} from "@/slices/page_slice";
-import "@/styles/components/company/account_view_modal.scss";
+import "@/styles/components/managements/companies/account_view_modal.scss";
 import message_modal_slice, {MessageModalState} from "@/slices/message_modal_slice";
 import AccountService from "@/services/account_service";
 import Content from "@/models/value_objects/contracts/content";

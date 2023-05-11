@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import message_modal_slice, { MessageModalState } from "@/slices/message_modal_slice";
 import PatchOneByIdRequest from "@/models/value_objects/contracts/requests/managements/locations/patch_one_by_id_request";
 import LocationService from "@/services/location_service";
-import "@/styles/components/location/location_update_modal.scss"
+import "@/styles/components/managements/locations/location_update_modal.scss"
 
 const updateSchema = Yup.object().shape({
   name: Yup.string("Must be string").required("Required"),

@@ -4,7 +4,7 @@ import { Modal, Nav } from "react-bootstrap";
 import * as Yup from "yup";
 
 import {useDispatch, useSelector} from "react-redux";
-import "@/styles/components/inventory_control_history/inventory_control_update_modal.scss"
+import "@/styles/components/managements/histories/inventory_controls/inventory_control_update_modal.scss"
 import { PageState } from "@/slices/page_slice";
 import InventoryControlService from "@/services/inventory_control_service";
 import PatchOneByIdRequest from "@/models/value_objects/contracts/requests/managements/inventory_controls/patch_one_by_id_request";

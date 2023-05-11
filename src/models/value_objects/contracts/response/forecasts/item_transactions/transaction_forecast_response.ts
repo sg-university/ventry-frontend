@@ -1,14 +1,14 @@
 import MetricForecast from "@/models/value_objects/metric_forecast";
-import PredictionForecast from "@/models/value_objects/prediction_forecast";
+import PredictionTransactionForecast from "@/models/value_objects/prediction_transaction_forecast";
 
 class TransactionForecastResponse extends Response {
-    predictionForecast: PredictionForecast;
-    metricForecast: MetricForecast;
+    prediction: PredictionTransactionForecast;
+    metric: MetricForecast;
 
-    constructor(predictionForecast: PredictionForecast, metricForecast: MetricForecast) {
+    constructor(prediction: PredictionTransactionForecast, metric: MetricForecast) {
         super();
-        this.predictionForecast = predictionForecast;
-        this.metricForecast = metricForecast;
+        this.prediction = prediction;
+        this.metric = metric;
     }
 }
 

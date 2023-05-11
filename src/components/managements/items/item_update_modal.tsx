@@ -9,7 +9,7 @@ import ItemBundleMapService from "@/services/item_bundle_map_service";
 import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
 import Image from "next/image";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
-import "@/styles/components/item_management/item_update_modal.scss"
+import "@/styles/components/managements/items/item_update_modal.scss"
 import ItemService from "@/services/item_service";
 import PatchOneItemBundleByIdRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/patch_one_by_id_request";

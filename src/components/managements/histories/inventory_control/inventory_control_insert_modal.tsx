@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Modal } from "react-bootstrap";
 import * as Yup from "yup";
 
-import "@/styles/components/inventory_control_history/inventory_control_insert_modal.scss";
+import "@/styles/components/managements/histories/inventory_controls/inventory_control_insert_modal.scss";
 import { PageState } from "@/slices/page_slice";
 import { useDispatch, useSelector } from "react-redux";
 import CreateOneRequest from "@/models/value_objects/contracts/requests/managements/inventory_controls/create_one_request";

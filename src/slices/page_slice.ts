@@ -6,6 +6,10 @@ import Location from '@/models/entities/location';
 import Company from "@/models/entities/company";
 import Role from "@/models/entities/role";
 import ItemBundleMap from "@/models/entities/item_bundle_map";
+import TransactionForecastResponse
+    from "@/models/value_objects/contracts/response/forecasts/item_transactions/transaction_forecast_response";
+import StockForecastResponse
+    from "@/models/value_objects/contracts/response/forecasts/item_stocks/stock_forecast_response";
 
 
 export interface ItemManagementState {
@@ -38,12 +42,32 @@ export interface CompanyAccountManagementState {
     isShowModal: boolean | undefined
 }
 
+export interface ItemStockForecastManagement {
+    items: Item[] | undefined
+    currentItem: Item | undefined
+    currentStockForecast: StockForecastResponse | undefined
+    currentModal: string | undefined
+    isShowModal: boolean | undefined
+    currentModalMenu: string | undefined
+}
+
+export interface ItemTransactionForecastManagement {
+    items: Item[] | undefined
+    currentItem: Item | undefined
+    currentTransactionForecast: TransactionForecastResponse | undefined
+    currentModal: string | undefined
+    isShowModal: boolean | undefined
+    currentModalMenu: string | undefined
+}
+
 
 export interface PageState {
     itemManagement: ItemManagementState;
     accountManagement: AccountManagementState
     locationManagement: LocationManagementState
     companyAccountManagement: CompanyAccountManagementState
+    itemStockForecastManagement: ItemStockForecastManagement
+    itemTransactionForecastManagement: ItemTransactionForecastManagement
 }
 
 
@@ -75,7 +99,23 @@ export default createSlice({
             currentLocation: undefined,
             currentModal: undefined,
             isShowModal: false,
-        }
+        },
+        itemStockForecastManagement: <ItemStockForecastManagement>{
+            items: undefined,
+            currentItem: undefined,
+            currentStockForecast: undefined,
+            currentModal: undefined,
+            isShowModal: false,
+            currentModalMenu: undefined,
+        },
+        itemTransactionForecastManagement: <ItemTransactionForecastManagement>{
+            items: undefined,
+            currentItem: undefined,
+            currentTransactionForecast: undefined,
+            currentModal: undefined,
+            isShowModal: false,
+            currentModalMenu: undefined,
+        },
     },
     reducers: {
         configureAccountManagement(state, action) {
@@ -90,6 +130,12 @@ export default createSlice({
         configureCompanyAccountManagement(state, action) {
             state.companyAccountManagement = action.payload;
         },
+        configureItemStockForecastManagement(state, action) {
+            state.itemStockForecastManagement = action.payload
+        },
+        configureItemTransactionForecastManagement(state, action) {
+            state.itemTransactionForecastManagement = action.payload
+        }
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {

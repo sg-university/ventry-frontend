@@ -8,9 +8,9 @@ import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
 import "@/styles/pages/managements/companies/account.scss"
 import MessageModal from "@/components/message_modal";
-import AccountViewModalComponent from "@/components/company/account_view_modal";
-import AccountUpdateModalComponent from "@/components/company/account_update_modal";
-import AccountInsertModalComponent from "@/components/company/account_insert_modal";
+import AccountViewModalComponent from "@/components/managements/companies/account_view_modal";
+import AccountUpdateModalComponent from "@/components/managements/companies/account_update_modal";
+import AccountInsertModalComponent from "@/components/managements/companies/account_insert_modal";
 import {AuthenticationState} from "@/slices/authentication_slice";
 import AccountService from "@/services/account_service";
 import CompanyService from "@/services/company_service";

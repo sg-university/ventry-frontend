@@ -10,9 +10,9 @@ import ItemService from "@/services/item_service";
 import Content from "@/models/value_objects/contracts/content";
 import Item from "@/models/entities/item";
 import Authenticated from "@/layouts/authenticated";
-import ItemInsertModalComponent from "@/components/item_management/item_insert_modal";
-import ItemViewModalComponent from "@/components/item_management/item_view_modal";
-import {ItemUpdateModalComponent} from "@/components/item_management/item_update_modal";
+import ItemInsertModalComponent from "@/components/managements/items/item_insert_modal";
+import ItemViewModalComponent from "@/components/managements/items/item_view_modal";
+import {ItemUpdateModalComponent} from "@/components/managements/items/item_update_modal";
 import "@/styles/pages/managements/items.scss"
 import LocationService from "@/services/location_service";
 import Location from "@/models/entities/location";

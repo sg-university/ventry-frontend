@@ -3,19 +3,18 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Modal} from "react-bootstrap";
 import * as Yup from "yup";
 
-import "@/styles/components/company/account_insert_modal.scss";
-import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
+import "@/styles/components/managements/companies/account_update_modal.scss"
+import pageSlice, {PageState} from "@/slices/page_slice";
+import AccountService from "@/services/account_service";
+import Content from "@/models/value_objects/contracts/content";
+import Account from "@/models/entities/account";
 import messageModalSlice from "@/slices/message_modal_slice";
 import RoleService from "@/services/role_service";
-import Role from "@/models/entities/role";
-import Content from "@/models/value_objects/contracts/content";
 import LocationService from "@/services/location_service";
-import Location from "@/models/entities/location";
-import AccountService from "@/services/account_service";
-import Account from "@/models/entities/account";
+import Role from "@/models/entities/role";
 
-const insertSchema = Yup.object().shape({
+const updateSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
     roleId: Yup.string().required("Required"),
     locationId: Yup.string().required("Required"),
@@ -26,8 +25,7 @@ const insertSchema = Yup.object().shape({
         .oneOf([Yup.ref("password"), ""], "Passwords must match"),
 });
 
-
-export default function AccountInsertModalComponent() {
+export default function AccountUpdateModalComponent() {
     const accountService: AccountService = new AccountService();
     const roleService: RoleService = new RoleService();
     const locationService: LocationService = new LocationService();
@@ -71,8 +69,9 @@ export default function AccountInsertModalComponent() {
         )
     };
 
-    const handleInsertSubmit = (value: any) => {
-        accountService.createOne({
+    const handleUpdateSubmit = (value: any) => {
+        accountService.patchOneById({
+            id: currentAccount?.id,
             body: {
                 name: value.name,
                 email: value.email,
@@ -89,10 +88,16 @@ export default function AccountInsertModalComponent() {
             }
             dispatch(messageModalSlice.actions.configure(messageModalState))
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
-                ...pageState.companyAccountManagement,
-                accounts: [...(accounts || []), content.data],
-                isShowModal: false,
-            }))
+                    ...pageState.companyAccountManagement,
+                    currentAccount: content.data,
+                    accounts: accounts?.map((account) => {
+                        if (account.id === content.data.id) {
+                            return content.data
+                        }
+                        return account
+                    })
+                })
+            )
         }).catch((error) => {
             const messageModalState = {
                 title: "Status",
@@ -103,30 +108,31 @@ export default function AccountInsertModalComponent() {
         })
     }
 
+
     return (
         <Modal
             show={isShowModal}
-            onHide={() => handleShowModal()}
+            onHide={handleShowModal}
             centered
-            className="component account-insert-modal"
+            className="component account-update-modal"
         >
             <Modal.Header closeButton className="header">
-                <Modal.Title>Insert Account</Modal.Title>
+                <Modal.Title>Account Update</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="body">
-                <div className="main form">
+                <div className="form">
                     <Formik
-                        validationSchema={insertSchema}
+                        validationSchema={updateSchema}
                         initialValues={{
-                            name: "",
-                            roleId: roles ? roles[0].id : "",
-                            locationId: locations ? locations[0].id : "",
-                            email: "",
+                            name: currentAccount?.name,
+                            email: currentAccount?.email,
                             password: "",
-                            confirmPassword: ""
+                            confirmPassword: "",
+                            roleId: currentAccount?.roleId,
+                            locationId: currentAccount?.locationId,
                         }}
-                        onSubmit={(value) => handleInsertSubmit(value)}
+                        onSubmit={(value) => handleUpdateSubmit(value)}
                         enableReinitialize
                     >
                         {(props) => (
@@ -148,27 +154,27 @@ export default function AccountInsertModalComponent() {
                                 </div>
                                 <div className="row">
                                     <fieldset className="form-group pb-2">
-                                        <label htmlFor="roleId" className="pb-1">Select Role</label>
+                                        <label htmlFor="role" className="pb-1">Select Role</label>
                                         <Field as="select" name="roleId" className="form-control select-item">
                                             {roles && roles.map((val, idx) => (
                                                 <option key={val.id} value={val.id}>{val.name}</option>
                                             ))}
                                         </Field>
                                         <ErrorMessage
-                                            name="roleId"
+                                            name="role"
                                             component="div"
                                             className="text-danger"
                                         />
                                     </fieldset>
                                     <fieldset className="form-group pb-2">
-                                        <label htmlFor="locationId" className="pb-1">Select Location</label>
+                                        <label htmlFor="location" className="pb-1">Select Location</label>
                                         <Field as="select" name="locationId" className="form-control select-item">
                                             {locations && locations.map((val, idx) => (
                                                 <option key={val.id} value={val.id}>{val.name}</option>
                                             ))}
                                         </Field>
                                         <ErrorMessage
-                                            name="locationId"
+                                            name="location"
                                             component="div"
                                             className="text-danger"
                                         />
@@ -178,7 +184,7 @@ export default function AccountInsertModalComponent() {
                                     <fieldset className="form-group">
                                         <label htmlFor="email">Email</label>
                                         <Field
-                                            type="email"
+                                            type="text"
                                             name="email"
                                             className="form-control"
                                         />
@@ -219,14 +225,13 @@ export default function AccountInsertModalComponent() {
                                         />
                                     </fieldset>
                                 </div>
-
                                 <hr/>
                                 <div className="button">
                                     <button
                                         type="submit"
                                         className="btn btn-primary"
                                     >
-                                        Insert Account
+                                        Update Account
                                     </button>
                                 </div>
                             </Form>

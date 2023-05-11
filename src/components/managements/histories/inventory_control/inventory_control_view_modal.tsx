@@ -3,7 +3,7 @@ import { Modal, Nav } from "react-bootstrap";
 import { useSelector} from "react-redux";
 
 import {PageState} from "@/slices/page_slice";
-import "@/styles/components/inventory_control_history/inventory_control_view_modal.scss";
+import "@/styles/components/managements/histories/inventory_controls/inventory_control_view_modal.scss";
 import InventoryControlService from "@/services/inventory_control_service";
 import DeleteOneByIdRequest from "@/models/value_objects/contracts/requests/managements/inventory_controls/delete_one_by_id_request";
 
