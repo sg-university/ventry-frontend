@@ -21,27 +21,28 @@ export default function UpperBar() {
     const dispatch = useDispatch();
 
     const getAccount = () => {
-        const accountService = new AccountService();
-        accountService
-            .readOneById({
-                id: authenticationState.entity?.id
-            })
-            .then((response) => {
-                const content = response.data;
-                dispatch(pageSlice.actions.configureAccountManagement({
-                    ...pageState.accountManagement,
-                    account: content.data
-                }))
-            })
-            .catch((error) => {
-                console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
-                    content: error.message,
-                    isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
-            });
+      const accountService = new AccountService();
+      accountService
+          .readOneById({
+              id: authenticationState.entity?.id
+          })
+          .then((response) => {
+              const content = response.data;
+              dispatch(pageSlice.actions.configureAccountManagement({
+                  ...pageState.accountManagement,
+                  account: content.data
+              }))
+          })
+          .catch((error) => {
+              console.log(error)
+              const messageModalState: MessageModalState = {
+                title: "Status",
+                type: "failed",
+                content: error.message,
+                isShow: true
+              }
+              dispatch(messageModalSlice.actions.configure(messageModalState))
+          });
     }
 
     useEffect(() => {

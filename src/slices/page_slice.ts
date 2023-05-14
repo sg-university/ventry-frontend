@@ -79,7 +79,7 @@ export default createSlice({
             currentItem: undefined,
             currentLocation: undefined,
             currentItemBundleMaps: undefined,
-            currentModal: undefined,
+            currentModal: "noModal",
             isShowModal: false,
             currentModalMenu: undefined
         },

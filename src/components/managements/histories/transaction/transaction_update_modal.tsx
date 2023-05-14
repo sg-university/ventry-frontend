@@ -16,13 +16,14 @@ import TransactionItemMap from "@/models/entities/transaction_item_map";
 import PatchOneTransactionByIdRequest from "@/models/value_objects/contracts/requests/managements/transactions/patch_one_by_id_request";
 import CreateOneRequest from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/create_one_request";
 import DeleteOneByIdRequest from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/delete_one_by_id_request";
+import message_modal_slice from "@/slices/message_modal_slice";
 
 function MainComponent(props) {
   const { getAllTransaction, transaction, transactionItems, getAllTransactionItems, setTransaction } = props.transactionController
   const { setModal } = props
-  const dispatch = useDispatch();
   const [selectedItem, setSelectedItem] = useState([] as Object[])
   const pageState: PageState = useSelector((state: any) => state.page);
+  const dispatch = useDispatch();
   const items = pageState.itemManagement.items
   const transactionItem = transactionItems.filter((itm) => itm.transactionId === transaction.id)
   const transactionItemData = transactionItem.map(item1 => ({item:items.find(item2 => item2.id === item1.itemId), ...item1}))
@@ -49,6 +50,7 @@ function MainComponent(props) {
             console.log(error)
             const messageModalState: MessageModalState = {
                 title: "Status",
+                type: "failed",
                 content: error.message,
                 isShow: true
             }
@@ -93,6 +95,7 @@ function MainComponent(props) {
               console.log(error)
               const messageModalState: MessageModalState = {
                   title: "Status",
+                  type: "failed",
                   content: error.message,
                   isShow: true
               }
@@ -119,12 +122,20 @@ function MainComponent(props) {
         const content = result.data
         getAllTransaction()
         setModal("viewModal")
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Update Transaction Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         setTransaction(content.data)
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }

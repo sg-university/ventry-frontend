@@ -1,0 +1,9 @@
+.message-modal-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .message-modal-icon {
+    width: 100px;
+  }
+}

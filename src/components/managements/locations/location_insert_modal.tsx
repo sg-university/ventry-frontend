@@ -34,12 +34,20 @@ function MainComponent(props) {
     locationService
       .createOne(request)
       .then(() => {
+        const messageModalState: MessageModalState = {
+            title: "Status",
+            type: "success",
+            content: "Insert Location Success",
+            isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         getAllLocations()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }

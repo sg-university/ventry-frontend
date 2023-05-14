@@ -20,6 +20,7 @@ import Authenticated from "@/layouts/authenticated";
 import "@/styles/pages/managements/account.scss"
 import RoleService from "@/services/role_service";
 import Role from "@/models/entities/role";
+import message_modal_slice from "@/slices/message_modal_slice";
 
 
 export default function Login() {
@@ -30,7 +31,7 @@ export default function Login() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-      const roleService = new RoleService
+      const roleService = new RoleService()
       const request: ReadOneByIdRequest = {
         id: account.roleId
       }
@@ -44,6 +45,7 @@ export default function Login() {
             console.log(error)
             const messageModalState: MessageModalState = {
                 title: "Status",
+                type: "failed",
                 content: error.message,
                 isShow: true
             }
@@ -57,8 +59,8 @@ export default function Login() {
       role: Yup.string().required("Required"),
       password: Yup.string().required("Required"),
       confirmPassword: Yup.string()
-      .required("Required")
-      .oneOf([Yup.ref("password"), ""], "Passwords must match"),
+        .required("Required")
+        .oneOf([Yup.ref("password"), ""], "Passwords must match"),
     });
     
     const handleAccountSubmit = (values: any, actions: any) => {
@@ -81,11 +83,19 @@ export default function Login() {
               ...pageState.accountManagement,
               account: content.data
           }))
+          const messageModalState: MessageModalState = {
+            title: "Status",
+            type: "success",
+            content: "Update Account Success",
+            isShow: true
+          }
+          dispatch(message_modal_slice.actions.configure(messageModalState))
         })
         .catch((error) => {
             console.log(error)
             const messageModalState: MessageModalState = {
                 title: "Status",
+                type: "failed",
                 content: error.message,
                 isShow: true
             }

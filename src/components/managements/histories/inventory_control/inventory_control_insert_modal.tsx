@@ -47,11 +47,19 @@ function MainComponent(props) {
       .createOne(request)
       .then(() => {
         getAllInventoryControl()
+        const messageModalState: MessageModalState = {
+            title: "Status",
+            type: "success",
+            content: "Insert Inventory Control Success",
+            isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }

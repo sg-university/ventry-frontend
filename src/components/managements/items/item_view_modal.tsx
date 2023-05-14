@@ -21,6 +21,7 @@ function MainComponent() {
         currentItem,
         currentLocation,
     } = pageState.itemManagement;
+    const { account } = pageState.accountManagement
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -41,6 +42,20 @@ function MainComponent() {
         })
     }
 
+    const fetchItemsByLocation = () => {
+      itemService.readAllByLocationId({
+          locationId: account?.locationId
+      }).then((response) => {
+          const content: Content<Item[]> = response.data;
+          dispatch(pageSlice.actions.configureItemManagement({
+              ...pageState.itemManagement,
+              items: content.data,
+          }))
+      }).catch((error) => {
+          console.log(error);
+      })
+    }
+
     const handleModalUpdate = () => {
         dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
@@ -55,23 +70,27 @@ function MainComponent() {
                 id: currentItem?.id
             })
             .then((response) => {
+                dispatch(pageSlice.actions.configureItemManagement({
+                        ...pageState.itemManagement,
+                        currentModal: "noModal",
+                        isShowModal: !pageState.itemManagement.isShowModal,
+                    })
+                )
                 const content: Content<Item> = response.data;
                 const messageModalState: MessageModalState = {
                     title: "Status",
-                    content: content.message,
+                    type: "success",
+                    content: "Success Delete Item",
                     isShow: true
                 }
                 dispatch(message_modal_slice.actions.configure(messageModalState))
-                dispatch(pageSlice.actions.configureItemManagement({
-                        ...pageState.itemManagement,
-                        isShowModal: false,
-                    })
-                )
+                fetchItemsByLocation()
             })
             .catch((error) => {
                 console.log(error)
                 const messageModalState: MessageModalState = {
                     title: "Status",
+                    type: "failed",
                     content: error.message,
                     isShow: true
                 }
@@ -214,18 +233,18 @@ export default function ItemViewModalComponent() {
     const itemBundleMapService: ItemBundleMapService = new ItemBundleMapService()
     const pageState: PageState = useSelector((state: any) => state.page);
     const {
-        isShowModal,
-        currentItem,
-        currentModalMenu
+      isShowModal,
+      currentItem,
+      currentModalMenu
     } = pageState.itemManagement;
     const dispatch = useDispatch();
 
     const handleShowModal = () => {
-        dispatch(pageSlice.actions.configureItemManagement({
-                ...pageState.itemManagement,
-                isShowModal: !pageState.itemManagement.isShowModal,
-            })
-        )
+      dispatch(pageSlice.actions.configureItemManagement({
+              ...pageState.itemManagement,
+              isShowModal: !pageState.itemManagement.isShowModal,
+          })
+      )
     };
 
     useEffect(() => {
@@ -233,16 +252,16 @@ export default function ItemViewModalComponent() {
     }, [])
 
     const fetchItemBundles = () => {
-        itemBundleMapService
-            .readAllBySuperItemId({
-                superItemId: currentItem?.id
-            })
-            .then((response) => {
-                const content: Content<ItemBundleMap[]> = response.data;
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+      itemBundleMapService
+          .readAllBySuperItemId({
+              superItemId: currentItem?.id
+          })
+          .then((response) => {
+              const content: Content<ItemBundleMap[]> = response.data;
+          })
+          .catch((error) => {
+              console.log(error)
+          });
     }
 
     const handleSelectModalMenu = (eventKey: string | null) => {

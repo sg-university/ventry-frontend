@@ -21,7 +21,7 @@ const updateSchema = Yup.object().shape({
 
 function MainComponent(props) {
   const [item, setItem] = useState({})
-  const { inventoryControl, setInventoryControl, getAllInventoryControl, setModal } = props
+  const { inventoryControl, setInventoryControl, getAllInventoryControl, handleShow } = props
   const pageState: PageState = useSelector((state: any) => state.page);
   const dispatch = useDispatch();
   const { items } = pageState.itemManagement
@@ -49,12 +49,21 @@ function MainComponent(props) {
       .then((result: AxiosResponse<Content<InventoryControl>>) => {
         const content = result.data
         setInventoryControl(content.data)
+        handleShow()
+        const messageModalState: MessageModalState = {
+          title: "Status",
+          type: "success",
+          content: "Update Inventory Control Success",
+          isShow: true
+        }
+        dispatch(message_modal_slice.actions.configure(messageModalState))
         getAllInventoryControl()
       })
       .catch((error) => {
           console.log(error)
           const messageModalState: MessageModalState = {
               title: "Status",
+              type: "failed",
               content: error.message,
               isShow: true
           }
@@ -62,7 +71,6 @@ function MainComponent(props) {
       })
       .finally(() => {
         actions.setSubmitting(false);
-        setModal("viewModal")
       });
   }
 
@@ -172,7 +180,7 @@ export default function InventoryControlUpdateModalComponent(props) {
                 inventoryControl={props.inventoryControl}
                 setInventoryControl={props.setInventoryControl}
                 getAllInventoryControl={props.getAllInventoryControl}
-                setModal={props.setModal}
+                handleShow={handleShow}
               />
             ),
           }[menu]
