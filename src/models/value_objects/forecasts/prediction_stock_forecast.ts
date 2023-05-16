@@ -1,5 +1,5 @@
 import ValueObject from "@/models/value_objects/value_object";
-import PredictionStockValueForecast from "@/models/value_objects/prediction_stock_value_forecast";
+import PredictionStockValueForecast from "@/models/value_objects/forecasts/prediction_stock_value_forecast";
 
 class PredictionStockForecast extends ValueObject {
     past: PredictionStockValueForecast[] | undefined

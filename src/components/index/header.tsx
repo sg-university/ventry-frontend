@@ -7,7 +7,7 @@ function Header() {
     return (
         <div className="header" id="header">
             <ReactBootstrap.Container>
-                <ReactBootstrap.Row lg>
+                <ReactBootstrap.Row>
                     <ReactBootstrap.Col className="header-title">
                         <h1>Online Inventory Software to Make Your Business Easier</h1>
                         <p>

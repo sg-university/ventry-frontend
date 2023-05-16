@@ -15,7 +15,6 @@ import ItemViewModalComponent from "@/components/managements/items/item_view_mod
 import {ItemUpdateModalComponent} from "@/components/managements/items/item_update_modal";
 import "@/styles/pages/managements/items.scss"
 import LocationService from "@/services/location_service";
-import Location from "@/models/entities/location";
 import AccountService from "@/services/account_service";
 import CompanyService from "@/services/company_service";
 import RoleService from "@/services/role_service";
@@ -31,7 +30,7 @@ export default function Items() {
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, items} = pageState.itemManagement;
-    const {account} = pageState.accountManagement
+    const {currentAccount} = pageState.accountManagement
 
     useEffect(() => {
         fetchItemsByLocation()
@@ -39,7 +38,7 @@ export default function Items() {
 
     const fetchItemsByLocation = () => {
         itemService.readAllByLocationId({
-            locationId: account?.locationId
+            locationId: currentAccount?.locationId
         }).then((response) => {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configureItemManagement({

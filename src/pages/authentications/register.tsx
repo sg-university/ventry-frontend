@@ -10,14 +10,13 @@ import Content from "@/models/value_objects/contracts/content";
 import {useRouter} from "next/router";
 import {useDispatch} from "react-redux";
 import authenticationSlice from "@/slices/authentication_slice";
-import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import RegisterRequest from "@/models/value_objects/contracts/requests/authentications/register_request";
 import RegisterResponse from "@/models/value_objects/contracts/response/authentications/register_response";
 import Image from "next/image";
-import RoleService from "@/services/role_service";
 import Role from "@/models/entities/role";
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 export default function Register() {
 
@@ -79,38 +78,35 @@ export default function Register() {
                 const content = result.data;
 
                 if (!content.data) {
-                    const messageModalState: MessageModalState = {
+                    dispatch(messageModalSlice.actions.configure({
                         title: "Status",
+                        type: "failed",
                         content: content.message,
                         isShow: true
-                    }
-                    dispatch(messageModalSlice.actions.configure(messageModalState))
+                    }))
                 } else {
-                  dispatch(authenticationSlice.actions.register(content.data.entity));
-                  const messageModalState: MessageModalState = {
-                    title: "Status",
-                    content: content.message,
-                    isShow: true
-                  }
-                  dispatch(messageModalSlice.actions.configure(messageModalState))
-                  router.push('/authentications/login')
+                    dispatch(authenticationSlice.actions.register(content.data.entity));
+                    dispatch(messageModalSlice.actions.configure({
+                        title: "Status",
+                        type: "succeed",
+                        content: content.message,
+                        isShow: true
+                    }))
+                    router.push('/authentications/login')
                 }
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     type: "failed",
                     content: error.message,
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
             })
             .finally(() => {
                 actions.setSubmitting(false);
             });
     }
-
 
 
     return (
@@ -132,7 +128,7 @@ export default function Register() {
                     <h1>Sign-up</h1>
                     <h6>{isFirstPage ? 'Account Information' : 'Company Information'}</h6>
                 </div>
-                <div className="form" style={{display: isFirstPage ? 'block' : 'none' }}>
+                <div className="form" style={{display: isFirstPage ? 'block' : 'none'}}>
                     <Formik
                         validationSchema={registerSchemaAccount}
                         initialValues={{
@@ -179,7 +175,7 @@ export default function Register() {
                 </div>
 
 
-                <div className="formCompany" style={{display: isFirstPage ? 'none' : 'block' }}>
+                <div className="formCompany" style={{display: isFirstPage ? 'none' : 'block'}}>
                     <Formik
                         validationSchema={registerSchemaCompany}
                         initialValues={{
@@ -199,16 +195,20 @@ export default function Register() {
                                 </fieldset>
                                 <fieldset className="form-group">
                                     <label htmlFor="companyDescription">Company Description</label>
-                                    <Field type="text" name="companyDescription" className="form-control" component="textarea" rows="4"/>
+                                    <Field type="text" name="companyDescription" className="form-control"
+                                           component="textarea" rows="4"/>
                                     <ErrorMessage name="companyDescription" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
                                     <label htmlFor="companyAddress">Company Address</label>
-                                    <Field type="text" name="companyAddress" className="form-control" component="textarea" rows="4"/>
+                                    <Field type="text" name="companyAddress" className="form-control"
+                                           component="textarea" rows="4"/>
                                     <ErrorMessage name="companyAddress" component="div" className="text-danger"/>
                                 </fieldset>
                                 <div className="secondPageButtons">
-                                    <button onClick={() => setFirstPage(!isFirstPage)} type="button" className="btn btn-primary">Previous</button>
+                                    <button onClick={() => setFirstPage(!isFirstPage)} type="button"
+                                            className="btn btn-primary">Previous
+                                    </button>
                                     <button type="submit" className="btn btn-primary">
                                         Register
                                     </button>

@@ -5,8 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/styles/components/message_modal.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/managements/pos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/profile-account.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/profile-account.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/about_us.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/about_us.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_insert_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/forecasts/stock_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/forecasts/stock_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/forecasts/transaction_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/forecasts/transaction_view_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_insert_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_update_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_view_modal.tsx" afterDir="false" />
@@ -19,17 +28,82 @@
       <change beforePath="$PROJECT_DIR$/src/components/managements/locations/location_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/locations/location_insert_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/managements/locations/location_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/locations/location_update_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/message_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/message_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/transaction_history/transaction_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/transaction_history/transaction_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/side_bar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/side_bar.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/upper_bar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/upper_bar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/read_all_by_company_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/accounts/read_all_by_company_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/companies/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/files/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/inventory_controls/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/read_all_by_super_item_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_bundle_maps/read_all_by_super_item_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/item_file_maps/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/create_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/create_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/read_all_by_location_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/items/read_all_by_location_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/patch_body.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/patch_body.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_all_by_item_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_all_by_item_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/create_body.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/create_one_request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/delete_one_by_id_request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/patch_body.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/patch_one_by_id_request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/locations/read_all_by_company_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/permissions/read_one_by_id_request.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/roles/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transaction_item_maps/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/read_all_by_account_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/read_all_by_account_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/read_all_by_location_id_request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/requests/managements/transactions/read_all_by_location_id_request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/response/forecasts/item_stocks/stock_forecast_response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/response/forecasts/item_stocks/stock_forecast_response.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/contracts/response/forecasts/item_transactions/transaction_forecast_response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/contracts/response/forecasts/item_transactions/transaction_forecast_response.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/metric_forecast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/forecasts/metric_forecast.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/prediction_stock_forecast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/forecasts/prediction_stock_forecast.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/prediction_stock_value_forecast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/forecasts/prediction_stock_value_forecast.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/prediction_transaction_forecast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/forecasts/prediction_transaction_forecast.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/value_objects/prediction_transaction_value_forecast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/value_objects/forecasts/prediction_transaction_value_forecast.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/authentications/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentications/login.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/authentications/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/authentications/register.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/managements/account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/account.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/companies/account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/companies/account.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/managements/companies/information.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/companies/information.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/forecasts/stock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/forecasts/stock.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/forecasts/transaction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/forecasts/transaction.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/managements/histories/stock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/histories/stock.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/managements/histories/transaction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/histories/transaction.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/managements/items.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/items.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/message_modal_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/message_modal_slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/account_permission_map_service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/location_service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/location_service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/authentication_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/authentication_slice.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/slices/page_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/page_slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/companies/account_insert_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/companies/account_insert_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/companies/account_update_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/companies/account_update_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/histories/inventory_controls/inventory_control_insert_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/histories/inventory_controls/inventory_control_insert_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/histories/inventory_controls/inventory_control_update_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/histories/inventory_controls/inventory_control_update_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/histories/transactions/transaction_insert_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/histories/transactions/transaction_insert_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/histories/transactions/transaction_update_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/histories/transactions/transaction_update_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/histories/transactions/transaction_view_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/histories/transactions/transaction_view_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/items/item_insert_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/items/item_insert_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/items/item_update_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/items/item_update_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/items/item_view_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/items/item_view_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/locations/location_insert_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/locations/location_insert_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/locations/location_update_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/locations/location_update_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/message_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/message_modal.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/side_bar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/side_bar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/upper_bar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/upper_bar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/authentications/register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/authentications/register.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/index/about_us.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/about_us.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/index/header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/header.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/index/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/index/navigation_bar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/navigation_bar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/index/our_team.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/our_team.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/index/why_us.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/index/why_us.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/companies/account.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/companies/account.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/companies/information.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/companies/information.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/histories/stock.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/histories/stock.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/histories/transaction.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/histories/transaction.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/items.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/items.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +128,7 @@
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
+    <option name="showPreview" value="true" />
   </component>
   <component name="ProjectId" id="2N5GKeJnVkusVT0dT2sl3dP2ApE" />
   <component name="ProjectLevelVcsManager">
@@ -63,40 +138,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Data/Apps/ventry-frontend/src/styles/components/managements/forecasts&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;Sass&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Data\\Apps\\ventry-frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "last_opened_file_path": "C:/Data/Apps/ventry-frontend/src/models/value_objects/contracts/requests/managements/locations",
+    "list.type.of.created.stylesheet": "Sass",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Data\\Apps\\ventry-frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\locations" />
       <recent name="C:\Data\Apps\ventry-frontend\src\styles\components\managements\forecasts" />
       <recent name="C:\Data\Apps\ventry-frontend\src\components\managements\forecasts" />
       <recent name="C:\Data\Apps\ventry-frontend\src\styles\pages\managements\forecasts" />
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\transactions" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\forecasts" />
       <recent name="C:\Data\Apps\ventry-frontend\src\styles\components\managements" />
       <recent name="C:\Data\Apps\ventry-frontend\src\components\managements" />
       <recent name="C:\Data\Apps\ventry-frontend\src\styles\components\histories" />
       <recent name="C:\Data\Apps\ventry-frontend\src\components\managements\histories" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\styles\components" />
     </key>
   </component>
   <component name="RunManager" selected="npm.run-1">
@@ -160,7 +235,9 @@
       <workItem from="1683718780588" duration="11150000" />
       <workItem from="1683765801453" duration="10079000" />
       <workItem from="1683776868840" duration="12593000" />
-      <workItem from="1684062004136" duration="115000" />
+      <workItem from="1684062004136" duration="9341000" />
+      <workItem from="1684136443550" duration="599000" />
+      <workItem from="1684248127479" duration="7132000" />
     </task>
     <servers />
   </component>

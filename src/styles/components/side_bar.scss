@@ -6,10 +6,12 @@ $primary-blue: #007bff;
     justify-content: space-between;
     margin: 0 8%;
   }
+
   .link {
     text-decoration: none;
     color: black;
   }
+
   .active {
     color: $primary-blue;
   }

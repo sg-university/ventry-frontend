@@ -5,16 +5,16 @@ $primary-blue: #007bff;
 }
 
 .page.landing .register {
-  color: $primary-blue ;
+  color: $primary-blue;
   background-color: #fff;
-  padding: 6px 24px ;
+  padding: 6px 24px;
   border: 1px solid $primary-blue;
   border-radius: 4px;
   transition: all 0.2s ease;
 }
 
 .page.landing .register:hover {
-  color: white ;
+  color: white;
   background-color: $primary-blue;
 }
 
@@ -31,13 +31,13 @@ $primary-blue: #007bff;
 }
 
 .page.landing .link:hover {
-  color: $primary-blue ;
+  color: $primary-blue;
   font-weight: 500;
 }
 
 @media (max-width: 992px) {
   .page.landing p {
-    font-size: 18px ;
+    font-size: 18px;
   }
   .page.landing .nav-mobile {
     flex-direction: column;
@@ -55,5 +55,5 @@ $primary-blue: #007bff;
     margin: auto;
     margin-bottom: 4px;
   }
-  
+
 }

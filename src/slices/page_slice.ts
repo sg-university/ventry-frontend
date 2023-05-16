@@ -23,7 +23,8 @@ export interface ItemManagementState {
 }
 
 export interface AccountManagementState {
-    account: Account | undefined
+    currentAccount: Account | undefined
+    currentRole: Role | undefined
 }
 
 export interface LocationManagementState {
@@ -68,8 +69,20 @@ export interface PageState {
     companyAccountManagement: CompanyAccountManagementState
     itemStockForecastManagement: ItemStockForecastManagement
     itemTransactionForecastManagement: ItemTransactionForecastManagement
+    companyInformationManagement: CompanyInformationManagementState
 }
 
+
+export interface CompanyInformationManagementState {
+    currentCompany: Company | undefined
+    currentLocation: Location | undefined
+    currentLocations: Location[] | undefined
+    currentModalMenu: string | undefined
+    currentModal: string | undefined
+    isShowModal: boolean | undefined
+
+
+}
 
 export default createSlice({
     name: 'page',
@@ -79,12 +92,13 @@ export default createSlice({
             currentItem: undefined,
             currentLocation: undefined,
             currentItemBundleMaps: undefined,
-            currentModal: "noModal",
+            currentModal: undefined,
             isShowModal: false,
             currentModalMenu: undefined
         },
         accountManagement: <AccountManagementState>{
-            account: undefined
+            currentAccount: undefined,
+            currentRole: undefined
         },
         locationManagement: <LocationManagementState>{
             locations: undefined
@@ -116,6 +130,14 @@ export default createSlice({
             isShowModal: false,
             currentModalMenu: undefined,
         },
+        companyInformationManagement: <CompanyInformationManagementState>{
+            currentCompany: undefined,
+            currentLocation: undefined,
+            currentLocations: undefined,
+            currentModalMenu: undefined,
+            currentModal: undefined,
+            isShowModal: false,
+        }
     },
     reducers: {
         configureAccountManagement(state, action) {
@@ -135,6 +157,9 @@ export default createSlice({
         },
         configureItemTransactionForecastManagement(state, action) {
             state.itemTransactionForecastManagement = action.payload
+        },
+        configureCompanyInformationManagement(state, action) {
+            state.companyInformationManagement = action.payload;
         }
     },
     extraReducers: {

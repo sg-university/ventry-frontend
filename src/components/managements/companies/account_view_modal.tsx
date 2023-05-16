@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import pageSlice, {PageState} from "@/slices/page_slice";
 import "@/styles/components/managements/companies/account_view_modal.scss";
-import message_modal_slice, {MessageModalState} from "@/slices/message_modal_slice";
+import message_modal_slice from "@/slices/message_modal_slice";
 import AccountService from "@/services/account_service";
 import Content from "@/models/value_objects/contracts/content";
 import Account from "@/models/entities/account";
@@ -45,12 +45,10 @@ export default function AccountViewModalComponent() {
             })
             .then((response) => {
                 const content: Content<Account> = response.data
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(message_modal_slice.actions.configure({
                     content: content.message,
                     isShow: true
-                }
-                dispatch(message_modal_slice.actions.configure(messageModalState))
+                }))
                 dispatch(pageSlice.actions.configureCompanyAccountManagement({
                         ...pageState.companyAccountManagement,
                         isShowModal: false,
@@ -62,12 +60,11 @@ export default function AccountViewModalComponent() {
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(message_modal_slice.actions.configure({
                     content: error.message,
+                    type: "failed",
                     isShow: true
-                }
-                dispatch(message_modal_slice.actions.configure(messageModalState))
+                }))
             });
     }
 

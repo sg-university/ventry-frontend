@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import ItemBundleMap from "@/models/entities/item_bundle_map";
 import Content from "@/models/value_objects/contracts/content";
-import message_modal_slice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import Image from "next/image";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
 import "@/styles/components/managements/items/item_view_modal.scss";
@@ -21,7 +21,7 @@ function MainComponent() {
         currentItem,
         currentLocation,
     } = pageState.itemManagement;
-    const { account } = pageState.accountManagement
+    const {currentAccount} = pageState.accountManagement
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -43,17 +43,17 @@ function MainComponent() {
     }
 
     const fetchItemsByLocation = () => {
-      itemService.readAllByLocationId({
-          locationId: account?.locationId
-      }).then((response) => {
-          const content: Content<Item[]> = response.data;
-          dispatch(pageSlice.actions.configureItemManagement({
-              ...pageState.itemManagement,
-              items: content.data,
-          }))
-      }).catch((error) => {
-          console.log(error);
-      })
+        itemService.readAllByLocationId({
+            locationId: currentAccount?.locationId
+        }).then((response) => {
+            const content: Content<Item[]> = response.data;
+            dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                items: content.data,
+            }))
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
     const handleModalUpdate = () => {
@@ -77,24 +77,20 @@ function MainComponent() {
                     })
                 )
                 const content: Content<Item> = response.data;
-                const messageModalState: MessageModalState = {
-                    title: "Status",
-                    type: "success",
-                    content: "Success Delete Item",
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: content.message,
                     isShow: true
-                }
-                dispatch(message_modal_slice.actions.configure(messageModalState))
+                }))
                 fetchItemsByLocation()
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     type: "failed",
                     content: error.message,
                     isShow: true
-                }
-                dispatch(message_modal_slice.actions.configure(messageModalState))
+                }))
             });
     }
     return (
@@ -233,18 +229,18 @@ export default function ItemViewModalComponent() {
     const itemBundleMapService: ItemBundleMapService = new ItemBundleMapService()
     const pageState: PageState = useSelector((state: any) => state.page);
     const {
-      isShowModal,
-      currentItem,
-      currentModalMenu
+        isShowModal,
+        currentItem,
+        currentModalMenu
     } = pageState.itemManagement;
     const dispatch = useDispatch();
 
     const handleShowModal = () => {
-      dispatch(pageSlice.actions.configureItemManagement({
-              ...pageState.itemManagement,
-              isShowModal: !pageState.itemManagement.isShowModal,
-          })
-      )
+        dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                isShowModal: !pageState.itemManagement.isShowModal,
+            })
+        )
     };
 
     useEffect(() => {
@@ -252,16 +248,16 @@ export default function ItemViewModalComponent() {
     }, [])
 
     const fetchItemBundles = () => {
-      itemBundleMapService
-          .readAllBySuperItemId({
-              superItemId: currentItem?.id
-          })
-          .then((response) => {
-              const content: Content<ItemBundleMap[]> = response.data;
-          })
-          .catch((error) => {
-              console.log(error)
-          });
+        itemBundleMapService
+            .readAllBySuperItemId({
+                superItemId: currentItem?.id
+            })
+            .then((response) => {
+                const content: Content<ItemBundleMap[]> = response.data;
+            })
+            .catch((error) => {
+                console.log(error)
+            });
     }
 
     const handleSelectModalMenu = (eventKey: string | null) => {

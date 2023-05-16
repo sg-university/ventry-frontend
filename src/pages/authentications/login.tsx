@@ -14,7 +14,7 @@ import Content from "@/models/value_objects/contracts/content";
 import {useRouter} from "next/router";
 import {useDispatch} from "react-redux";
 import authenticationSlice from "@/slices/authentication_slice";
-import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 
 
 export default function Login() {
@@ -39,12 +39,12 @@ export default function Login() {
                 const content = result.data;
 
                 if (!content.data) {
-                    const messageModalState: MessageModalState = {
+                    dispatch(messageModalSlice.actions.configure({
                         title: "Status",
+                        type: "failed",
                         content: content.message,
                         isShow: true
-                    }
-                    dispatch(messageModalSlice.actions.configure(messageModalState))
+                    }))
                 } else {
                     router.push(`/managements/items`)
                     dispatch(authenticationSlice.actions.login(content.data.entity));
@@ -52,13 +52,11 @@ export default function Login() {
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     type: "failed",
                     content: error.message,
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
             })
             .finally(() => {
                 actions.setSubmitting(false);

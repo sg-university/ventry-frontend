@@ -14,6 +14,8 @@ import ReadAllByAccountIdRequest
     from "@/models/value_objects/contracts/requests/managements/locations/read_all_by_account_id_request";
 import ReadAllByItemIdRequest
     from "@/models/value_objects/contracts/requests/managements/locations/read_all_by_item_id_request";
+import ReadAllByCompanyIdRequest
+    from "@/models/value_objects/contracts/requests/managements/locations/read_all_by_company_id_request";
 
 class LocationService extends Service {
 
@@ -45,6 +47,10 @@ class LocationService extends Service {
 
     readAllByAccountId(request: ReadAllByAccountIdRequest): Promise<AxiosResponse<Content<Location[]>>> {
         return this.client.instance.get(`${this.path}?account_id=${request.accountId}`);
+    }
+
+    readAllByCompanyId(request: ReadAllByCompanyIdRequest): Promise<AxiosResponse<Content<Location[]>>> {
+        return this.client.instance.get(`${this.path}?company_id=${request.companyId}`);
     }
 
     readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<Location>>> {

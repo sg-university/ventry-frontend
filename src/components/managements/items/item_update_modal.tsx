@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import ItemBundleService from "@/services/item_bundle_map_service";
 import ItemBundleMapService from "@/services/item_bundle_map_service";
-import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import Image from "next/image";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
 import "@/styles/components/managements/items/item_update_modal.scss"
@@ -63,19 +63,19 @@ function MainComponent() {
     const dispatch = useDispatch();
 
 
-    const handleUpdateSubmit = (value: any) => {
+    const handleUpdateSubmit = (values: any,) => {
         itemService.patchOneById({
             id: currentItem?.id,
             body: {
-                code: value.code,
-                locationId: value.location,
-                type: value.type,
-                name: value.name,
-                quantity: value.quantity,
-                unitName: value.unitName,
-                unitCostPrice: value.unitCostPrice,
-                unitSellPrice: value.unitSellPrice,
-                description: value.description,
+                code: values.code,
+                locationId: values.location,
+                type: values.type,
+                name: values.name,
+                quantity: values.quantity,
+                unitName: values.unitName,
+                unitCostPrice: values.unitCostPrice,
+                unitSellPrice: values.unitSellPrice,
+                description: values.description,
             },
         }).then((response) => {
             const content: Content<Item> = response.data;
@@ -93,7 +93,7 @@ function MainComponent() {
                         location: currentItem?.locationId,
                         is_record: false,
                     }}
-                    onSubmit={(value) => handleUpdateSubmit(value)}
+                    onSubmit={handleUpdateSubmit}
                     enableReinitialize
                 >
                     {(props) => (
@@ -214,9 +214,6 @@ function MainComponent() {
                                         Image:{" "}
                                         <Image
                                             src={ItemCardImage}
-                                            onError={(e) => {
-                                                e.target.src = ItemCardImage;
-                                            }}
                                             alt="item"
                                         />
                                     </div>
@@ -294,12 +291,11 @@ function ItemBundleComponent(props) {
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     content: error.message,
+                    type: "failed",
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
             })
     }
 
@@ -377,12 +373,11 @@ function ItemBundleForm(props) {
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     content: error.message,
+                    type: "failed",
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
             })
             .finally(() => {
                 actions.setSubmitting(false);
@@ -405,12 +400,11 @@ function ItemBundleForm(props) {
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     content: error.message,
+                    type: "failed",
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
             })
             .finally(() => {
                 actions.setSubmitting(false);
@@ -557,7 +551,7 @@ export function ItemUpdateModalComponent() {
             <Modal.Body className="body">
                 {
                     {
-                        main: <MainComponent />,
+                        main: <MainComponent/>,
                         itemBundle: <ItemBundleComponent/>,
                     }[currentModalMenu || "main"]
                 }

@@ -4,7 +4,7 @@ import {HYDRATE} from "next-redux-wrapper";
 import storage from "redux-persist/lib/storage";
 
 export interface AuthenticationState {
-    entity: Account | undefined;
+    currentAccount: Account | undefined;
     isLoggedIn: boolean | undefined;
 }
 
@@ -12,21 +12,21 @@ export interface AuthenticationState {
 export default createSlice({
     name: 'authentication',
     initialState: <AuthenticationState>{
-        entity: undefined,
+        currentAccount: undefined,
         isLoggedIn: false,
     },
     reducers: {
         login: (state, action) => {
-            state.entity = action.payload;
+            state.currentAccount = action.payload;
             state.isLoggedIn = true;
         },
         logout: (state) => {
-            state.entity = undefined;
+            state.currentAccount = undefined;
             state.isLoggedIn = false;
             storage.removeItem("persist")
         },
         register: (state, action) => {
-            state.entity = action.payload;
+            state.currentAccount = action.payload;
             state.isLoggedIn = false;
         },
     },

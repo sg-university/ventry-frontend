@@ -1,21 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Modal, Nav} from "react-bootstrap";
 import * as Yup from "yup";
 import ItemService from "@/services/item_service";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
-import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import messageModalSlice from "@/slices/message_modal_slice";
-import message_modal_slice, {MessageModalState} from "@/slices/message_modal_slice";
 import ItemBundleService from "@/services/item_bundle_map_service";
-import CreateOneItemRequest from "@/models/value_objects/contracts/requests/managements/items/create_one_request";
 import CreateOneItemBundleRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/create_one_request";
 import "@/styles/components/managements/items/item_insert_modal.scss";
-import LocationService from "@/services/location_service";
-import Location from "@/models/entities/location";
+import Item from "@/models/entities/item";
+import ItemBundleMap from "@/models/entities/item_bundle_map";
 
 const insertMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -44,42 +41,39 @@ const insertItemSchema = Yup.object().shape({
 });
 
 function MainComponent(props) {
-    const { handleShowModal, fetchItemsByLocation } = props
+    const {handleShowModal, fetchItemsByLocation} = props
     const pageState: PageState = useSelector((state: any) => state.page);
     const itemService = new ItemService()
-    const {account} = pageState.accountManagement
+    const {currentAccount} = pageState.accountManagement
     const dispatch = useDispatch();
 
     const handleInsertSubmit = (values: any, actions: any) => {
         itemService
-            .createOne({    
+            .createOne({
                 body: {
-                    locationId: account?.locationId,
+                    locationId: currentAccount?.locationId,
                     ...values
                 }
             })
-            .then(() => {
-              fetchItemsByLocation()
-              const messageModalState: MessageModalState = {
-                title: "Status",
-                type: "success",
-                content: "Success Insert Item",
-                isShow: true
-              }
-              dispatch(messageModalSlice.actions.configure(messageModalState))
+            .then((response) => {
+                const content: Content<Item> = response.data;
+                fetchItemsByLocation()
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: content.message,
+                    isShow: true
+                }))
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     content: error.message,
+                    type: "failed",
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
             })
             .finally(() => {
                 actions.setSubmitting(false);
-                handleShowModal()
             });
     }
 
@@ -253,29 +247,25 @@ function ItemsComponent(props) {
         }
         itemBundleService
             .createOne(request)
-            .then(() => {
-              const messageModalState: MessageModalState = {
-                title: "Status",
-                type: "success",
-                content: "Success Insert Sub-Item",
-                isShow: true
-              }
-              dispatch(messageModalSlice.actions.configure(messageModalState))
-              fetchItemsByLocation()
+            .then((response) => {
+                const content: Content<ItemBundleMap> = response.data;
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: content.message,
+                    isShow: true
+                }))
+                fetchItemsByLocation()
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     type: "failed",
                     content: error.message,
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
             })
             .finally(() => {
                 actions.setSubmitting(false);
-                handleShowModal()
             });
     }
 
@@ -359,19 +349,19 @@ export default function ItemInsertModalComponent() {
     const pageState: PageState = useSelector((state: any) => state.page);
     const itemService = new ItemService()
     const {
-      isShowModal,
-      currentModalMenu
+        isShowModal,
+        currentModalMenu
     } = pageState.itemManagement
-    const {account} = pageState.accountManagement
+    const {currentAccount} = pageState.accountManagement
     const dispatch = useDispatch();
 
     const handleShowModal = () => {
-      dispatch(pageSlice.actions.configureItemManagement({
-              ...pageState.itemManagement,
-              currentModal: "noModal",
-              isShowModal: false,
-          })
-      )
+        dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                currentModal: "noModal",
+                isShowModal: false,
+            })
+        )
     }
 
     const handleSelectMenu = (eventKey, e) => {
@@ -383,18 +373,18 @@ export default function ItemInsertModalComponent() {
     }
 
     const fetchItemsByLocation = () => {
-      itemService.readAllByLocationId({
-          locationId: account?.locationId
-      }).then((response) => {
-          console.log(response)
-          const content: Content<Item[]> = response.data;
-          dispatch(pageSlice.actions.configureItemManagement({
-              ...pageState.itemManagement,
-              items: content.data,
-          }))
-      }).catch((error) => {
-          console.log(error);
-      })
+        itemService.readAllByLocationId({
+            locationId: currentAccount?.locationId
+        }).then((response) => {
+            console.log(response)
+            const content: Content<Item[]> = response.data;
+            dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                items: content.data,
+            }))
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
     return (
@@ -412,7 +402,8 @@ export default function ItemInsertModalComponent() {
                     <Nav.Link eventKey="main" className={currentModalMenu == "main" ? "active" : "menu"}>Main</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link eventKey="items" className={currentModalMenu == "items" ? "active" : "menu"}>Items Bundle</Nav.Link>
+                    <Nav.Link eventKey="items" className={currentModalMenu == "items" ? "active" : "menu"}>Items
+                        Bundle</Nav.Link>
                 </Nav.Item>
             </Nav>
 
@@ -421,10 +412,12 @@ export default function ItemInsertModalComponent() {
                     // Menu switch.
                     {
                         main: (
-                            <MainComponent fetchItemsByLocation={fetchItemsByLocation} handleShowModal={handleShowModal}/>
+                            <MainComponent fetchItemsByLocation={fetchItemsByLocation}
+                                           handleShowModal={handleShowModal}/>
                         ),
                         items: (
-                            <ItemsComponent fetchItemsByLocation={fetchItemsByLocation} handleShowModal={handleShowModal}/>
+                            <ItemsComponent fetchItemsByLocation={fetchItemsByLocation}
+                                            handleShowModal={handleShowModal}/>
                         ),
                     }[currentModalMenu]
                 }

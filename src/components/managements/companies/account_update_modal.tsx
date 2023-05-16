@@ -13,6 +13,7 @@ import messageModalSlice from "@/slices/message_modal_slice";
 import RoleService from "@/services/role_service";
 import LocationService from "@/services/location_service";
 import Role from "@/models/entities/role";
+import Location from "@/models/entities/location";
 
 const updateSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
@@ -48,12 +49,12 @@ export default function AccountUpdateModalComponent() {
             roleService.readAll(),
             locationService.readAll()
         ]).then((responses) => {
-            const roles: Content<Role[]> = responses[0].data;
-            const locations: Content<Location[]> = responses[1].data;
+            const contentRole: Content<Role[]> = responses[0].data;
+            const contentLocation: Content<Location[]> = responses[1].data;
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                     ...pageState.companyAccountManagement,
-                    roles: roles.data,
-                    locations: locations.data
+                    roles: contentRole.data,
+                    locations: contentLocation.data
                 })
             )
         }).catch((error) => {
@@ -69,24 +70,24 @@ export default function AccountUpdateModalComponent() {
         )
     };
 
-    const handleUpdateSubmit = (value: any) => {
+    const handleSubmitUpdate = (values: any, actions: any) => {
         accountService.patchOneById({
             id: currentAccount?.id,
             body: {
-                name: value.name,
-                email: value.email,
-                password: value.password,
-                roleId: value.roleId,
-                locationId: value.locationId,
+                name: values.name,
+                email: values.email,
+                password: values.password,
+                roleId: values.roleId,
+                locationId: values.locationId,
             }
         }).then((response) => {
             const content: Content<Account> = response.data;
-            const messageModalState = {
+            dispatch(messageModalSlice.actions.configure({
                 title: "Status",
                 content: content.message,
+                type: "succeed",
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                     ...pageState.companyAccountManagement,
                     currentAccount: content.data,
@@ -132,7 +133,7 @@ export default function AccountUpdateModalComponent() {
                             roleId: currentAccount?.roleId,
                             locationId: currentAccount?.locationId,
                         }}
-                        onSubmit={(value) => handleUpdateSubmit(value)}
+                        onSubmit={handleSubmitUpdate}
                         enableReinitialize
                     >
                         {(props) => (

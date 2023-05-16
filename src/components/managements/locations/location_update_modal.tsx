@@ -1,176 +1,165 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Modal, Nav } from "react-bootstrap";
+import React from "react";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import {Modal} from "react-bootstrap";
 import * as Yup from "yup";
 
 import {useDispatch, useSelector} from "react-redux";
-import message_modal_slice, { MessageModalState } from "@/slices/message_modal_slice";
-import PatchOneByIdRequest from "@/models/value_objects/contracts/requests/managements/locations/patch_one_by_id_request";
+import messageModalSlice from "@/slices/message_modal_slice";
 import LocationService from "@/services/location_service";
 import "@/styles/components/managements/locations/location_update_modal.scss"
+import Location from "@/models/entities/location";
+import Content from "@/models/value_objects/contracts/content";
+import pageSlice, {PageState} from "@/slices/page_slice";
 
 const updateSchema = Yup.object().shape({
-  name: Yup.string("Must be string").required("Required"),
-  description: Yup.string("Must be string").required("Required"),
-  address: Yup.string("Must be string").required("Required"),
+    name: Yup.string().required("Required"),
+    description: Yup.string().required("Required"),
+    address: Yup.string().required("Required"),
 });
 
-function MainComponent(props) {
-  const { getAllLocations, location, handleShow } = props
-  const dispatch = useDispatch();
-
-  const handleUpdateSubmit = (values: any, actions: any) => {
+export default function LocationUpdateModalComponent() {
     const locationService = new LocationService()
-    const request: PatchOneByIdRequest= {
-      id: location.id,
-      body: {
-        companyId: location.companyId,
-        name: values.name,
-        description: values.description,
-        address: values.address
-      }
+    const pageState: PageState = useSelector((state: any) => state.page);
+    const {currentLocations, currentLocation, isShowModal} = pageState.companyInformationManagement
+    const dispatch = useDispatch();
+
+    const handleUpdateSubmit = (values: any, actions: any) => {
+        locationService
+            .patchOneById({
+                id: currentLocation?.id,
+                body: {
+                    companyId: currentLocation?.companyId,
+                    name: values.name,
+                    description: values.description,
+                    address: values.address
+                }
+            })
+            .then((response) => {
+                const content: Content<Location> = response.data;
+                dispatch(pageSlice.actions.configureCompanyInformationManagement({
+                    ...pageState.companyInformationManagement,
+                    currentLocation: content.data,
+                    currentLocations: currentLocations?.map((item) => {
+                        if (item.id === content.data.id) {
+                            return content.data
+                        }
+                        return item
+                    })
+                }))
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: content.message,
+                    isShow: true
+                }))
+            })
+            .catch((error) => {
+                console.log(error)
+                dispatch(messageModalSlice.actions.configure({
+                    type: "failed",
+                    content: error.message,
+                    isShow: true
+                }))
+            })
+            .finally(() => {
+                actions.setSubmitting(false);
+            });
     }
-    locationService
-      .patchOneById(request)
-      .then(() => {
-        const messageModalState: MessageModalState = {
-          title: "Status",
-          type: "success",
-          content: "Update Location Success",
-          isShow: true
-        }
-        dispatch(message_modal_slice.actions.configure(messageModalState))
-        getAllLocations()
-      })
-      .catch((error) => {
-          console.log(error)
-          const messageModalState: MessageModalState = {
-              title: "Status",
-              type: "failed",
-              content: error.message,
-              isShow: true
-          }
-          dispatch(message_modal_slice.actions.configure(messageModalState))
-      })
-      .finally(() => {
-        actions.setSubmitting(false);
-        handleShow()
-      });
-  }
 
-  return (
-    <div className="main">
-      <div className="form">
-        <Formik
-          validationSchema={updateSchema}
-          initialValues={{
-            name: location.name,
-            description: location.description,
-            address: location.address
-          }}
-          onSubmit={handleUpdateSubmit}
-          enableReinitialize
+    const handleShowModal = () => {
+        dispatch(pageSlice.actions.configureCompanyInformationManagement({
+            ...pageState.companyInformationManagement,
+            isShowModal: !isShowModal
+        }))
+    };
+
+    return (
+        <Modal
+            show={isShowModal}
+            onHide={handleShowModal}
+            centered
+            className="component location-update-modal"
         >
-          {(props) => (
-            <Form>
-              <div className="row">
-                <fieldset className="form-group">
-                  <label htmlFor="name">Name</label>
-                  <Field
-                    type="text"
-                    name="name"
-                    className="form-control"
-                  />
-                  <ErrorMessage
-                    name="name"
-                    component="div"
-                    className="text-danger"
-                  />
-                </fieldset>
-              </div>
-              <div className="row">
-                <fieldset className="form-group">
-                  <label htmlFor="description">Description</label>
-                  <Field
-                    type="text"
-                    name="description"
-                    className="form-control"
-                  />
-                  <ErrorMessage
-                    name="description"
-                    component="div"
-                    className="text-danger"
-                  />
-                </fieldset>
-              </div>
-              <div className="row">
-                <fieldset className="form-group">
-                  <label htmlFor="address">Address</label>
-                  <Field
-                    type="text"
-                    name="address"
-                    className="form-control"
-                  />
-                  <ErrorMessage
-                    name="address"
-                    component="div"
-                    className="text-danger"
-                  />
-                </fieldset>
-              </div>
-             
+            <Modal.Header closeButton className="header">
+                <Modal.Title>Location Update</Modal.Title>
+            </Modal.Header>
 
-              <hr />
-              <div className="button">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                >
-                  Update Location
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </div>
-  );
-}
+            <Modal.Body className="body">
+                <div className="main">
+                    <div className="form">
+                        <Formik
+                            validationSchema={updateSchema}
+                            initialValues={{
+                                name: currentLocation?.name,
+                                description: currentLocation?.description,
+                                address: currentLocation?.address
+                            }}
+                            onSubmit={handleUpdateSubmit}
+                            enableReinitialize
+                        >
+                            {(props) => (
+                                <Form>
+                                    <div className="row">
+                                        <fieldset className="form-group">
+                                            <label htmlFor="name">Name</label>
+                                            <Field
+                                                type="text"
+                                                name="name"
+                                                className="form-control"
+                                            />
+                                            <ErrorMessage
+                                                name="name"
+                                                component="div"
+                                                className="text-danger"
+                                            />
+                                        </fieldset>
+                                    </div>
+                                    <div className="row">
+                                        <fieldset className="form-group">
+                                            <label htmlFor="description">Description</label>
+                                            <Field
+                                                type="text"
+                                                name="description"
+                                                className="form-control"
+                                            />
+                                            <ErrorMessage
+                                                name="description"
+                                                component="div"
+                                                className="text-danger"
+                                            />
+                                        </fieldset>
+                                    </div>
+                                    <div className="row">
+                                        <fieldset className="form-group">
+                                            <label htmlFor="address">Address</label>
+                                            <Field
+                                                type="text"
+                                                name="address"
+                                                className="form-control"
+                                            />
+                                            <ErrorMessage
+                                                name="address"
+                                                component="div"
+                                                className="text-danger"
+                                            />
+                                        </fieldset>
+                                    </div>
 
-export default function LocationUpdateModalComponent(props) {
-  const [isShow, setIsShow] = React.useState(true)
-  const [menu, setMenu] = React.useState('main')
 
-  const handleShow = () => {
-    setIsShow(!isShow)
-    props.setModal("")
-  };
-
-  return (
-    <Modal
-      show={isShow}
-      onHide={handleShow}
-      centered
-      className="component location-update-modal"
-    >
-      <Modal.Header closeButton className="header">
-        <Modal.Title>Location Update</Modal.Title>
-      </Modal.Header>
-
-      <Modal.Body className="body">
-        {
-          // Menu switch.
-          {
-            main: (
-              <MainComponent
-                handleShow={handleShow}
-                location={props.location}
-                getAllLocations={props.getAllLocations}
-              />
-            ),
-          }[menu]
-        }
-      </Modal.Body>
-    </Modal>
-  );
+                                    <hr/>
+                                    <div className="button">
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                        >
+                                            Update
+                                        </button>
+                                    </div>
+                                </Form>
+                            )}
+                        </Formik>
+                    </div>
+                </div>
+            </Modal.Body>
+        </Modal>
+    );
 }

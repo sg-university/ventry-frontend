@@ -20,6 +20,7 @@ import Account from "@/models/entities/account";
 import RoleService from "@/services/role_service";
 import LocationService from "@/services/location_service";
 import Role from "@/models/entities/role";
+import Location from "@/models/entities/location";
 
 export default function CompanyAccount() {
 
@@ -38,7 +39,7 @@ export default function CompanyAccount() {
 
     const fetchCompanyAccounts = () => {
         companyService.readAllByAccountId({
-            accountId: authenticationState.entity?.id
+            accountId: authenticationState.currentAccount?.id
         }).then((result) => {
             const content: Content<Company[]> = result.data;
 

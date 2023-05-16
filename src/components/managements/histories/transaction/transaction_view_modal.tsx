@@ -5,9 +5,11 @@ import {useDispatch, useSelector} from "react-redux";
 import TransactionService from "@/services/transaction_service";
 import DeleteOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/transactions/delete_one_by_id_request";
-import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import {PageState} from "@/slices/page_slice";
 import "@/styles/components/managements/histories/transactions/transaction_view_modal.scss"
+import Transaction from "@/models/entities/transaction";
+import Content from "@/models/value_objects/contracts/content";
 
 function MainComponent(props) {
     const pageState: PageState = useSelector((state: any) => state.page);
@@ -86,15 +88,14 @@ export default function TransactionViewModalComponent(props) {
         }
         transactionService
             .deleteOneById(request)
-            .then(() => {
+            .then((response) => {
+                const content: Content<Transaction> = response.data;
                 handleShow()
-                const messageModalState: MessageModalState = {
-                    title: "Status",
-                    type: "success",
-                    content: "Delete Transaction Success",
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: content.message,
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
                 getAllTransaction()
             })
     }

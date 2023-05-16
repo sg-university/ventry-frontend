@@ -71,20 +71,21 @@ export default function AccountInsertModalComponent() {
         )
     };
 
-    const handleInsertSubmit = (value: any) => {
+    const handleSubmitInsert = (values: any, actions: any) => {
         accountService.createOne({
             body: {
-                name: value.name,
-                email: value.email,
-                password: value.password,
-                roleId: value.roleId,
-                locationId: value.locationId,
+                name: values.name,
+                email: values.email,
+                password: values.password,
+                roleId: values.roleId,
+                locationId: values.locationId,
             }
         }).then((response) => {
             const content: Content<Account> = response.data;
             const messageModalState = {
                 title: "Status",
                 content: content.message,
+                type: "succeed",
                 isShow: true
             }
             dispatch(messageModalSlice.actions.configure(messageModalState))
@@ -125,7 +126,7 @@ export default function AccountInsertModalComponent() {
                             password: "",
                             confirmPassword: ""
                         }}
-                        onSubmit={(value) => handleInsertSubmit(value)}
+                        onSubmit={handleSubmitInsert}
                         enableReinitialize
                     >
                         {(props) => (

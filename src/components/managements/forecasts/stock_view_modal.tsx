@@ -53,13 +53,13 @@ export default function StockViewModalComponent() {
         )
     };
 
-    const handleForecastSubmit = (value: any) => {
+    const handleForecastSubmit = (values: any, actions: any) => {
         forecastService.forecastStockByItemId({
             itemId: currentItem?.id,
             body: {
-                resample: value.resample,
-                horizon: value.horizon,
-                testSize: value.testSize
+                resample: values.resample,
+                horizon: values.horizon,
+                testSize: values.testSize
             }
         }).then((response) => {
             const content: Content<StockForecastResponse> = response.data
@@ -70,8 +70,9 @@ export default function StockViewModalComponent() {
         }).catch((error) => {
             dispatch(messageModalSlice.actions.configure({
                 isShowModal: true,
-                status: "Status",
-                message: error.message
+                title: "Status",
+                content: error.message,
+                type: "failed",
             }))
         })
     }
@@ -160,7 +161,7 @@ export default function StockViewModalComponent() {
                             horizon: 1,
                             testSize: 0.2
                         }}
-                        onSubmit={(value) => handleForecastSubmit(value)}
+                        onSubmit={handleForecastSubmit}
                         enableReinitialize
                     >
                         {(props) => (

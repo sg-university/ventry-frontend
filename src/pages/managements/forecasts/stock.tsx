@@ -34,7 +34,7 @@ export default function Stock() {
 
     const fetchLocationItems = () => {
         itemService.readAllByLocationId({
-            locationId: authenticationState.entity?.locationId
+            locationId: authenticationState.currentAccount?.locationId
         }).then((response) => {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configureItemStockForecastManagement({

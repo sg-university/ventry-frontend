@@ -53,13 +53,13 @@ export default function TransactionViewModalComponent() {
         )
     };
 
-    const handleForecastSubmit = (value: any) => {
+    const handleForecastSubmit = (values: any, forecast: any) => {
         forecastService.forecastTransactionByItemId({
             itemId: currentItem?.id,
             body: {
-                resample: value.resample,
-                horizon: value.horizon,
-                testSize: value.testSize
+                resample: values.resample,
+                horizon: values.horizon,
+                testSize: values.testSize
             }
         }).then((response) => {
             const content: Content<TransactionForecastResponse> = response.data
@@ -70,8 +70,9 @@ export default function TransactionViewModalComponent() {
         }).catch((error) => {
             dispatch(messageModalSlice.actions.configure({
                 isShowModal: true,
-                status: "Status",
-                message: error.message
+                title: "Status",
+                content: error.message,
+                type: "failed",
             }))
         })
     }
@@ -159,7 +160,7 @@ export default function TransactionViewModalComponent() {
                             horizon: 1,
                             testSize: 0.2
                         }}
-                        onSubmit={(value) => handleForecastSubmit(value)}
+                        onSubmit={handleForecastSubmit}
                         enableReinitialize
                     >
                         {(props) => (

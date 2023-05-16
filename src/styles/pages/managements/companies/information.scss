@@ -22,25 +22,30 @@ $primary-blue: #007bff;
     width: 93%;
     height: 100%;
     padding: 2vw 5vw 2vw 5vw;
+
     .locations {
       width: 65%;
       height: 100%;
       padding: 4vh 0 0 0;
+
       .upper {
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
+
       .card {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         margin: 1vw 0 1vw 0;
-        height: 5vh;
+        height: 10vh;
         padding: 0 2vw 0 2vw;
+
+
         .icon {
-          color: $primary-blue;
+          cursor: pointer;
           margin: 0 0.8vw 0 0.8vw;
         }
       }

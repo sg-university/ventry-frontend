@@ -1,6 +1,5 @@
-import MetricForecast from "@/models/value_objects/metric_forecast";
-import PredictionTransactionForecast from "@/models/value_objects/prediction_transaction_forecast";
-import PredictionStockForecast from "@/models/value_objects/prediction_stock_forecast";
+import MetricForecast from "@/models/value_objects/forecasts/metric_forecast";
+import PredictionStockForecast from "@/models/value_objects/forecasts/prediction_stock_forecast";
 
 class StockForecastResponse extends Response {
     prediction: PredictionStockForecast;

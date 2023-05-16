@@ -14,7 +14,7 @@ function AboutUs() {
                         </h2>
                     </ReactBootstrap.Col>
                 </ReactBootstrap.Row>
-                <ReactBootstrap.Row lg>
+                <ReactBootstrap.Row>
                     <ReactBootstrap.Col>
                         <Image
                             src={AboutImg}

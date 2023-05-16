@@ -3,9 +3,9 @@ import Request from "@/models/value_objects/contracts/requests/request";
 class ReadAllByItemIdRequest extends Request {
     itemId: string | undefined
 
-    constructor(id: string | undefined) {
+    constructor(itemId: string | undefined) {
         super();
-        this.itemId = id;
+        this.itemId = itemId;
     }
 }
 
