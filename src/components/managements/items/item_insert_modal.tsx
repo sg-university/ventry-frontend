@@ -231,9 +231,10 @@ function MainComponent(props) {
 }
 
 function ItemsComponent(props) {
+    const itemBundleService = new ItemBundleService()
     const {fetchItemsByLocation, handleShowModal} = props
     const pageState: PageState = useSelector((state: any) => state.page);
-
+    const {items} = pageState.itemManagement
     const dispatch = useDispatch();
 
     const handleInsertSubmit = (values: any, actions: any) => {
@@ -274,8 +275,8 @@ function ItemsComponent(props) {
             <Formik
                 validationSchema={insertItemSchema}
                 initialValues={{
-                    superItem: pageState.itemManagement.items[0].id,
-                    subItem: pageState.itemManagement.items[1].id,
+                    superItem: items[0].id,
+                    subItem: items[1].id,
                     bundle_quantity: 0
                 }}
                 onSubmit={handleInsertSubmit}
@@ -287,7 +288,7 @@ function ItemsComponent(props) {
                             <fieldset className="form-group pb-2">
                                 <label htmlFor="superItem" className="pb-1">Select Items</label>
                                 <Field as="select" name="superItem" className="form-control select-item">
-                                    {pageState.itemManagement.items.map((val, idx) => (
+                                    {items && items.map((val, idx) => (
                                         <option key={val.id} value={val.id}>{val.name}</option>
                                     ))}
                                 </Field>
@@ -302,7 +303,7 @@ function ItemsComponent(props) {
                             <fieldset className="form-group pb-2">
                                 <label htmlFor="subItem" className="pb-1">Select Sub-Items</label>
                                 <Field as="select" name="subItem" className="form-control select-item">
-                                    {pageState.itemManagement.items.map((val, idx) => (
+                                    {items && items.map((val, idx) => (
                                         <option key={val.id} value={val.id}>{val.name}</option>
                                     ))}
                                 </Field>
@@ -366,10 +367,9 @@ export default function ItemInsertModalComponent() {
 
     const handleSelectMenu = (eventKey, e) => {
         dispatch(pageSlice.actions.configureItemManagement({
-                ...pageState.itemManagement,
-                currentModalMenu: eventKey,
-            })
-        )
+            ...pageState.itemManagement,
+            menu: eventKey,
+        }))
     }
 
     const fetchItemsByLocation = () => {
@@ -419,7 +419,7 @@ export default function ItemInsertModalComponent() {
                             <ItemsComponent fetchItemsByLocation={fetchItemsByLocation}
                                             handleShowModal={handleShowModal}/>
                         ),
-                    }[currentModalMenu]
+                    }[currentModalMenu || "main"]
                 }
             </Modal.Body>
         </Modal>

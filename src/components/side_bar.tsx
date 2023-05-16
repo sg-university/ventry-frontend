@@ -198,7 +198,7 @@ export default function SideBar() {
                                     <ListItemText>Item Transaction History</ListItemText>
                                 </ListItemButton>
                             </Link>
-                            <Link href="/managements/histories/stock"
+                            <Link href="/managements/histories/inventory_control"
                                   className={router.pathname == "/managements/histories/stock" ? "link active" : "link"}>
                                 <ListItemButton>
                                     <ListItemText>Inventory Control History</ListItemText>

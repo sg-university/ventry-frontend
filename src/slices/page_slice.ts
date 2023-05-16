@@ -10,32 +10,38 @@ import TransactionForecastResponse
     from "@/models/value_objects/contracts/response/forecasts/item_transactions/transaction_forecast_response";
 import StockForecastResponse
     from "@/models/value_objects/contracts/response/forecasts/item_stocks/stock_forecast_response";
+import InventoryControl from "@/models/entities/inventory_control";
 
 
 export interface ItemManagementState {
     items: Item[] | undefined
     currentItem: Item | undefined
-    currentLocation: Location | undefined
     currentItemBundleMaps: ItemBundleMap[] | undefined
+    currentItemBundle: ItemBundleMap | undefined
     currentModal: string | undefined
     isShowModal: boolean | undefined
     currentModalMenu: string | undefined
+    currentAction: string | undefined
 }
 
 export interface AccountManagementState {
     currentAccount: Account | undefined
     currentRole: Role | undefined
+    roles: Role[] | undefined
 }
 
 export interface LocationManagementState {
-    locations: Location[] | undefined
+    locations: Location[] | undefined,
+    currentLocation: Location | undefined
+    currentModal: string | undefined
+    isShowModal: boolean | undefined
 }
 
 export interface CompanyAccountManagementState {
-    company: Company | undefined
-    accounts: Account[] | undefined
+    companyAccounts: Account[] | undefined
+    companyLocations: Location[] | undefined
     roles: Role[] | undefined
-    locations: Location[] | undefined
+    currentCompany: Company | undefined
     currentAccount: Account | undefined
     currentRole: Role | undefined
     currentLocation: Location | undefined
@@ -62,6 +68,24 @@ export interface ItemTransactionForecastManagement {
 }
 
 
+export interface CompanyInformationManagementState {
+    currentCompany: Company | undefined
+    currentLocation: Location | undefined
+    currentLocations: Location[] | undefined
+    currentModalMenu: string | undefined
+    currentModal: string | undefined
+    isShowModal: boolean | undefined
+}
+
+export interface InventoryControlHistoryManagement {
+    currentModal: string | undefined
+    isShowModal: boolean | undefined
+    accountInventoryControls: InventoryControl[] | undefined
+    currentInventoryControl: InventoryControl | undefined
+    currentItem: Item | undefined
+    accountItems: Item[] | undefined
+}
+
 export interface PageState {
     itemManagement: ItemManagementState;
     accountManagement: AccountManagementState
@@ -70,18 +94,7 @@ export interface PageState {
     itemStockForecastManagement: ItemStockForecastManagement
     itemTransactionForecastManagement: ItemTransactionForecastManagement
     companyInformationManagement: CompanyInformationManagementState
-}
-
-
-export interface CompanyInformationManagementState {
-    currentCompany: Company | undefined
-    currentLocation: Location | undefined
-    currentLocations: Location[] | undefined
-    currentModalMenu: string | undefined
-    currentModal: string | undefined
-    isShowModal: boolean | undefined
-
-
+    inventoryControlHistoryManagement: InventoryControlHistoryManagement
 }
 
 export default createSlice({
@@ -90,24 +103,26 @@ export default createSlice({
         itemManagement: <ItemManagementState>{
             items: undefined,
             currentItem: undefined,
-            currentLocation: undefined,
             currentItemBundleMaps: undefined,
             currentModal: undefined,
             isShowModal: false,
-            currentModalMenu: undefined
+            currentModalMenu: "main",
+            currentAction: undefined
         },
         accountManagement: <AccountManagementState>{
             currentAccount: undefined,
             currentRole: undefined
         },
         locationManagement: <LocationManagementState>{
-            locations: undefined
+            locations: undefined,
+            currentLocation: undefined,
+            currentModal: undefined,
+            isShowModal: false,
         },
         companyAccountManagement: <CompanyAccountManagementState>{
-            company: undefined,
-            accounts: undefined,
+            companyAccounts: undefined,
             roles: undefined,
-            locations: undefined,
+            currentCompany: undefined,
             currentAccount: undefined,
             currentRole: undefined,
             currentLocation: undefined,
@@ -137,6 +152,14 @@ export default createSlice({
             currentModalMenu: undefined,
             currentModal: undefined,
             isShowModal: false,
+        },
+        inventoryControlHistoryManagement: <InventoryControlHistoryManagement>{
+            currentModal: undefined,
+            isShowModal: false,
+            accountInventoryControls: undefined,
+            currentInventoryControl: undefined,
+            accountItems: undefined,
+            currentItem: undefined,
         }
     },
     reducers: {
@@ -160,6 +183,9 @@ export default createSlice({
         },
         configureCompanyInformationManagement(state, action) {
             state.companyInformationManagement = action.payload;
+        },
+        configureInventoryControlHistoryManagement(state, action) {
+            state.inventoryControlHistoryManagement = action.payload;
         }
     },
     extraReducers: {

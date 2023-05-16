@@ -18,9 +18,9 @@ import Company from "@/models/entities/company";
 import {PencilFill, Trash3Fill} from "react-bootstrap-icons";
 import PatchOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/companies/patch_one_by_id_request";
+import {AuthenticationState} from "@/slices/authentication_slice";
 import LocationInsertModalComponent from "@/components/managements/locations/location_insert_modal";
 import LocationUpdateModalComponent from "@/components/managements/locations/location_update_modal";
-import {AuthenticationState} from "@/slices/authentication_slice";
 
 const updateSchema = Yup.object().shape({
     name: Yup.string().required("Required"),

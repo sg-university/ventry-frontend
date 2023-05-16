@@ -12,25 +12,16 @@ import Item from "@/models/entities/item";
 import Authenticated from "@/layouts/authenticated";
 import ItemInsertModalComponent from "@/components/managements/items/item_insert_modal";
 import ItemViewModalComponent from "@/components/managements/items/item_view_modal";
-import {ItemUpdateModalComponent} from "@/components/managements/items/item_update_modal";
+import ItemUpdateModalComponent from "@/components/managements/items/item_update_modal";
 import "@/styles/pages/managements/items.scss"
-import LocationService from "@/services/location_service";
-import AccountService from "@/services/account_service";
-import CompanyService from "@/services/company_service";
-import RoleService from "@/services/role_service";
 import {AuthenticationState} from "@/slices/authentication_slice";
 
 export default function Items() {
     const dispatch = useDispatch();
-    const accountService: AccountService = new AccountService();
-    const companyService: CompanyService = new CompanyService();
     const itemService: ItemService = new ItemService();
-    const roleService: RoleService = new RoleService();
-    const locationService: LocationService = new LocationService();
-    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, items} = pageState.itemManagement;
-    const {currentAccount} = pageState.accountManagement
+    const {account} = pageState.accountManagement
 
     useEffect(() => {
         fetchItemsByLocation()
@@ -55,7 +46,7 @@ export default function Items() {
             ...pageState.itemManagement,
             currentModal: "insertModal",
             isShowModal: true,
-            currentModalMenu: "main"
+            menu: "main"
         }))
     }
 
@@ -63,12 +54,11 @@ export default function Items() {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
             currentItem: item,
+            isShowModal: true,
             currentModal: "viewModal",
-            currentModalMenu: "main",
-            isShowModal: true
+            menu: "main"
         }))
     }
-
 
     return (
         <Authenticated>

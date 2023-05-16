@@ -32,29 +32,32 @@ export default function AccountUpdateModalComponent() {
     const locationService: LocationService = new LocationService();
     const pageState: PageState = useSelector((state: any) => state.page);
     const {
-        accounts,
+        companyAccounts,
+        companyLocations,
+        currentCompany,
         roles,
-        locations,
         isShowModal,
         currentAccount,
     } = pageState.companyAccountManagement;
     const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchRolesAndLocations();
+        fetchRolesAndCompanyLocations();
     }, [])
 
-    const fetchRolesAndLocations = () => {
+    const fetchRolesAndCompanyLocations = () => {
         Promise.all([
             roleService.readAll(),
-            locationService.readAll()
+            locationService.readAllByCompanyId({
+                companyId: currentCompany?.id
+            })
         ]).then((responses) => {
             const contentRole: Content<Role[]> = responses[0].data;
-            const contentLocation: Content<Location[]> = responses[1].data;
+            const contentLocations: Content<Location[]> = responses[1].data;
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                     ...pageState.companyAccountManagement,
                     roles: contentRole.data,
-                    locations: contentLocation.data
+                    companyLocations: contentLocations.data
                 })
             )
         }).catch((error) => {
@@ -83,7 +86,6 @@ export default function AccountUpdateModalComponent() {
         }).then((response) => {
             const content: Content<Account> = response.data;
             dispatch(messageModalSlice.actions.configure({
-                title: "Status",
                 content: content.message,
                 type: "succeed",
                 isShow: true
@@ -91,7 +93,7 @@ export default function AccountUpdateModalComponent() {
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                     ...pageState.companyAccountManagement,
                     currentAccount: content.data,
-                    accounts: accounts?.map((account) => {
+                    companyAccounts: companyAccounts?.map((account) => {
                         if (account.id === content.data.id) {
                             return content.data
                         }
@@ -100,12 +102,11 @@ export default function AccountUpdateModalComponent() {
                 })
             )
         }).catch((error) => {
-            const messageModalState = {
-                title: "Status",
-                content: error.response.data.message,
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: error.message,
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         })
     }
 
@@ -170,7 +171,7 @@ export default function AccountUpdateModalComponent() {
                                     <fieldset className="form-group pb-2">
                                         <label htmlFor="location" className="pb-1">Select Location</label>
                                         <Field as="select" name="locationId" className="form-control select-item">
-                                            {locations && locations.map((val, idx) => (
+                                            {companyLocations?.map((val, idx) => (
                                                 <option key={val.id} value={val.id}>{val.name}</option>
                                             ))}
                                         </Field>
@@ -232,7 +233,7 @@ export default function AccountUpdateModalComponent() {
                                         type="submit"
                                         className="btn btn-primary"
                                     >
-                                        Update Account
+                                        Update
                                     </button>
                                 </div>
                             </Form>

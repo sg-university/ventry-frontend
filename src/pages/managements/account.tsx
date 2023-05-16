@@ -10,7 +10,6 @@ import {useRouter} from "next/router";
 import {useDispatch, useSelector} from "react-redux";
 import PatchOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/accounts/patch_one_by_id_request";
-import ReadOneByIdRequest from "@/models/value_objects/contracts/requests/managements/roles/read_one_by_id_request";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import messageModalSlice from "@/slices/message_modal_slice";
@@ -23,47 +22,42 @@ import RoleService from "@/services/role_service";
 import Role from "@/models/entities/role";
 
 
-export default function Login() {
+const updateSchema = Yup.object().shape({
+    name: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    role: Yup.string().required("Required"),
+    password: Yup.string().required("Required"),
+    confirmPassword: Yup.string()
+        .required("Required")
+        .oneOf([Yup.ref("password"), ""], "Passwords must match"),
+});
+
+export default function Accounts() {
+    const accountService = new AccountService()
+    const roleService = new RoleService()
     const pageState: PageState = useSelector((state: any) => state.page);
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState;
-    const {currentRole} = pageState.accountManagement;
+    const {currentRole, roles} = pageState.accountManagement;
     const router = useRouter();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const roleService = new RoleService()
-        const request: ReadOneByIdRequest = {
-            id: currentAccount?.roleId
-        }
-        roleService
-            .readOneById(request)
-            .then((result: AxiosResponse<Content<Role>>) => {
-                const content = result.data;
-                dispatch(pageSlice.actions.configureAccountManagement({
-                    ...pageState.accountManagement,
-                    currentRole: content.data
-                }))
-            })
-            .catch((error) => {
-                console.log(error)
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
-            });
+        fetchCurrentRoleAndRoles()
     }, [])
 
-    const updateSchema = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        email: Yup.string().email("Invalid email").required("Required"),
-        role: Yup.string().required("Required"),
-        password: Yup.string().required("Required"),
-        confirmPassword: Yup.string()
-            .required("Required")
-            .oneOf([Yup.ref("password"), ""], "Passwords must match"),
-    });
+    const fetchCurrentRoleAndRoles = () => {
+        roleService.readAll().then((response) => {
+            const content: Content<Role[]> = response.data;
+            dispatch(pageSlice.actions.configureAccountManagement({
+                ...pageState.accountManagement,
+                roles: content.data,
+                currentRole: content.data.find((role) => role.id === currentAccount?.roleId)
+            }))
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
 
     const handleAccountSubmit = (values: any, actions: any) => {
         const accountService = new AccountService()
@@ -83,7 +77,7 @@ export default function Login() {
                 const content = result.data;
                 dispatch(pageSlice.actions.configureAccountManagement({
                     ...pageState.accountManagement,
-                    account: content.data
+                    currentAccount: content.data
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
@@ -107,10 +101,6 @@ export default function Login() {
 
     const handleLogout = () => {
         router.push('/')
-        dispatch(pageSlice.actions.configureAccountManagement({
-            ...pageState.accountManagement,
-            account: null
-        }))
         dispatch(authenticationSlice.actions.logout())
     }
 
@@ -179,7 +169,13 @@ export default function Login() {
                                     </fieldset>
                                     <fieldset className="form-group pt-2">
                                         <label htmlFor="role">Role</label>
-                                        <Field type="text" name="role" className="form-control mt-1" disabled/>
+                                        <Field as="select" name="role" className="form-control mt-1" disabled>
+                                            {roles?.map((role: Role) => (
+                                                <option key={role.id} value={role.id}>
+                                                    {role.name}
+                                                </option>
+                                            ))}
+                                        </Field>
                                         <ErrorMessage name="role" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group pt-2">

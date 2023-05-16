@@ -4,7 +4,7 @@
   flex-flow: column wrap;
 }
 
-.component.account-update-modal .body .main .form form fieldset {
+.component.account-update-modal .body .form form fieldset {
   display: flex;
   flex: 1;
   flex-flow: column wrap;
@@ -14,8 +14,8 @@
   height: 100%;
 }
 
-.component.account-update-modal .body .main .form,
-.component.account-update-modal .body .main .form form {
+.component.account-update-modal .body .form,
+.component.account-update-modal .body .form form {
   display: flex;
   flex: 1;
   flex-flow: column wrap;
@@ -34,7 +34,7 @@
   }
 }
 
-.component.account-update-modal .body .main .form form .row {
+.component.account-update-modal .body .form form .row {
   display: flex;
   flex: 1;
   flex-flow: row wrap;
@@ -45,6 +45,6 @@
   margin: 0 0 2vh 0;
 }
 
-.component.account-update-modal .body .main .form form .row fieldset {
+.component.account-update-modal .body .form form .row fieldset {
   margin: 0vh 1vh 0vh 1vh;
 }

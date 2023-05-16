@@ -1,97 +1,75 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Modal} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 
-import {PageState} from "@/slices/page_slice";
+
+import pageSlice, {PageState} from "@/slices/page_slice";
 import "@/styles/components/managements/histories/inventory_controls/inventory_control_view_modal.scss";
 import InventoryControlService from "@/services/inventory_control_service";
-import DeleteOneByIdRequest
-    from "@/models/value_objects/contracts/requests/managements/inventory_controls/delete_one_by_id_request";
 import messageModalSlice from "@/slices/message_modal_slice";
 import Content from "@/models/value_objects/contracts/content";
 import InventoryControl from "@/models/entities/inventory_control";
 
-function MainComponent(props) {
-    const [item, setItem] = useState({})
-    const {inventoryControl, convertDate} = props.inventoryControlController
 
+export default function InventoryControlViewModalComponent() {
+    const inventoryControlService = new InventoryControlService()
     const pageState: PageState = useSelector((state: any) => state.page);
-    const items = pageState.itemManagement.items
-    const itemData = items.filter((item) => item.id === inventoryControl.itemId)
-
-    useEffect(() => {
-        setItem(itemData[0])
-    }, [])
-
-    return (
-        <div className="main">
-            <div className="id">
-                <div className="text">{`ID: ${inventoryControl.id}`}</div>
-            </div>
-            <div className="code">
-                <div className="text">{`Code: ${item.code}`}</div>
-            </div>
-            <div className="name">
-                <div className="text">{`Name: ${item.name}`}</div>
-            </div>
-            <div className="price">
-                <div className="text">{`Price: ${item.unitSellPrice}`}</div>
-            </div>
-            <div className="quantity-before">
-                <div className="text">{`Quantity before: ${inventoryControl.quantityBefore}`}</div>
-            </div>
-            <div className="quantity-after">
-                <div className="text">{`Quantity After: ${inventoryControl.quantityAfter}`}</div>
-            </div>
-            <div className="updated-at">
-                <div className="text">{`Updated At: ${convertDate(inventoryControl.updatedAt)}`}</div>
-            </div>
-            <div className="created-at">
-                <div className="text">{`Created At: ${convertDate(inventoryControl.createdAt)}`}</div>
-            </div>
-        </div>
-    );
-}
-
-export default function InventoryControlViewModalComponent(props) {
-    const [isShow, setIsShow] = React.useState(true)
-    const [menu, setMenu] = React.useState('main')
-    const {inventoryControl, setModal, getAllInventoryControl} = props.inventoryControlController
+    const {
+        isShowModal,
+        currentInventoryControl,
+        currentItem,
+        accountInventoryControls
+    } = pageState.inventoryControlHistoryManagement
     const dispatch = useDispatch();
 
-    const handleShow = () => {
-        setIsShow(!isShow)
-        props.setModal("")
-    };
+    const handleShowModal = () => {
+        dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
+            ...pageState.inventoryControlHistoryManagement,
+            isShowModal: !isShowModal,
+        }))
+    }
 
     const handleModalUpdate = () => {
-        setModal("updateModal")
+        dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
+            ...pageState.inventoryControlHistoryManagement,
+            currentModal: "updateModal",
+            isShowModal: true,
+        }))
     }
 
     const handleModalDelete = () => {
-        const inventoryControlService = new InventoryControlService()
-        const request: DeleteOneByIdRequest = {
-            id: inventoryControl.id
-        }
-        inventoryControlService
-            .deleteOneById(request)
-            .then((response) => {
-                const content: Content<InventoryControl> = response.data;
-                handleShow()
-                dispatch(messageModalSlice.actions.configure({
-                    type: "succeed",
-                    content: content.message,
-                    isShow: true
-                }))
-                getAllInventoryControl()
-            })
+        inventoryControlService.deleteOneById({
+            id: currentInventoryControl?.id
+        }).then((response) => {
+            const content: Content<InventoryControl> = response.data
+            dispatch(messageModalSlice.actions.configure({
+                type: "succeed",
+                content: content.message,
+                isShow: true
+            }))
+            dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
+                ...pageState.inventoryControlHistoryManagement,
+                isShowModal: false,
+                accountInventoryControls: accountInventoryControls?.filter((item) => item.id !== currentInventoryControl?.id),
+            }))
+        }).catch((error) => {
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: error.message,
+                isShow: true
+            }))
+        })
     }
-
+    const convertDate = (dateTime: string) => {
+        const date = new Date(dateTime).toDateString()
+        const time = new Date(dateTime).toLocaleTimeString()
+        return date + " " + time
+    }
 
     return (
         <Modal
-            show={isShow}
-            onHide={handleShow}
+            show={isShowModal}
+            onHide={handleShowModal}
             centered
             className="component item-view-modal"
         >
@@ -100,32 +78,44 @@ export default function InventoryControlViewModalComponent(props) {
             </Modal.Header>
 
             <Modal.Body className="body">
-                {
-                    // Menu switch.
-                    {
-                        main: (
-                            <MainComponent
-                                inventoryControlController={props.inventoryControlController}
-                            />
-                        ),
-                    }[menu]
-                }
+                <div className="main">
+                    <div className="id">
+                        <div className="text">{`ID: ${currentItem?.id}`}</div>
+                    </div>
+                    <div className="code">
+                        <div className="text">{`Code: ${currentItem?.code}`}</div>
+                    </div>
+                    <div className="name">
+                        <div className="text">{`Name: ${currentItem?.name}`}</div>
+                    </div>
+                    <div className="price">
+                        <div className="text">{`Price: ${currentItem?.unitSellPrice}`}</div>
+                    </div>
+                    <div className="quantity-before">
+                        <div className="text">{`Quantity before: ${currentInventoryControl?.quantityBefore}`}</div>
+                    </div>
+                    <div className="quantity-after">
+                        <div className="text">{`Quantity After: ${currentInventoryControl?.quantityAfter}`}</div>
+                    </div>
+                    <div className="timestamp">
+                        <div className="text">{`Timestamp: ${convertDate(currentInventoryControl?.timestamp!)}`}</div>
+                    </div>
+                </div>
             </Modal.Body>
-
             <Modal.Footer className="footer">
                 <button
                     type="button"
                     className="btn btn-primary"
                     onClick={() => handleModalUpdate()}
                 >
-                    Update Control
+                    Update
                 </button>
                 <button
                     type="button"
                     className="btn btn-danger"
                     onClick={() => handleModalDelete()}
                 >
-                    Delete Control
+                    Delete
                 </button>
             </Modal.Footer>
         </Modal>

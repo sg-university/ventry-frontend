@@ -8,6 +8,11 @@ $primary-blue: #007bff;
     min-height: 92vh;
   }
 
+  .page.company-information .active {
+    color: white;
+    background-color: $primary-blue;
+  }
+
   .page.company-information .header {
     display: flex;
     align-items: center;

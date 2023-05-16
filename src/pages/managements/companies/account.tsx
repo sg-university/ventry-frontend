@@ -23,41 +23,45 @@ import Role from "@/models/entities/role";
 import Location from "@/models/entities/location";
 
 export default function CompanyAccount() {
-
-    const dispatch = useDispatch();
     const accountService: AccountService = new AccountService();
     const companyService: CompanyService = new CompanyService();
     const roleService: RoleService = new RoleService();
     const locationService: LocationService = new LocationService();
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
+    const {currentAccount} = authenticationState;
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {currentModal, accounts} = pageState.companyAccountManagement;
+    const {currentModal, companyAccounts} = pageState.companyAccountManagement;
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        fetchCompanyAccounts()
-    }, [])
-
-    const fetchCompanyAccounts = () => {
+    const fetchCompanyAccountsAndCurrentCompany = () => {
         companyService.readAllByAccountId({
-            accountId: authenticationState.currentAccount?.id
+            accountId: currentAccount?.id
         }).then((result) => {
-            const content: Content<Company[]> = result.data;
+            const companyContent: Content<Company[]> = result.data;
 
             accountService.readAllByCompanyId({
-                companyId: content.data[0].id
+                companyId: companyContent.data[0].id
             }).then((response) => {
-                const content: Content<Account[]> = response.data;
+                const accountContent: Content<Account[]> = response.data;
                 dispatch(pageSlice.actions.configureCompanyAccountManagement({
                     ...pageState.companyAccountManagement,
-                    accounts: content.data,
+                    currentCompany: companyContent.data[0],
+                    companyAccounts: accountContent.data,
                 }))
             }).catch((error) => {
                 console.log(error);
             })
+
+        }).catch((error) => {
+            console.log(error);
         })
     }
 
-    const handleClickButtonModalInsert = () => {
+    useEffect(() => {
+        fetchCompanyAccountsAndCurrentCompany()
+    }, [])
+
+    const handleInsertModal = () => {
         dispatch(pageSlice.actions.configureCompanyAccountManagement({
             ...pageState.companyAccountManagement,
             currentModal: "insertModal",
@@ -65,7 +69,7 @@ export default function CompanyAccount() {
         }))
     }
 
-    const handleClickButtonDetails = (account: Account) => {
+    const handleViewModal = (account: Account) => {
         Promise.all([
             roleService
                 .readAllByAccountId({
@@ -76,13 +80,13 @@ export default function CompanyAccount() {
                     accountId: account.id,
                 })
         ]).then((response) => {
-            const roleContent: Content<Role[]> = response[0].data;
-            const locationContent: Content<Location[]> = response[1].data;
+            const role: Content<Role[]> = response[0].data;
+            const location: Content<Location[]> = response[1].data;
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                 ...pageState.companyAccountManagement,
                 currentAccount: account,
-                currentRole: roleContent.data[0],
-                currentLocation: locationContent.data[0],
+                currentRole: role.data[0],
+                currentLocation: location.data[0],
                 currentModal: "viewModal",
                 isShowModal: true
             }))
@@ -114,24 +118,24 @@ export default function CompanyAccount() {
                             <button
                                 type="button"
                                 className="btn btn-primary"
-                                onClick={() => handleClickButtonModalInsert()}
+                                onClick={() => handleInsertModal()}
                             >
                                 <Image src={ButtonPlusImage} alt="plus"/>
-                                Add Account
+                                Add
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <div className="body">
-                    {accounts && accounts.length <= 0 ? (
+                    {(companyAccounts || [])?.length <= 0 ? (
                         <div className="empty-data">
                             <div className="text">
                                 Your company account is empty, try to insert one!
                             </div>
                         </div>
                     ) : null}
-                    {accounts && accounts.map((value, index) => (
+                    {companyAccounts?.map((value, index) => (
                         <div key={value.id} className="card">
                             <div className="image">
                                 <Image
@@ -152,7 +156,7 @@ export default function CompanyAccount() {
                                 <button
                                     type="button"
                                     className="btn btn-outline-primary"
-                                    onClick={() => handleClickButtonDetails(value)}
+                                    onClick={() => handleViewModal(value)}
                                 >
                                     Details
                                 </button>

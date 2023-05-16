@@ -14,7 +14,7 @@ export default function AccountViewModalComponent() {
     const accountService = new AccountService()
     const pageState: PageState = useSelector((state: any) => state.page);
     const {
-        accounts,
+        companyAccounts,
         isShowModal,
         currentAccount,
         currentRole,
@@ -54,7 +54,7 @@ export default function AccountViewModalComponent() {
                         isShowModal: false,
                         currentModal: "",
                         currentAccount: null,
-                        accounts: accounts?.filter((account) => account.id !== currentAccount?.id)
+                        companyAccounts: companyAccounts?.filter((account) => account.id !== currentAccount?.id)
                     })
                 )
             })

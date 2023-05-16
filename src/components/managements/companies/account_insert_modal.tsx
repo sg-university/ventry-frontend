@@ -33,29 +33,31 @@ export default function AccountInsertModalComponent() {
     const locationService: LocationService = new LocationService();
     const pageState: PageState = useSelector((state: any) => state.page);
     const {
-        accounts,
         roles,
-        locations,
+        companyAccounts,
+        companyLocations,
+        currentCompany,
         isShowModal,
-        currentAccount,
     } = pageState.companyAccountManagement;
     const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchRolesAndLocations();
+        fetchRolesAndCompanyLocations();
     }, [])
 
-    const fetchRolesAndLocations = () => {
+    const fetchRolesAndCompanyLocations = () => {
         Promise.all([
             roleService.readAll(),
-            locationService.readAll()
+            locationService.readAllByCompanyId({
+                companyId: currentCompany?.id
+            })
         ]).then((responses) => {
-            const roles: Content<Role[]> = responses[0].data;
-            const locations: Content<Location[]> = responses[1].data;
+            const contentRoles: Content<Role[]> = responses[0].data;
+            const contentLocations: Content<Location[]> = responses[1].data;
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                     ...pageState.companyAccountManagement,
-                    roles: roles.data,
-                    locations: locations.data
+                    roles: contentRoles.data,
+                    companyLocations: contentLocations.data
                 })
             )
         }).catch((error) => {
@@ -82,24 +84,22 @@ export default function AccountInsertModalComponent() {
             }
         }).then((response) => {
             const content: Content<Account> = response.data;
-            const messageModalState = {
-                title: "Status",
+            dispatch(messageModalSlice.actions.configure({
                 content: content.message,
                 type: "succeed",
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                 ...pageState.companyAccountManagement,
+                companyAccounts: [...(companyAccounts || []), content.data],
                 isShowModal: false,
             }))
         }).catch((error) => {
-            const messageModalState = {
-                title: "Status",
-                content: error.response.data.message,
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: error.message,
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         })
     }
 
@@ -121,7 +121,7 @@ export default function AccountInsertModalComponent() {
                         initialValues={{
                             name: "",
                             roleId: roles ? roles[0].id : "",
-                            locationId: locations ? locations[0].id : "",
+                            locationId: companyLocations ? companyLocations[0].id : "",
                             email: "",
                             password: "",
                             confirmPassword: ""
@@ -150,8 +150,8 @@ export default function AccountInsertModalComponent() {
                                     <fieldset className="form-group pb-2">
                                         <label htmlFor="roleId" className="pb-1">Select Role</label>
                                         <Field as="select" name="roleId" className="form-control select-item">
-                                            {roles && roles.map((val, idx) => (
-                                                <option key={val.id} value={val.id}>{val.name}</option>
+                                            {roles?.map((value, index) => (
+                                                <option key={value.id} value={value.id}>{value.name}</option>
                                             ))}
                                         </Field>
                                         <ErrorMessage
@@ -163,8 +163,8 @@ export default function AccountInsertModalComponent() {
                                     <fieldset className="form-group pb-2">
                                         <label htmlFor="locationId" className="pb-1">Select Location</label>
                                         <Field as="select" name="locationId" className="form-control select-item">
-                                            {locations && locations.map((val, idx) => (
-                                                <option key={val.id} value={val.id}>{val.name}</option>
+                                            {companyLocations?.map((value, index) => (
+                                                <option key={value.id} value={value.id}>{value.name}</option>
                                             ))}
                                         </Field>
                                         <ErrorMessage
@@ -226,7 +226,7 @@ export default function AccountInsertModalComponent() {
                                         type="submit"
                                         className="btn btn-primary"
                                     >
-                                        Insert Account
+                                        Insert
                                     </button>
                                 </div>
                             </Form>

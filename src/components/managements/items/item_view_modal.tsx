@@ -12,16 +12,23 @@ import ItemService from "@/services/item_service";
 import Item from "@/models/entities/item";
 import ItemBundleMapService from "@/services/item_bundle_map_service";
 import LocationService from "@/services/location_service";
+import Location from "@/models/entities/location";
 
 function MainComponent() {
     const locationService: LocationService = new LocationService();
     const itemService: ItemService = new ItemService()
     const pageState: PageState = useSelector((state: any) => state.page);
+<<<<<<< HEAD:src/components/managements/items/item_view_modal.tsx
     const {
         currentItem,
         currentLocation,
     } = pageState.itemManagement;
     const {currentAccount} = pageState.accountManagement
+=======
+    const { currentItem } = pageState.itemManagement;
+    const { currentLocation } = pageState.locationManagement
+    const { account } = pageState.accountManagement
+>>>>>>> main:src/components/item_management/item_view_modal.tsx
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -33,9 +40,9 @@ function MainComponent() {
             itemId: currentItem?.id
         }).then((response) => {
             const content: Content<Location[]> = response.data;
-            dispatch(pageSlice.actions.configureItemManagement({
-                ...pageState.itemManagement,
-                currentLocation: content.data[0]
+            dispatch(pageSlice.actions.configureLocationManagement({
+                ...pageState.locationManagement,
+                location: content.data[0]
             }))
         }).catch((error) => {
             console.log(error)
@@ -43,6 +50,7 @@ function MainComponent() {
     }
 
     const fetchItemsByLocation = () => {
+<<<<<<< HEAD:src/components/managements/items/item_view_modal.tsx
         itemService.readAllByLocationId({
             locationId: currentAccount?.locationId
         }).then((response) => {
@@ -54,12 +62,28 @@ function MainComponent() {
         }).catch((error) => {
             console.log(error);
         })
+=======
+      itemService.readAllByLocationId({
+          locationId: account?.locationId
+      }).then((response) => {
+          const content: Content<Item[]> = response.data;
+          dispatch(pageSlice.actions.configureItemManagement({
+              ...pageState.itemManagement,
+              items: content.data,
+              currentModal: "noModal",
+              isShowModal: false
+          }))
+      }).catch((error) => {
+          console.log(error);
+      })
+>>>>>>> main:src/components/item_management/item_view_modal.tsx
     }
 
     const handleModalUpdate = () => {
         dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
-                currentModal: "updateModal"
+                currentModal: "updateModal",
+                isShowModal: true
             })
         )
     }
@@ -69,6 +93,7 @@ function MainComponent() {
             .deleteOneById({
                 id: currentItem?.id
             })
+<<<<<<< HEAD:src/components/managements/items/item_view_modal.tsx
             .then((response) => {
                 dispatch(pageSlice.actions.configureItemManagement({
                         ...pageState.itemManagement,
@@ -83,6 +108,17 @@ function MainComponent() {
                     isShow: true
                 }))
                 fetchItemsByLocation()
+=======
+            .then(() => {
+                fetchItemsByLocation()
+                const messageModalState: MessageModalState = {
+                    title: "Status",
+                    type: "success",
+                    content: "Success Delete Item",
+                    isShow: true
+                }
+                dispatch(message_modal_slice.actions.configure(messageModalState))
+>>>>>>> main:src/components/item_management/item_view_modal.tsx
             })
             .catch((error) => {
                 console.log(error)
@@ -118,6 +154,11 @@ function MainComponent() {
             <div className="unit-cost-price">
                 <div className="text">
                     {`Unit Cost Price: ${currentItem?.unitCostPrice}`}
+                </div>
+            </div>
+            <div className="unit-sell-price">
+                <div className="text">
+                    {`Unit Sell Price: ${currentItem?.unitSellPrice}`}
                 </div>
             </div>
             <div className="description">
@@ -180,11 +221,10 @@ function ItemBundleComponent() {
     }
 
     const handleModalUpdate = () => {
-        dispatch(pageSlice.actions.configureItemManagement({
-                ...pageState.itemManagement,
-                currentModal: "updateModal"
-            })
-        )
+      dispatch(pageSlice.actions.configureItemManagement({
+          ...pageState.itemManagement,
+          currentModal: "updateModal"
+      }))
     }
 
     return (
@@ -229,18 +269,31 @@ export default function ItemViewModalComponent() {
     const itemBundleMapService: ItemBundleMapService = new ItemBundleMapService()
     const pageState: PageState = useSelector((state: any) => state.page);
     const {
+<<<<<<< HEAD:src/components/managements/items/item_view_modal.tsx
         isShowModal,
         currentItem,
         currentModalMenu
+=======
+      isShowModal,
+      currentItem,
+      menu,
+>>>>>>> main:src/components/item_management/item_view_modal.tsx
     } = pageState.itemManagement;
     const dispatch = useDispatch();
 
     const handleShowModal = () => {
+<<<<<<< HEAD:src/components/managements/items/item_view_modal.tsx
         dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
                 isShowModal: !pageState.itemManagement.isShowModal,
             })
         )
+=======
+      dispatch(pageSlice.actions.configureItemManagement({
+        ...pageState.itemManagement,
+        isShowModal: !pageState.itemManagement.isShowModal,
+      }))
+>>>>>>> main:src/components/item_management/item_view_modal.tsx
     };
 
     useEffect(() => {
@@ -261,11 +314,10 @@ export default function ItemViewModalComponent() {
     }
 
     const handleSelectModalMenu = (eventKey: string | null) => {
-        dispatch(pageSlice.actions.configureItemManagement({
-                ...pageState.itemManagement,
-                currentModalMenu: eventKey
-            })
-        )
+      dispatch(pageSlice.actions.configureItemManagement({
+        ...pageState.itemManagement,
+        menu: eventKey
+      }))
     }
 
     return (
@@ -281,21 +333,21 @@ export default function ItemViewModalComponent() {
 
             <Nav variant="tabs" onSelect={(eventKey) => handleSelectModalMenu(eventKey)}>
                 <Nav.Item>
-                    <Nav.Link eventKey="main" className={currentModalMenu == "main" ? "active" : "menu"}>Main</Nav.Link>
+                    <Nav.Link eventKey="main" className={menu == "main" ? "active" : "menu"}>Main</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link eventKey="itemBundle" className={currentModalMenu == "itemBundle" ? "active" : "menu"}>Items
+                    <Nav.Link eventKey="itemBundle" className={menu == "itemBundle" ? "active" : "menu"}>Items
                         Bundle</Nav.Link>
                 </Nav.Item>
             </Nav>
 
             <Modal.Body className="body">
+              {
                 {
-                    {
-                        main: <MainComponent/>,
-                        itemBundle: <ItemBundleComponent/>,
-                    }[currentModalMenu || "main"]
-                }
+                  main: <MainComponent/>,
+                  itemBundle: <ItemBundleComponent/>,
+                }[menu || "main"]
+              }
             </Modal.Body>
         </Modal>
     );
