@@ -14,7 +14,6 @@ import ItemInsertModalComponent from "@/components/managements/items/item_insert
 import ItemViewModalComponent from "@/components/managements/items/item_view_modal";
 import ItemUpdateModalComponent from "@/components/managements/items/item_update_modal";
 import "@/styles/pages/managements/items.scss"
-import {AuthenticationState} from "@/slices/authentication_slice";
 
 export default function Items() {
     const dispatch = useDispatch();

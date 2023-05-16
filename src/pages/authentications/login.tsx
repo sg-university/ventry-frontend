@@ -15,19 +15,19 @@ import {useRouter} from "next/router";
 import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import authenticationSlice from "@/slices/authentication_slice";
-import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import Link from "next/link";
 
 const loginSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().required("Required"),
 });
 
 export default function Login() {
     const router = useRouter();
     const dispatch = useDispatch();
     const pageState: PageState = useSelector((state: any) => state.page);
-    
+
     const handleSubmit = (values: any, actions: any) => {
         const authenticationService = new AuthenticationService();
         const request: LoginRequest = {
@@ -49,9 +49,9 @@ export default function Login() {
                     router.push(`/managements/items`)
                     dispatch(authenticationSlice.actions.login(content.data.entity));
                     dispatch(pageSlice.actions.configureAccountManagement({
-                      ...pageState.accountManagement,
-                      account: content.data,
-                  }))
+                        ...pageState.accountManagement,
+                        account: content.data,
+                    }))
                 }
             })
             .catch((error) => {
