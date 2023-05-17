@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/forecasts/stock_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/forecasts/stock_view_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/forecasts/transaction_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/forecasts/transaction_view_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/managements/pos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/pos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/page_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/page_slice.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/pos.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/pos.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

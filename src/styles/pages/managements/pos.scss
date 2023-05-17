@@ -13,23 +13,23 @@ $primary-blue: #007bff;
       flex: 2;
       flex-flow: column wrap;
       justify-content: flex-start;
-      align-content: center;
+      align-content: flex-start;
 
       .top-section {
         display: flex;
         flex: 1;
         flex-flow: row wrap;
         justify-content: center;
-        align-content: center;
+        align-content: flex-start;
         margin: 2vh 0 2vh 0;
       }
 
       .bottom-section {
         display: flex;
-        flex: 5;
+        flex: 9;
         flex-flow: row wrap;
         justify-content: center;
-        align-content: center;
+        align-content: flex-start;
 
         .card {
           display: flex;
@@ -49,9 +49,80 @@ $primary-blue: #007bff;
       flex-flow: column wrap;
       justify-content: flex-start;
       align-content: center;
+
+      .top-section {
+        display: flex;
+        flex: 1;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-content: flex-start;
+        margin: 2vh 0 2vh 0;
+      }
+
+      .bottom-section {
+        display: flex;
+        flex: 9;
+        flex-flow: column wrap;
+        justify-content: flex-start;
+        align-content: center;
+
+        .pad {
+          background-color: #efefef;
+          height: 70vh;
+          width: 30vw;
+          padding: 2vh 2vw 2vh 2vw;
+          border-radius: 4%;
+          overflow: scroll;
+
+          .transaction-item-map {
+            display: flex;
+            flex: 1;
+            flex-flow: row wrap;
+            justify-content: center;
+            align-content: center;
+            margin: 2vh 0 2vh 0;
+
+            .left-section {
+              display: flex;
+              flex: 1;
+              flex-flow: column wrap;
+              justify-content: center;
+              align-content: flex-start;
+            }
+
+            .right-section {
+              display: flex;
+              flex: 1;
+              flex-flow: row wrap;
+              justify-content: flex-end;
+              align-content: center;
+
+              .text {
+                display: flex;
+                flex: 1;
+                flex-flow: column wrap;
+                justify-content: center;
+                align-content: center;
+                text-align: center;
+              }
+
+              .button {
+                display: flex;
+                flex: 1;
+                flex-flow: column wrap;
+                justify-content: center;
+                align-content: center;
+                margin: 0 0 0 2vw;
+                border: 0 none;
+              }
+            }
+          }
+        }
+      }
     }
 
   }
+
 }
 
 @media (min-width: 0px) and (max-width: 768px) {
