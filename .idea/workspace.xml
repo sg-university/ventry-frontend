@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_update_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_insert_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_update_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_view_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/managements/items.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/items.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/managements/items/item_update_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/managements/items/item_update_modal.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,6 +143,7 @@
       <workItem from="1684062004136" duration="9341000" />
       <workItem from="1684136443550" duration="599000" />
       <workItem from="1684248127479" duration="7132000" />
+      <workItem from="1684311589375" duration="715000" />
     </task>
     <servers />
   </component>
