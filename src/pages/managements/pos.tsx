@@ -116,13 +116,13 @@ export default function PointOfSale() {
                         </div>
                     </div>
                     <div className="bottom-section">
-                        {items ? undefined : (
+                        {items?.length == 0 ? (
                             <div className="empty-data">
                                 <div className="text">
-                                    Your items is empty, try to insert one!
+                                    Your items is empty, try to insert one or search again!
                                 </div>
                             </div>
-                        )}
+                        ) : undefined}
                         {items && items.map((value, idx) => (
                             <div key={value.id} className="card">
                                 <div className="image">
