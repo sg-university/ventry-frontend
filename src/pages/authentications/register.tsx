@@ -17,6 +17,9 @@ import Image from "next/image";
 import Role from "@/models/entities/role";
 import Link from "next/link";
 import {useState} from "react";
+import AccountRegisterRequest from "@/models/value_objects/contracts/requests/authentications/account_register_request";
+import CompanyRegisterRequest from "@/models/value_objects/contracts/requests/authentications/company_register_request";
+import company from "@/models/entities/company";
 
 export default function Register() {
 
@@ -26,17 +29,11 @@ export default function Register() {
 
     const dispatch = useDispatch();
 
-    const [accountData, setAccountData] = useState({});
+    const [page, setPage] = useState(1);
+    const [title, setTitle] = useState('Account Information');
 
-    const [isFirstPage, setFirstPage] = useState(true);
-
-    // useEffect(() => {
-    //     const roleService: RoleService = new RoleService();
-    //     roleService.readAll().then((result: AxiosResponse<Content<Role[]>>) => {
-    //         const content = result.data;
-    //         setRoles(content.data);
-    //     })
-    // }, []);
+    const [accountRequest, setAccountRequest] = useState<AccountRegisterRequest>();
+    const [companyRequest, setCompanyRequest] = useState<CompanyRegisterRequest>();
 
     const registerSchemaAccount = Yup.object().shape({
         name: Yup.string().required("Required"),
@@ -54,24 +51,45 @@ export default function Register() {
         companyAddress: Yup.string().required("Required"),
     });
 
+    const registerSchemaLocation = Yup.object().shape({
+        locationName: Yup.string().required("Required"),
+        locationDescription: Yup.string().required("Required"),
+        locationAddress: Yup.string().required("Required"),
+    });
+
     const handleSubmitAccount = (values: any, actions: any) => {
-        const request: RegisterRequest = {
+        const accountData: AccountRegisterRequest = {
             name: values.name,
             email: values.email,
             password: values.password
-            // roleId: values.roleId
         }
-        setAccountData(request);
-        setFirstPage(!isFirstPage);
+        setAccountRequest(accountData);
+        setTitle('Company Information');
+        setPage(2);
     }
 
     const handleSubmitCompany = (values: any, actions: any) => {
-        const authenticationService = new AuthenticationService();
-        const request: RegisterRequest = {//ganti jadi company
+        const companyData: CompanyRegisterRequest = {
             name: values.name,
-            email: values.email,
-            password: values.password
-            // roleId: values.roleId
+            description: values.description,
+            address: values.address
+        }
+        setCompanyRequest(companyData);
+        setTitle('Location Information');
+        setPage(3);
+    }
+
+    const handleSubmitLocation = (values: any, actions: any) => {
+        const authenticationService = new AuthenticationService();
+        const request: RegisterRequest = {
+            account: accountRequest,
+            company: companyRequest,
+            location: {
+                name: values.name,
+                description: values.description,
+                address: values.address
+            }
+
         }
         authenticationService.register(request)
             .then((result: AxiosResponse<Content<RegisterResponse>>) => {
@@ -126,9 +144,9 @@ export default function Register() {
             <div className="right-section">
                 <div className="title">
                     <h1>Sign-up</h1>
-                    <h6>{isFirstPage ? 'Account Information' : 'Company Information'}</h6>
+                    <h6>{title}</h6>
                 </div>
-                <div className="form" style={{display: isFirstPage ? 'block' : 'none'}}>
+                <div className="form" style={{display: page == 1 ? 'block' : 'none'}}>
                     <Formik
                         validationSchema={registerSchemaAccount}
                         initialValues={{
@@ -175,7 +193,7 @@ export default function Register() {
                 </div>
 
 
-                <div className="formCompany" style={{display: isFirstPage ? 'none' : 'block'}}>
+                <div className="form" style={{display: page == 2 ? 'block' : 'none'}}>
                     <Formik
                         validationSchema={registerSchemaCompany}
                         initialValues={{
@@ -206,7 +224,50 @@ export default function Register() {
                                     <ErrorMessage name="companyAddress" component="div" className="text-danger"/>
                                 </fieldset>
                                 <div className="secondPageButtons">
-                                    <button onClick={() => setFirstPage(!isFirstPage)} type="button"
+                                    <button onClick={() => {setPage(1); setTitle('Account Information');}} type="button"
+                                            className="btn btn-primary">Previous
+                                    </button>
+                                    <button type="submit" className="btn btn-primary">
+                                        Next
+                                    </button>
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
+
+                <div className="form" style={{display: page == 3 ? 'block' : 'none'}}>
+                    <Formik
+                        validationSchema={registerSchemaLocation}
+                        initialValues={{
+                            locationName: "",
+                            locationDescription: "",
+                            locationAddress: ""
+                        }}
+                        onSubmit={handleSubmitLocation}
+                        enableReinitialize
+                    >
+                        {(props) => (
+                            <Form>
+                                <fieldset className="form-group">
+                                    <label htmlFor="locationName">Location Name</label>
+                                    <Field type="text" name="locationName" className="form-control"/>
+                                    <ErrorMessage name="locationName" component="div" className="text-danger"/>
+                                </fieldset>
+                                <fieldset className="form-group">
+                                    <label htmlFor="locationDescription">Location Description</label>
+                                    <Field type="text" name="locationDescription" className="form-control"
+                                           component="textarea" rows="4"/>
+                                    <ErrorMessage name="locationDescription" component="div" className="text-danger"/>
+                                </fieldset>
+                                <fieldset className="form-group">
+                                    <label htmlFor="locationAddress">Location Address</label>
+                                    <Field type="text" name="locationAddress" className="form-control"
+                                           component="textarea" rows="4"/>
+                                    <ErrorMessage name="locationAddress" component="div" className="text-danger"/>
+                                </fieldset>
+                                <div className="secondPageButtons">
+                                    <button onClick={() => {setPage(2); setTitle('Company Information');}} type="button"
                                             className="btn btn-primary">Previous
                                     </button>
                                     <button type="submit" className="btn btn-primary">
@@ -217,6 +278,7 @@ export default function Register() {
                         )}
                     </Formik>
                 </div>
+
                 <div className="suggest-login">
                     <div className="text">
                         Already have an account? Login at <Link href="/authentications/login">here</Link>

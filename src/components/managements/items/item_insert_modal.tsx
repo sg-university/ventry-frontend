@@ -11,6 +11,7 @@ import ItemBundleService from "@/services/item_bundle_map_service";
 import CreateOneItemBundleRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/create_one_request";
 import "@/styles/components/managements/items/item_insert_modal.scss";
+import {AuthenticationState} from "@/slices/authentication_slice";
 import Item from "@/models/entities/item";
 import ItemBundleMap from "@/models/entities/item_bundle_map";
 
@@ -40,12 +41,14 @@ const insertItemSchema = Yup.object().shape({
         .min(1, "Min 1"),
 });
 
-function MainComponent(props) {
-    const {handleShowModal, fetchItemsByLocation} = props
+function MainComponent() {
     const pageState: PageState = useSelector((state: any) => state.page);
     const itemService = new ItemService()
-    const {currentAccount} = pageState.accountManagement
+    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
+    const {currentAccount} = authenticationState
+    const {items, isShowModal} = pageState.itemManagement
     const dispatch = useDispatch();
+
 
     const handleInsertSubmit = (values: any, actions: any) => {
         itemService
@@ -57,7 +60,10 @@ function MainComponent(props) {
             })
             .then((response) => {
                 const content: Content<Item> = response.data;
-                fetchItemsByLocation()
+                dispatch(pageSlice.actions.configureItemManagement({
+                    ...pageState.itemManagement,
+                    items: [...(items || []), content.data]
+                }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
                     content: content.message,
@@ -67,14 +73,23 @@ function MainComponent(props) {
             .catch((error) => {
                 console.log(error)
                 dispatch(messageModalSlice.actions.configure({
-                    content: error.message,
                     type: "failed",
+                    content: error.message,
                     isShow: true
                 }))
             })
             .finally(() => {
                 actions.setSubmitting(false);
             });
+    }
+
+
+    const handleShowModal = () => {
+        dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                isShowModal: !isShowModal,
+            })
+        )
     }
 
     return (
@@ -230,11 +245,11 @@ function MainComponent(props) {
     )
 }
 
-function ItemsComponent(props) {
-    const itemBundleService = new ItemBundleService()
+function ItemsComponent(props: any) {
     const {fetchItemsByLocation, handleShowModal} = props
     const pageState: PageState = useSelector((state: any) => state.page);
     const {items} = pageState.itemManagement
+
     const dispatch = useDispatch();
 
     const handleInsertSubmit = (values: any, actions: any) => {
@@ -267,6 +282,7 @@ function ItemsComponent(props) {
             })
             .finally(() => {
                 actions.setSubmitting(false);
+                handleShowModal()
             });
     }
 
@@ -275,8 +291,8 @@ function ItemsComponent(props) {
             <Formik
                 validationSchema={insertItemSchema}
                 initialValues={{
-                    superItem: items[0].id,
-                    subItem: items[1].id,
+                    superItem: items ? items[0].id : "",
+                    subItem: items ? items[1].id : "",
                     bundle_quantity: 0
                 }}
                 onSubmit={handleInsertSubmit}
@@ -288,7 +304,7 @@ function ItemsComponent(props) {
                             <fieldset className="form-group pb-2">
                                 <label htmlFor="superItem" className="pb-1">Select Items</label>
                                 <Field as="select" name="superItem" className="form-control select-item">
-                                    {items && items.map((val, idx) => (
+                                    {items?.map((val, idx) => (
                                         <option key={val.id} value={val.id}>{val.name}</option>
                                     ))}
                                 </Field>
@@ -303,7 +319,7 @@ function ItemsComponent(props) {
                             <fieldset className="form-group pb-2">
                                 <label htmlFor="subItem" className="pb-1">Select Sub-Items</label>
                                 <Field as="select" name="subItem" className="form-control select-item">
-                                    {items && items.map((val, idx) => (
+                                    {items?.map((val, idx) => (
                                         <option key={val.id} value={val.id}>{val.name}</option>
                                     ))}
                                 </Field>
@@ -353,38 +369,24 @@ export default function ItemInsertModalComponent() {
         isShowModal,
         currentModalMenu
     } = pageState.itemManagement
-    const {currentAccount} = pageState.accountManagement
+    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
+    const {currentAccount} = authenticationState
     const dispatch = useDispatch();
 
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
-                currentModal: "noModal",
-                isShowModal: false,
+                isShowModal: !isShowModal,
             })
         )
     }
 
-    const handleSelectMenu = (eventKey, e) => {
+    const handleSelectMenu = (eventKey: any) => {
         dispatch(pageSlice.actions.configureItemManagement({
-            ...pageState.itemManagement,
-            menu: eventKey,
-        }))
-    }
-
-    const fetchItemsByLocation = () => {
-        itemService.readAllByLocationId({
-            locationId: currentAccount?.locationId
-        }).then((response) => {
-            console.log(response)
-            const content: Content<Item[]> = response.data;
-            dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
-                items: content.data,
-            }))
-        }).catch((error) => {
-            console.log(error);
-        })
+                currentModalMenu: eventKey,
+            })
+        )
     }
 
     return (
@@ -401,24 +403,13 @@ export default function ItemInsertModalComponent() {
                 <Nav.Item>
                     <Nav.Link eventKey="main" className={currentModalMenu == "main" ? "active" : "menu"}>Main</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="items" className={currentModalMenu == "items" ? "active" : "menu"}>Items
-                        Bundle</Nav.Link>
-                </Nav.Item>
             </Nav>
 
             <Modal.Body className="body">
                 {
                     // Menu switch.
                     {
-                        main: (
-                            <MainComponent fetchItemsByLocation={fetchItemsByLocation}
-                                           handleShowModal={handleShowModal}/>
-                        ),
-                        items: (
-                            <ItemsComponent fetchItemsByLocation={fetchItemsByLocation}
-                                            handleShowModal={handleShowModal}/>
-                        ),
+                        main: <MainComponent/>,
                     }[currentModalMenu || "main"]
                 }
             </Modal.Body>

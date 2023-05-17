@@ -51,7 +51,7 @@ export default function AccountViewModalComponent() {
                 }))
                 dispatch(pageSlice.actions.configureCompanyAccountManagement({
                         ...pageState.companyAccountManagement,
-                        isShowModal: false,
+                        isShowModal: !isShowModal,
                         currentModal: "",
                         currentAccount: null,
                         companyAccounts: companyAccounts?.filter((account) => account.id !== currentAccount?.id)

@@ -5,7 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/managements/pos/checkout_modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/components/managements/pos/checkout_modal.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/pages/managements/pos.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_insert_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/pos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/pos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/permission_service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/page_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/page_slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,33 +53,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Data/Apps/ventry-frontend/src/models/value_objects/contracts/requests/managements/locations&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;Sass&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Data\\Apps\\ventry-frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "last_opened_file_path": "C:/Data/Apps/ventry-frontend/src/styles/pages/managements",
+    "list.type.of.created.stylesheet": "Sass",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Data\\Apps\\ventry-frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Data\Apps\ventry-frontend\src\styles\pages\managements" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\styles\components\managements\pos" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\components\managements\pos" />
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\locations" />
       <recent name="C:\Data\Apps\ventry-frontend\src\styles\components\managements\forecasts" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\components\managements\forecasts" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\styles\pages\managements\forecasts" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\forecasts" />
@@ -140,6 +153,8 @@
       <workItem from="1684062004136" duration="9341000" />
       <workItem from="1684136443550" duration="599000" />
       <workItem from="1684248127479" duration="7132000" />
+      <workItem from="1684311589375" duration="2951000" />
+      <workItem from="1684320201600" duration="5870000" />
     </task>
     <servers />
   </component>

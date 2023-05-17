@@ -1,18 +1,18 @@
 $primary-blue: #007bff;
 
-.component.item-update-modal .active {
+.component.checkout-modal .active {
   color: white;
   background-color: $primary-blue;
 }
 
-.component.item-update-modal .body {
+.component.checkout-modal .body {
   display: flex;
   flex: 1;
   flex-flow: column wrap;
 }
 
-.component.item-update-modal .body .main .form form fieldset,
-.component.item-update-modal .body .items .form form fieldset {
+.component.checkout-modal .body .main .form form fieldset,
+.component.checkout-modal .body .items .form form fieldset {
   display: flex;
   flex: 1;
   flex-flow: column wrap;
@@ -22,10 +22,10 @@ $primary-blue: #007bff;
   height: 100%;
 }
 
-.component.item-update-modal .body .main .form,
-.component.item-update-modal .body .main .form form,
-.component.item-update-modal .body .items.form,
-.component.item-update-modal .body .items.form form {
+.component.checkout-modal .body .main .form,
+.component.checkout-modal .body .main .form form,
+.component.checkout-modal .body .items.form,
+.component.checkout-modal .body .items.form form {
   display: flex;
   flex: 1;
   flex-flow: column wrap;
@@ -48,8 +48,8 @@ $primary-blue: #007bff;
   }
 }
 
-.component.item-update-modal .body .main .form form .row,
-.component.item-update-modal .body .items .form form .row {
+.component.checkout-modal .body .main .form form .row,
+.component.checkout-modal .body .items .form form .row {
   display: flex;
   flex: 1;
   flex-flow: row wrap;
@@ -60,11 +60,11 @@ $primary-blue: #007bff;
   margin: 0 0 2vh 0;
 }
 
-.component.item-update-modal .body .main .form form .row fieldset {
+.component.checkout-modal .body .main .form form .row fieldset {
   margin: 0vh 1vh 0vh 1vh;
 }
 
-.component.item-update-modal .body .items {
+.component.checkout-modal .body .items {
   display: flex;
   flex: 1;
   flex-flow: column;
@@ -74,9 +74,9 @@ $primary-blue: #007bff;
   height: 100%;
 }
 
-.component.item-update-modal .body .items .input-quantity,
-.component.item-update-modal .body .items .input-quantity fieldset,
-.component.item-update-modal .body .items .input-quantity fieldset input {
+.component.checkout-modal .body .items .input-quantity,
+.component.checkout-modal .body .items .input-quantity fieldset,
+.component.checkout-modal .body .items .input-quantity fieldset input {
   display: flex;
   flex: 1;
   flex-flow: column;
@@ -86,7 +86,7 @@ $primary-blue: #007bff;
   height: 100%;
 }
 
-.component.item-update-modal .main .image {
+.component.checkout-modal .main .image {
   display: flex;
   flex: 1;
   flex-flow: row;
@@ -96,14 +96,14 @@ $primary-blue: #007bff;
   height: 100%;
 }
 
-.component.item-update-modal .main .image img {
+.component.checkout-modal .main .image img {
   margin: 0 0 0 2vh;
   max-width: 50%;
   height: 100%;
 }
 
-.component.item-update-modal .body .items .table-i,
-.component.item-update-modal .body .items .table-ic {
+.component.checkout-modal .body .items .table-i,
+.component.checkout-modal .body .items .table-ic {
   display: flex;
   flex: 1;
   flex-flow: column;
@@ -116,14 +116,4 @@ $primary-blue: #007bff;
     cursor: pointer;
     margin: 0 0.4vw 0 0.4vw;
   }
-}
-
-.is_record {
-  display: flex;
-  align-items: center;
-  margin: 0vh 0vw 0vh 2vw;
-}
-
-.is_record_label {
-  padding-left: 2%;
 }
