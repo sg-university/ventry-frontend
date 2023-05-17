@@ -18,6 +18,7 @@ export interface ItemManagementState {
     currentItem: Item | undefined
     currentItemBundleMaps: ItemBundleMap[] | undefined
     currentItemBundle: ItemBundleMap | undefined
+    currentLocation: Location | undefined
     currentModal: string | undefined
     isShowModal: boolean | undefined
     currentModalMenu: string | undefined
@@ -105,6 +106,7 @@ export default createSlice({
             currentItem: undefined,
             currentItemBundleMaps: undefined,
             currentModal: undefined,
+            currentLocation: undefined,
             isShowModal: false,
             currentModalMenu: "main",
             currentAction: undefined

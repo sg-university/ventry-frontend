@@ -6,13 +6,13 @@ import ItemService from "@/services/item_service";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
 import Content from "@/models/value_objects/contracts/content";
-import messageModalSlice from "@/slices/message_modal_slice";
+import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
 import ItemBundleService from "@/services/item_bundle_map_service";
 import CreateOneItemBundleRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/create_one_request";
 import "@/styles/components/managements/items/item_insert_modal.scss";
+import {AuthenticationState} from "@/slices/authentication_slice";
 import Item from "@/models/entities/item";
-import ItemBundleMap from "@/models/entities/item_bundle_map";
 
 const insertMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -40,11 +40,12 @@ const insertItemSchema = Yup.object().shape({
         .min(1, "Min 1"),
 });
 
-function MainComponent(props) {
+function MainComponent(props: any) {
     const {handleShowModal, fetchItemsByLocation} = props
     const pageState: PageState = useSelector((state: any) => state.page);
     const itemService = new ItemService()
-    const {currentAccount} = pageState.accountManagement
+    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
+    const {currentAccount} = authenticationState
     const dispatch = useDispatch();
 
     const handleInsertSubmit = (values: any, actions: any) => {
@@ -55,25 +56,25 @@ function MainComponent(props) {
                     ...values
                 }
             })
-            .then((response) => {
-                const content: Content<Item> = response.data;
+            .then(() => {
                 fetchItemsByLocation()
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Success Insert Item",
                     isShow: true
                 }))
             })
             .catch((error) => {
                 console.log(error)
                 dispatch(messageModalSlice.actions.configure({
-                    content: error.message,
                     type: "failed",
+                    content: error.message,
                     isShow: true
                 }))
             })
             .finally(() => {
                 actions.setSubmitting(false);
+                handleShowModal()
             });
     }
 
@@ -230,11 +231,11 @@ function MainComponent(props) {
     )
 }
 
-function ItemsComponent(props) {
-    const itemBundleService = new ItemBundleService()
+function ItemsComponent(props: any) {
     const {fetchItemsByLocation, handleShowModal} = props
     const pageState: PageState = useSelector((state: any) => state.page);
     const {items} = pageState.itemManagement
+
     const dispatch = useDispatch();
 
     const handleInsertSubmit = (values: any, actions: any) => {
@@ -248,25 +249,29 @@ function ItemsComponent(props) {
         }
         itemBundleService
             .createOne(request)
-            .then((response) => {
-                const content: Content<ItemBundleMap> = response.data;
-                dispatch(messageModalSlice.actions.configure({
+            .then(() => {
+                const messageModalState: MessageModalState = {
+                    title: "Status",
                     type: "succeed",
-                    content: content.message,
+                    content: "Success Insert Sub-Item",
                     isShow: true
-                }))
+                }
+                dispatch(messageModalSlice.actions.configure(messageModalState))
                 fetchItemsByLocation()
             })
             .catch((error) => {
                 console.log(error)
-                dispatch(messageModalSlice.actions.configure({
+                const messageModalState: MessageModalState = {
+                    title: "Status",
                     type: "failed",
                     content: error.message,
                     isShow: true
-                }))
+                }
+                dispatch(messageModalSlice.actions.configure(messageModalState))
             })
             .finally(() => {
                 actions.setSubmitting(false);
+                handleShowModal()
             });
     }
 
@@ -275,8 +280,8 @@ function ItemsComponent(props) {
             <Formik
                 validationSchema={insertItemSchema}
                 initialValues={{
-                    superItem: items[0].id,
-                    subItem: items[1].id,
+                    superItem: items ? items[0].id : "",
+                    subItem: items ? items[1].id : "",
                     bundle_quantity: 0
                 }}
                 onSubmit={handleInsertSubmit}
@@ -288,7 +293,7 @@ function ItemsComponent(props) {
                             <fieldset className="form-group pb-2">
                                 <label htmlFor="superItem" className="pb-1">Select Items</label>
                                 <Field as="select" name="superItem" className="form-control select-item">
-                                    {items && items.map((val, idx) => (
+                                    {items?.map((val, idx) => (
                                         <option key={val.id} value={val.id}>{val.name}</option>
                                     ))}
                                 </Field>
@@ -303,7 +308,7 @@ function ItemsComponent(props) {
                             <fieldset className="form-group pb-2">
                                 <label htmlFor="subItem" className="pb-1">Select Sub-Items</label>
                                 <Field as="select" name="subItem" className="form-control select-item">
-                                    {items && items.map((val, idx) => (
+                                    {items?.map((val, idx) => (
                                         <option key={val.id} value={val.id}>{val.name}</option>
                                     ))}
                                 </Field>
@@ -353,23 +358,24 @@ export default function ItemInsertModalComponent() {
         isShowModal,
         currentModalMenu
     } = pageState.itemManagement
-    const {currentAccount} = pageState.accountManagement
+    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
+    const {currentAccount} = authenticationState
     const dispatch = useDispatch();
 
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
-                currentModal: "noModal",
                 isShowModal: false,
             })
         )
     }
 
-    const handleSelectMenu = (eventKey, e) => {
+    const handleSelectMenu = (eventKey: any) => {
         dispatch(pageSlice.actions.configureItemManagement({
-            ...pageState.itemManagement,
-            menu: eventKey,
-        }))
+                ...pageState.itemManagement,
+                currentModalMenu: eventKey,
+            })
+        )
     }
 
     const fetchItemsByLocation = () => {

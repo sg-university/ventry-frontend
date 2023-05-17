@@ -3,9 +3,9 @@ import PatchBody from "@/models/value_objects/contracts/requests/managements/ite
 
 class PatchOneByIdRequest extends Request {
     id: string | undefined
-    body: PatchBody
+    body: PatchBody | undefined
 
-    constructor(id: string | undefined, body: PatchBody) {
+    constructor(id: string | undefined, body: PatchBody | undefined) {
         super();
         this.id = id;
         this.body = body;
