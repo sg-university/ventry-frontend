@@ -1,15 +1,19 @@
 import Request from "@/models/value_objects/contracts/requests/request";
+import AccountRegisterRequest from "@/models/value_objects/contracts/requests/authentications/account_register_request";
+import CompanyRegisterRequest from "@/models/value_objects/contracts/requests/authentications/company_register_request";
+import LocationRegisterRequest
+    from "@/models/value_objects/contracts/requests/authentications/location_register_request";
 
 class RegisterRequest extends Request {
-    name: string | undefined;
-    email: string | undefined;
-    password: string | undefined;
+    account: AccountRegisterRequest | undefined;
+    company: CompanyRegisterRequest | undefined;
+    location: LocationRegisterRequest | undefined;
 
-    constructor(name: string | undefined, email: string | undefined, password: string | undefined) {
+    constructor(account: AccountRegisterRequest | undefined, company: CompanyRegisterRequest | undefined, location: LocationRegisterRequest | undefined) {
         super();
-        this.name = name;
-        this.email = email;
-        this.password = password;
+        this.account = account;
+        this.company = company;
+        this.location = location;
     }
 }
 
