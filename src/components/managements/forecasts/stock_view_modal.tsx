@@ -99,25 +99,18 @@ export default function StockViewModalComponent() {
             },
             {
                 label: "Future",
-                data: (currentStockForecast?.prediction?.future || []).map(value => {
+                data: [
+                    {
+                        timestamp: new Date(lastPast?.timestamp!).getTime(),
+                        quantityAfter: lastPast?.quantityAfter!
+                    },
+                    ...(currentStockForecast?.prediction?.future || [])
+                ].map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),
                         y: value.quantityAfter!
                     }
                 })
-            },
-            {
-                label: "Interpolation",
-                data: [
-                    {
-                        x: new Date(lastPast?.timestamp!).getTime(),
-                        y: lastPast?.quantityAfter!
-                    },
-                    {
-                        x: new Date(firstFuture?.timestamp!).getTime(),
-                        y: firstFuture?.quantityAfter!
-                    }
-                ]
             },
         ],
     }

@@ -99,25 +99,18 @@ export default function TransactionViewModalComponent() {
             },
             {
                 label: "Future",
-                data: (currentTransactionForecast?.prediction?.future || []).map(value => {
+                data: [
+                    {
+                        timestamp: new Date(lastPast?.timestamp!).getTime(),
+                        quantity: lastPast?.quantity!
+                    },
+                    ...(currentTransactionForecast?.prediction?.future || [])
+                ].map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),
                         y: value.quantity!
                     }
                 })
-            },
-            {
-                label: "Interpolation",
-                data: [
-                    {
-                        x: new Date(lastPast?.timestamp!).getTime(),
-                        y: lastPast?.quantity!
-                    },
-                    {
-                        x: new Date(firstFuture?.timestamp!).getTime(),
-                        y: firstFuture?.quantity!
-                    }
-                ]
             },
         ],
     }
