@@ -18,6 +18,7 @@ import "@/styles/pages/managements/pos.scss"
 import Item from "@/models/entities/item";
 import Content from "@/models/value_objects/contracts/content";
 import {Field, Form, Formik, useFormikContext} from "formik";
+import TransactionItemMap from "@/models/entities/transaction_item_map";
 
 
 const AutoSearchFormikMiddleware = () => {
@@ -63,9 +64,6 @@ export default function PointOfSale() {
         })
     }
 
-    const handleClickAdd = (item: any) => {
-
-    }
 
     const handleSubmitSearch = (values: any) => {
         itemService.readAllByLocationId({
@@ -81,6 +79,64 @@ export default function PointOfSale() {
         }).catch((error) => {
             console.log(error);
         })
+    }
+
+
+    const handleClickAdd = (item: Item) => {
+        dispatch(pageSlice.actions.configurePointOfSaleManagement({
+            ...pageState.pointOfSaleManagement,
+            transactionItemMaps: [
+                ...(transactionItemMaps || []),
+                {
+                    id: undefined,
+                    transactionId: undefined,
+                    itemId: item.id,
+                    sellPrice: item.unitSellPrice,
+                    quantity: 1,
+                    createdAt: undefined,
+                    updatedAt: undefined,
+                }
+            ]
+        }))
+    }
+
+    const handleClickRemove = (item: Item) => {
+        dispatch(pageSlice.actions.configurePointOfSaleManagement({
+            ...pageState.pointOfSaleManagement,
+            transactionItemMaps: transactionItemMaps?.filter((value) => {
+                return value.itemId != item.id
+            })
+        }))
+    }
+
+    const handleClickIncrement = (transactionItemMap: TransactionItemMap) => {
+        dispatch(pageSlice.actions.configurePointOfSaleManagement({
+            ...pageState.pointOfSaleManagement,
+            transactionItemMaps: transactionItemMaps?.map((value) => {
+                if (value.itemId == transactionItemMap.itemId) {
+                    return {
+                        ...value,
+                        quantity: value.quantity + 1
+                    }
+                }
+                return value
+            })
+        }))
+    }
+
+    const handleClickDecrement = (transactionItemMap: TransactionItemMap) => {
+        dispatch(pageSlice.actions.configurePointOfSaleManagement({
+            ...pageState.pointOfSaleManagement,
+            transactionItemMaps: transactionItemMaps?.map((value) => {
+                if (value.itemId == transactionItemMap.itemId) {
+                    return {
+                        ...value,
+                        quantity: value.quantity - 1
+                    }
+                }
+                return value
+            })
+        }))
     }
 
     return (
@@ -141,14 +197,26 @@ export default function PointOfSale() {
                                     <div className="quantity">
                                         <div className="text">Quantity: {value.quantity}</div>
                                     </div>
-                                    <div className="control">
-                                        <button
-                                            type="button"
-                                            className="btn btn-outline-primary"
-                                            onClick={() => handleClickAdd(value)}
-                                        >
-                                            Add
-                                        </button>
+                                    <div className="action">
+                                        {
+                                            transactionItemMaps?.find((item) => item.itemId == value.id) ?
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-primary remove"
+                                                    onClick={() => handleClickRemove(value)}
+                                                >
+                                                    Remove
+                                                </button>
+                                                :
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-outline-primary add"
+                                                    onClick={() => handleClickAdd(value)}
+                                                >
+                                                    Add
+                                                </button>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
@@ -157,30 +225,32 @@ export default function PointOfSale() {
                 </div>
 
                 <div className="right-section">
-                    <div className="title">
-                        <h1>The Order</h1>
+                    <div className="top-section">
+                        <h1 className="title">Order</h1>
                     </div>
-                    <div>
-                        <div className="order">
+                    <div className="bottom-section">
+                        <div className="pad">
                             {
                                 transactionItemMaps?.map((value, index) => (
-                                    <div key={index} className="item">
+                                    <div key={index} className="transaction-item-map">
                                         <div className="left-section">
                                             <div className="name">
                                                 {(items || []).find(item => item.id == value.itemId)?.name}
                                             </div>
                                             <div className="price">
-                                                {(items || []).find(item => item.id == value.itemId)?.unitSellPrice}
+                                                Rp. {(items || []).find(item => item.id == value.itemId)?.unitSellPrice! * value.quantity}
                                             </div>
                                         </div>
                                         <div className="right-section">
-                                            <button className="button decrement">
+                                            <button className="button decrement"
+                                                    onClick={() => handleClickDecrement(value)}>
                                                 <Image src={MinusIcon} alt="minus" className="image"/>
                                             </button>
                                             <div className="text quantity">
                                                 {value.quantity}
                                             </div>
-                                            <button className="button increment">
+                                            <button className="button increment"
+                                                    onClick={() => handleClickIncrement(value)}>
                                                 <Image src={PlusIcon} alt="plus" className="image"/>
                                             </button>
                                         </div>
@@ -188,6 +258,7 @@ export default function PointOfSale() {
                                 ))
                             }
                         </div>
+
                     </div>
                 </div>
             </div>

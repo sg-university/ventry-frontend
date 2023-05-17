@@ -95,7 +95,6 @@ export interface PointOfSaleManagement {
     items: Item[] | undefined
     transaction: Transaction | undefined
     transactionItemMaps: TransactionItemMap[] | undefined
-
     searchValue: string | undefined
 }
 
