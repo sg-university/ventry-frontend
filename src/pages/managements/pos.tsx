@@ -68,16 +68,19 @@ export default function PointOfSale() {
     }
 
     const handleSubmitSearch = (values: any) => {
-        if (!values.searchValue) {
-            fetchItems()
-            return
-        }
-        dispatch(pageSlice.actions.configurePointOfSaleManagement({
-            ...pageState.pointOfSaleManagement,
-            items: (items || []).filter((value) => {
-                return value.name.toLowerCase().includes(values.searchValue.toLowerCase())
-            })
-        }))
+        itemService.readAllByLocationId({
+            locationId: currentAccount?.locationId
+        }).then((response) => {
+            const content: Content<Item[]> = response.data;
+            dispatch(pageSlice.actions.configurePointOfSaleManagement({
+                ...pageState.pointOfSaleManagement,
+                items: content.data.filter((value) => {
+                    return JSON.stringify(value).toLowerCase().includes(values.searchValue.toLowerCase())
+                }),
+            }))
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
     return (

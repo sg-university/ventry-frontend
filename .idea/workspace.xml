@@ -5,20 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/managements/pos/checkout_modal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/components/managements/pos/checkout_modal.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/pages/managements/pos.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_insert_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_update_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_view_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_update_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_view_modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/managements/pos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/pos.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/permission_service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/page_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/page_slice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +142,7 @@
       <workItem from="1684136443550" duration="599000" />
       <workItem from="1684248127479" duration="7132000" />
       <workItem from="1684311589375" duration="2951000" />
-      <workItem from="1684320201600" duration="5870000" />
+      <workItem from="1684320201600" duration="6427000" />
     </task>
     <servers />
   </component>
