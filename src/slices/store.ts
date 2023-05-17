@@ -26,12 +26,13 @@ export const makeStore = () => {
         });
         return store
     } else {
-        const persistConfig = {
-            key: "persist",
-            whitelist: ["authentication"],
-            storage,
-        };
-        const persistedReducer = persistReducer(persistConfig, rootReducer);
+        const persistedReducer = persistReducer({
+                key: "persist",
+                whitelist: ["authentication"],
+                storage,
+            },
+            rootReducer
+        );
         store = configureStore({
             reducer: persistedReducer,
             devTools: process.env.NODE_ENV !== "production",

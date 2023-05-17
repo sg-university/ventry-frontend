@@ -85,7 +85,7 @@ function MainComponent() {
                 ...pageState.itemManagement,
                 items: content.data,
                 item: item,
-                isShowModal: false,
+                isShowModal: !isShowModal,
             }))
         }).catch((error) => {
             console.log(error);
@@ -435,7 +435,8 @@ function ItemBundleForm(props: any) {
                             </div>
                         </Form>
                     )}
-                </Formik></div>
+                </Formik>
+            </div>
         </div>);
 }
 
@@ -446,7 +447,7 @@ export default function ItemUpdateModalComponent() {
     const handleShow = () => {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
-            isShowModal: false,
+            isShowModal: !isShowModal,
         }));
     }
     const handleSelectModalMenu = (eventKey: string | null) => {

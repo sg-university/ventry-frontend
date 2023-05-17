@@ -1,0 +1,99 @@
+$primary-blue: #007bff;
+
+@media (min-width: 768px) {
+  .page.pos-management {
+    display: flex;
+    flex: 1;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+
+    .left-section {
+      display: flex;
+      flex: 2;
+      flex-flow: column wrap;
+      justify-content: flex-start;
+      align-content: center;
+
+      .top-section {
+        display: flex;
+        flex: 1;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-content: center;
+        margin: 2vh 0 2vh 0;
+      }
+
+      .bottom-section {
+        display: flex;
+        flex: 5;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-content: center;
+
+        .card {
+          display: flex;
+          flex: 0 0 auto;
+          flex-flow: column;
+          justify-content: center;
+          align-items: center;
+          margin: 1.25%;
+          max-width: 22%;
+        }
+      }
+    }
+
+    .right-section {
+      display: flex;
+      flex: 1;
+      flex-flow: column wrap;
+      justify-content: flex-start;
+      align-content: center;
+    }
+
+  }
+}
+
+@media (min-width: 0px) and (max-width: 768px) {
+
+}
+
+.card {
+  .code,
+  .name,
+  .quantity,
+  .image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .content {
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2vh 2vh 2vh 2vh;
+    width: 100%;
+    height: 100%;
+
+    .code {
+      font-weight: bold;
+    }
+
+    .quantity {
+      color: $primary-blue;
+    }
+
+    .control {
+      margin: 2vh 0 0 0;
+    }
+  }
+}
+

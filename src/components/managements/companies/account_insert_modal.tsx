@@ -92,7 +92,7 @@ export default function AccountInsertModalComponent() {
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                 ...pageState.companyAccountManagement,
                 companyAccounts: [...(companyAccounts || []), content.data],
-                isShowModal: false,
+                isShowModal: !isShowModal,
             }))
         }).catch((error) => {
             dispatch(messageModalSlice.actions.configure({

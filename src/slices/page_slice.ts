@@ -11,6 +11,8 @@ import TransactionForecastResponse
 import StockForecastResponse
     from "@/models/value_objects/contracts/response/forecasts/item_stocks/stock_forecast_response";
 import InventoryControl from "@/models/entities/inventory_control";
+import TransactionItemMap from "@/models/entities/transaction_item_map";
+import Transaction from "@/models/entities/transaction";
 
 
 export interface ItemManagementState {
@@ -87,6 +89,16 @@ export interface InventoryControlHistoryManagement {
     accountItems: Item[] | undefined
 }
 
+export interface PointOfSaleManagement {
+    currentModal: string | undefined
+    isShowModal: boolean | undefined
+    items: Item[] | undefined
+    transaction: Transaction | undefined
+    transactionItemMaps: TransactionItemMap[] | undefined
+
+    searchValue: string | undefined
+}
+
 export interface PageState {
     itemManagement: ItemManagementState;
     accountManagement: AccountManagementState
@@ -96,6 +108,7 @@ export interface PageState {
     itemTransactionForecastManagement: ItemTransactionForecastManagement
     companyInformationManagement: CompanyInformationManagementState
     inventoryControlHistoryManagement: InventoryControlHistoryManagement
+    pointOfSaleManagement: PointOfSaleManagement
 }
 
 export default createSlice({
@@ -162,6 +175,14 @@ export default createSlice({
             currentInventoryControl: undefined,
             accountItems: undefined,
             currentItem: undefined,
+        },
+        pointOfSaleManagement: <PointOfSaleManagement>{
+            currentModal: undefined,
+            isShowModal: false,
+            items: undefined,
+            transaction: undefined,
+            transactionItemMaps: undefined,
+            searchValue: undefined
         }
     },
     reducers: {
@@ -188,6 +209,9 @@ export default createSlice({
         },
         configureInventoryControlHistoryManagement(state, action) {
             state.inventoryControlHistoryManagement = action.payload;
+        },
+        configurePointOfSaleManagement(state, action) {
+            state.pointOfSaleManagement = action.payload;
         }
     },
     extraReducers: {

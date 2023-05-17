@@ -49,7 +49,7 @@ export default function InventoryControlViewModalComponent() {
             }))
             dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
                 ...pageState.inventoryControlHistoryManagement,
-                isShowModal: false,
+                isShowModal: !isShowModal,
                 accountInventoryControls: accountInventoryControls?.filter((item) => item.id !== currentInventoryControl?.id),
             }))
         }).catch((error) => {
