@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import ItemBundleService from "@/services/item_bundle_map_service";
 import ItemBundleMapService from "@/services/item_bundle_map_service";
-import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import Image from "next/image";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
 import ItemService from "@/services/item_service";
@@ -22,7 +22,6 @@ import Item from "@/models/entities/item";
 import InventoryControlService from "@/services/inventory_control_service";
 import CreateOneRequest
     from "@/models/value_objects/contracts/requests/managements/inventory_controls/create_one_request";
-import {AxiosResponse} from "axios";
 import ItemBundleMap from "@/models/entities/item_bundle_map";
 import "@/styles/components/managements/items/item_update_modal.scss"
 import {AuthenticationState} from "@/slices/authentication_slice";
@@ -90,13 +89,13 @@ function MainComponent(props: any) {
         itemService.patchOneById({
             id: currentItem?.id,
             body: {...values, locationId: currentLocation?.id}
-        }).then((result: AxiosResponse<Content<Item>>) => {
-            const item = result.data;
+        }).then((response) => {
+            const content: Content<Item> = response.data;
             recordChanges(quantityBefore!, values.quantity)
-            fetchItemsByLocation(item.data)
+            fetchItemsByLocation(content.data)
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Success Update Item",
+                content: content.message,
                 isShow: true
             }))
         }).catch((error) => {
@@ -227,14 +226,16 @@ function ItemBundleComponent(props: any) {
     }
     const handleDeleteClick = (itemBundle: ItemBundleMap) => {
         const request: DeleteOneByIdRequest = {id: itemBundle.id}
-        itemBundleMapService.deleteOneById(request).then(() => {
-            fetchCurrentItemBundleMaps()
-            dispatch(messageModalSlice.actions.configure({
-                type: "succeed",
-                content: "Success Delete Item Bundle",
-                isShow: true
-            }))
-        }).catch((error) => {
+        itemBundleMapService.deleteOneById(request)
+            .then((response) => {
+                const content: Content<ItemBundleMap> = response.data;
+                fetchCurrentItemBundleMaps()
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: content.message,
+                    isShow: true
+                }))
+            }).catch((error) => {
             console.log(error)
             dispatch(messageModalSlice.actions.configure({
                 type: "failed",
@@ -296,24 +297,23 @@ function ItemBundleForm(props: any) {
             id: currentItemBundle?.id,
             body: {superItemId: currentItem?.id, subItemId: values.subItem, quantity: values.bundle_quantity}
         }
-        itemBundleService.patchOneById(request).then((result) => {
-            fetchCurrentItemBundleMaps()
-            const messageModalState: MessageModalState = {
-                title: "Status",
-                type: "succeed",
-                content: "Success Update Item Bundle",
-                isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
-        }).catch((error) => {
+        itemBundleService.patchOneById(request)
+            .then((response) => {
+                const content: Content<ItemBundleMap> = response.data;
+                fetchCurrentItemBundleMaps()
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: content.message,
+                    isShow: true
+                }))
+            }).catch((error) => {
             console.log(error)
-            const messageModalState: MessageModalState = {
+            dispatch(messageModalSlice.actions.configure({
                 title: "Status",
                 type: "failed",
                 content: error.message,
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         }).finally(() => {
             actions.setSubmitting(false);
         });
@@ -327,24 +327,21 @@ function ItemBundleForm(props: any) {
                 quantity: values.bundle_quantity
             }
         }
-        itemBundleService.createOne(request).then(() => {
+        itemBundleService.createOne(request).then((response) => {
+            const content: Content<ItemBundleMap> = response.data;
             fetchCurrentItemBundleMaps()
-            const messageModalState: MessageModalState = {
-                title: "Status",
+            dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Success Insert Item Bundle",
+                content: content.message,
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         }).catch((error) => {
             console.log(error)
-            const messageModalState: MessageModalState = {
-                title: "Status",
+            dispatch(messageModalSlice.actions.configure({
                 type: "failed",
                 content: error.message,
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         }).finally(() => {
             actions.setSubmitting(false);
         });

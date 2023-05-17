@@ -6,13 +6,14 @@ import ItemService from "@/services/item_service";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
 import Content from "@/models/value_objects/contracts/content";
-import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import ItemBundleService from "@/services/item_bundle_map_service";
 import CreateOneItemBundleRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/create_one_request";
 import "@/styles/components/managements/items/item_insert_modal.scss";
 import {AuthenticationState} from "@/slices/authentication_slice";
 import Item from "@/models/entities/item";
+import ItemBundleMap from "@/models/entities/item_bundle_map";
 
 const insertMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -56,11 +57,12 @@ function MainComponent(props: any) {
                     ...values
                 }
             })
-            .then(() => {
+            .then((response) => {
+                const content: Content<Item> = response.data;
                 fetchItemsByLocation()
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Success Insert Item",
+                    content: content.message,
                     isShow: true
                 }))
             })
@@ -249,25 +251,22 @@ function ItemsComponent(props: any) {
         }
         itemBundleService
             .createOne(request)
-            .then(() => {
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+            .then((response) => {
+                const content: Content<ItemBundleMap> = response.data;
+                dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Success Insert Sub-Item",
+                    content: content.message,
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
                 fetchItemsByLocation()
             })
             .catch((error) => {
                 console.log(error)
-                const messageModalState: MessageModalState = {
-                    title: "Status",
+                dispatch(messageModalSlice.actions.configure({
                     type: "failed",
                     content: error.message,
                     isShow: true
-                }
-                dispatch(messageModalSlice.actions.configure(messageModalState))
+                }))
             })
             .finally(() => {
                 actions.setSubmitting(false);

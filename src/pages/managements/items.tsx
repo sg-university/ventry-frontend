@@ -33,10 +33,10 @@ export default function Items() {
     const {currentModal, items} = pageState.itemManagement;
 
     useEffect(() => {
-        fetchItemsByLocation()
+        fetchItemsByAccountLocation()
     }, [])
 
-    const fetchItemsByLocation = () => {
+    const fetchItemsByAccountLocation = () => {
         itemService.readAllByLocationId({
             locationId: currentAccount?.locationId
         }).then((response) => {
