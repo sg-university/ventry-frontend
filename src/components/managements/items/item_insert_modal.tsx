@@ -228,7 +228,7 @@ function MainComponent() {
                                 type="submit"
                                 className="btn btn-primary"
                             >
-                                Insert Item
+                                Insert
                             </button>
                             <button
                                 type="button"
@@ -345,7 +345,7 @@ function ItemsComponent(props: any) {
                                 type="submit"
                                 className="btn btn-primary"
                             >
-                                Insert Item
+                                Insert
                             </button>
                             <button
                                 type="button"

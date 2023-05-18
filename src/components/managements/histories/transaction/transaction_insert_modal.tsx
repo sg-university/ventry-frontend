@@ -210,7 +210,7 @@ function MainComponent(props) {
                                     type="submit"
                                     className="btn btn-primary"
                                 >
-                                    Insert Transaction
+                                    Insert
                                 </button>
                             </div>
                         </Form>

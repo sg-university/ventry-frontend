@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/managements/pos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/pos.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/slices/page_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/page_slice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/pages/managements/pos.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/managements/pos.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_insert_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_insert_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/account.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/histories/transaction.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/histories/transaction.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/items.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/items.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,6 +150,7 @@
       <workItem from="1684248127479" duration="7132000" />
       <workItem from="1684311589375" duration="2951000" />
       <workItem from="1684320201600" duration="6427000" />
+      <workItem from="1684399950541" duration="690000" />
     </task>
     <servers />
   </component>

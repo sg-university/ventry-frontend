@@ -189,7 +189,7 @@ export default function Accounts() {
                                         <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
                                     </fieldset>
                                     <button type="submit" className="btn btn-primary pt-2">
-                                        Update Account
+                                        Update
                                     </button>
                                 </Form>
                             )}

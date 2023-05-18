@@ -109,14 +109,14 @@ export default function AccountViewModalComponent() {
                     className="btn btn-primary"
                     onClick={() => handleModalUpdate()}
                 >
-                    Update Account
+                    Update
                 </button>
                 <button
                     type="button"
                     className="btn btn-danger"
                     onClick={() => handleModalDelete()}
                 >
-                    Delete Account
+                    Delete
                 </button>
             </Modal.Footer>
         </Modal>
