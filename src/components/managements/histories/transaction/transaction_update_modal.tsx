@@ -244,7 +244,7 @@ function MainComponent(props) {
                                     type="submit"
                                     className="btn btn-primary"
                                 >
-                                    Update Transaction
+                                    Update
                                 </button>
                             </div>
                         </Form>
