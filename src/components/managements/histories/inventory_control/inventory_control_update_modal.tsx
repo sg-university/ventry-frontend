@@ -33,7 +33,7 @@ export default function InventoryControlUpdateModalComponent() {
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
             ...pageState.inventoryControlHistoryManagement,
-            isShowModal: false,
+            isShowModal: !isShowModal,
         }))
     }
     const handleUpdateSubmit = (values: any, actions: any) => {

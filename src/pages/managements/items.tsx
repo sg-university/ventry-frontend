@@ -33,10 +33,10 @@ export default function Items() {
     const {currentModal, items} = pageState.itemManagement;
 
     useEffect(() => {
-        fetchItemsByLocation()
+        fetchItemsByAccountLocation()
     }, [])
 
-    const fetchItemsByLocation = () => {
+    const fetchItemsByAccountLocation = () => {
         itemService.readAllByLocationId({
             locationId: currentAccount?.locationId
         }).then((response) => {
@@ -97,7 +97,7 @@ export default function Items() {
                                 onClick={() => handleInsertModal()}
                             >
                                 <Image src={ButtonPlusImage} alt="plus" className="image"/>
-                                Insert Item
+                                Insert
                             </button>
                         </div>
                     </div>

@@ -54,7 +54,7 @@ export default function InventoryControlInsertModalComponent() {
             }))
             dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
                 ...pageState.inventoryControlHistoryManagement,
-                accountInventoryControls: [...(accountInventoryControls || []), content.data],
+                accountInventoryControls: [...(accountInventoryControls!), content.data],
             }))
         }).catch((error) => {
             console.log(error)

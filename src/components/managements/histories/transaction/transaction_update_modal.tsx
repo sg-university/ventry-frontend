@@ -4,10 +4,8 @@ import {Modal} from "react-bootstrap";
 import {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
 import "@/styles/components/managements/histories/transactions/transaction_update_modal.scss"
-import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import messageModalSlice from "@/slices/message_modal_slice";
-import message_modal_slice from "@/slices/message_modal_slice";
 import TransactionService from "@/services/transaction_service";
 import Transaction from "@/models/entities/transaction";
 import TransactionItemMapService from "@/services/transaction_item_map_service";
@@ -122,12 +120,12 @@ function MainComponent(props) {
         }
         transactionService
             .patchOneById(request)
-            .then((result: AxiosResponse<Content<Transaction>>) => {
-                const content = result.data
+            .then((response) => {
+                const content: Content<Transaction> = response.data
                 getAllTransaction()
                 setModal("viewModal")
-                dispatch(message_modal_slice.actions.configure({
-                    type: "success",
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
                     content: "Update Transaction Succeed",
                     isShow: true
                 }))
@@ -246,7 +244,7 @@ function MainComponent(props) {
                                     type="submit"
                                     className="btn btn-primary"
                                 >
-                                    Update Transaction
+                                    Update
                                 </button>
                             </div>
                         </Form>

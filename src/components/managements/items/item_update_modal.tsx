@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import ItemBundleService from "@/services/item_bundle_map_service";
 import ItemBundleMapService from "@/services/item_bundle_map_service";
-import messageModalSlice, {MessageModalState} from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import Image from "next/image";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
 import ItemService from "@/services/item_service";
@@ -22,7 +22,6 @@ import Item from "@/models/entities/item";
 import InventoryControlService from "@/services/inventory_control_service";
 import CreateOneRequest
     from "@/models/value_objects/contracts/requests/managements/inventory_controls/create_one_request";
-import {AxiosResponse} from "axios";
 import ItemBundleMap from "@/models/entities/item_bundle_map";
 import "@/styles/components/managements/items/item_update_modal.scss"
 import {AuthenticationState} from "@/slices/authentication_slice";
@@ -43,15 +42,22 @@ const updateItemSchema = Yup.object().shape({
     bundle_quantity: Yup.number().required("Required").min(1, "Min 1"),
 });
 
-function MainComponent(props: any) {
+function MainComponent() {
     const itemService: ItemService = new ItemService();
     const inventoryControlService = new InventoryControlService()
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {currentItem, currentLocation} = pageState.itemManagement;
+    const {currentItem, currentLocation, isShowModal} = pageState.itemManagement;
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState
-    const {handleShow} = props
     const dispatch = useDispatch();
+
+    const handleShow = () => {
+        dispatch(pageSlice.actions.configureItemManagement({
+            ...pageState.itemManagement,
+            isShowModal: !isShowModal,
+        }))
+    }
+
     const recordChanges = (quantityBefore: number, quantityAfter: number) => {
         const date = new Date()
         const request: CreateOneRequest = {
@@ -79,7 +85,7 @@ function MainComponent(props: any) {
                 ...pageState.itemManagement,
                 items: content.data,
                 item: item,
-                isShowModal: false,
+                isShowModal: !isShowModal,
             }))
         }).catch((error) => {
             console.log(error);
@@ -90,10 +96,10 @@ function MainComponent(props: any) {
         itemService.patchOneById({
             id: currentItem?.id,
             body: {...values, locationId: currentLocation?.id}
-        }).then((result: AxiosResponse<Content<Item>>) => {
-            const item = result.data;
+        }).then((response) => {
+            const content: Content<Item> = response.data;
             recordChanges(quantityBefore!, values.quantity)
-            fetchItemsByLocation(item.data)
+            fetchItemsByLocation(content.data)
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
                 content: "Update Item Succeed",
@@ -191,14 +197,16 @@ function MainComponent(props: any) {
     </div>);
 }
 
-function ItemBundleComponent(props: any) {
+function ItemBundleComponent() {
     const itemBundleMapService: ItemBundleMapService = new ItemBundleMapService();
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {items, currentItem, currentItemBundleMaps} = pageState.itemManagement
+    const {items, currentItem, currentItemBundleMaps, isShowModal} = pageState.itemManagement
     const dispatch = useDispatch();
+
     useEffect(() => {
         fetchCurrentItemBundleMaps()
     }, [])
+
     const fetchCurrentItemBundleMaps = () => {
         itemBundleMapService.readAllBySuperItemId({superItemId: currentItem?.id}).then((response) => {
             const content: Content<ItemBundleMap[]> = response.data;
@@ -210,6 +218,15 @@ function ItemBundleComponent(props: any) {
             console.log(error)
         })
     }
+
+    const handleShow = () => {
+        dispatch(pageSlice.actions.configureItemManagement({
+            ...pageState.itemManagement,
+            isShowModal: !isShowModal
+        }))
+    }
+
+
     const handleInsertItemBundle = () => {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
@@ -259,8 +276,10 @@ function ItemBundleComponent(props: any) {
                         <td>{val.subItemId}</td>
                         <td>{items?.find(item => item.id == val.subItemId)?.name}</td>
                         <td>{val.quantity}</td>
-                        <td className="action"><PencilFill className="icon" onClick={() => handleUpdateClick(val)}/>
-                            <Trash3Fill className="icon" onClick={() => handleDeleteClick(val)}/></td>
+                        <td className="action">
+                            <PencilFill className="icon" onClick={() => handleUpdateClick(val)}/>
+                            <Trash3Fill className="icon" onClick={() => handleDeleteClick(val)}/>
+                        </td>
                     </tr>);
                 })} </tbody>
             </table>
@@ -268,7 +287,7 @@ function ItemBundleComponent(props: any) {
         <div className="button">
             <button type="button" className="btn btn-primary" onClick={() => handleInsertItemBundle()}> Insert Item
             </button>
-            <button type="button" className="btn btn-secondary" onClick={() => props.handleShow()}> Close</button>
+            <button type="button" className="btn btn-secondary" onClick={() => handleShow()}> Close</button>
         </div>
     </div>);
 }
@@ -276,7 +295,7 @@ function ItemBundleComponent(props: any) {
 function ItemBundleForm(props: any) {
     const itemBundleService = new ItemBundleService()
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {items, currentItem, currentAction, currentItemBundle} = pageState.itemManagement
+    const {items, currentItem, currentAction, currentItemBundle, isShowModal} = pageState.itemManagement
     const dispatch = useDispatch();
     const isInsert = currentAction == 'insert'
     const fetchCurrentItemBundleMaps = () => {
@@ -307,13 +326,12 @@ function ItemBundleForm(props: any) {
             dispatch(messageModalSlice.actions.configure(messageModalState))
         }).catch((error) => {
             console.log(error)
-            const messageModalState: MessageModalState = {
+            dispatch(messageModalSlice.actions.configure({
                 title: "Status",
                 type: "failed",
                 content: error.message,
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         }).finally(() => {
             actions.setSubmitting(false);
         });
@@ -327,24 +345,21 @@ function ItemBundleForm(props: any) {
                 quantity: values.bundle_quantity
             }
         }
-        itemBundleService.createOne(request).then(() => {
+        itemBundleService.createOne(request).then((response) => {
+            const content: Content<ItemBundleMap> = response.data;
             fetchCurrentItemBundleMaps()
-            const messageModalState: MessageModalState = {
-                title: "Status",
+            dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
                 content: "Insert Sub-Item Succeed",
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         }).catch((error) => {
             console.log(error)
-            const messageModalState: MessageModalState = {
-                title: "Status",
+            dispatch(messageModalSlice.actions.configure({
                 type: "failed",
                 content: error.message,
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         }).finally(() => {
             actions.setSubmitting(false);
         });
@@ -361,6 +376,14 @@ function ItemBundleForm(props: any) {
                 break;
         }
     }
+
+    const handleShow = () => {
+        dispatch(pageSlice.actions.configureItemManagement({
+            ...pageState.itemManagement,
+            isShowModal: !isShowModal
+        }))
+    }
+
     return (
         <div className="items form">
             <div className="items form">
@@ -404,13 +427,14 @@ function ItemBundleForm(props: any) {
                                 <button type="submit" className="btn btn-primary">
                                     {isInsert ? "Insert Item" : "Update Item"}
                                 </button>
-                                <button type="button" className="btn btn-secondary" onClick={() => props.handleShow()}>
+                                <button type="button" className="btn btn-secondary" onClick={() => handleShow()}>
                                     Close
                                 </button>
                             </div>
                         </Form>
                     )}
-                </Formik></div>
+                </Formik>
+            </div>
         </div>);
 }
 
@@ -421,7 +445,7 @@ export default function ItemUpdateModalComponent() {
     const handleShow = () => {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
-            isShowModal: false,
+            isShowModal: !isShowModal,
         }));
     }
     const handleSelectModalMenu = (eventKey: string | null) => {
@@ -447,9 +471,9 @@ export default function ItemUpdateModalComponent() {
             <Modal.Body className="body">
                 {
                     {
-                        main: <MainComponent handleShow={handleShow}/>,
-                        itemBundle: <ItemBundleComponent handleShow={handleShow}/>,
-                        itemBundleForm: <ItemBundleForm handleShow={handleShow}/>
+                        main: <MainComponent/>,
+                        itemBundle: <ItemBundleComponent/>,
+                        itemBundleForm: <ItemBundleForm/>
                     }[currentModalMenu || "main"]
                 }
             </Modal.Body>

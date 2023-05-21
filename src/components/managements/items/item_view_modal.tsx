@@ -44,7 +44,7 @@ function MainComponent() {
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
                 items: content.data,
-                isShowModal: false
+                isShowModal: !isShowModal
             }))
         }).catch((error) => {
             console.log(error);
