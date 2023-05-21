@@ -89,7 +89,7 @@ export default function Register() {
                     dispatch(messageModalSlice.actions.configure({
                         title: "Status",
                         type: "succeed",
-                        content: content.message,
+                        content: "Register Succeed",
                         isShow: true
                     }))
                     router.push('/authentications/login')

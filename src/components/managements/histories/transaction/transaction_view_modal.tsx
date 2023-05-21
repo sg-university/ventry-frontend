@@ -93,7 +93,7 @@ export default function TransactionViewModalComponent(props) {
                 handleShow()
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Delete Transaction Succeed",
                     isShow: true
                 }))
                 getAllTransaction()

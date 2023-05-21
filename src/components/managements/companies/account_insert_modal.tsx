@@ -85,7 +85,7 @@ export default function AccountInsertModalComponent() {
         }).then((response) => {
             const content: Content<Account> = response.data;
             dispatch(messageModalSlice.actions.configure({
-                content: content.message,
+                content: "Insert Account Succeed",
                 type: "succeed",
                 isShow: true
             }))

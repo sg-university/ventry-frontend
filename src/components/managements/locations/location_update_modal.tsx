@@ -48,7 +48,7 @@ export default function LocationUpdateModalComponent() {
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Update Location Succeed",
                     isShow: true
                 }))
             })

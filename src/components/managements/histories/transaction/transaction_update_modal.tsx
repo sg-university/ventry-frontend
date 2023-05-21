@@ -128,7 +128,7 @@ function MainComponent(props) {
                 setModal("viewModal")
                 dispatch(message_modal_slice.actions.configure({
                     type: "success",
-                    content: "Update Transaction Success",
+                    content: "Update Transaction Succeed",
                     isShow: true
                 }))
                 setTransaction(content.data)

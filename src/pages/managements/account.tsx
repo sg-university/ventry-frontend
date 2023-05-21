@@ -81,7 +81,7 @@ export default function Accounts() {
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Update Account Succeed",
                     isShow: true
                 }))
             })

@@ -96,7 +96,7 @@ function MainComponent(props: any) {
             fetchItemsByLocation(item.data)
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Success Update Item",
+                content: "Update Item Succeed",
                 isShow: true
             }))
         }).catch((error) => {
@@ -231,7 +231,7 @@ function ItemBundleComponent(props: any) {
             fetchCurrentItemBundleMaps()
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Success Delete Item Bundle",
+                content: "Delete Sub-Item Succeed",
                 isShow: true
             }))
         }).catch((error) => {
@@ -301,7 +301,7 @@ function ItemBundleForm(props: any) {
             const messageModalState: MessageModalState = {
                 title: "Status",
                 type: "succeed",
-                content: "Success Update Item Bundle",
+                content: "Update Sub-Item Succeed",
                 isShow: true
             }
             dispatch(messageModalSlice.actions.configure(messageModalState))
@@ -332,7 +332,7 @@ function ItemBundleForm(props: any) {
             const messageModalState: MessageModalState = {
                 title: "Status",
                 type: "succeed",
-                content: "Success Insert Item Bundle",
+                content: "Insert Sub-Item Succeed",
                 isShow: true
             }
             dispatch(messageModalSlice.actions.configure(messageModalState))

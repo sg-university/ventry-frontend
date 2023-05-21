@@ -62,7 +62,7 @@ function MainComponent() {
             fetchItemsByLocation()
             dispatch(message_modal_slice.actions.configure({
                 type: "succeed",
-                content: "Success Delete Item",
+                content: "Delete Item Succeed",
                 isShow: true
             }))
         }).catch((error) => {
