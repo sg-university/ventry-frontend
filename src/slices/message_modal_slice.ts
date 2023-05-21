@@ -14,14 +14,12 @@ export default createSlice({
     initialState: <MessageModalState>{
         isShow: false,
         type: undefined,
-        title: undefined,
         content: undefined,
     },
     reducers: {
         configure: (state, action) => {
             state.content = action.payload.content;
             state.type = action.payload.type;
-            state.title = action.payload.title;
             state.isShow = action.payload.isShow;
         },
     },

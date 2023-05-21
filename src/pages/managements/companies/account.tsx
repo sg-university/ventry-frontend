@@ -128,7 +128,7 @@ export default function CompanyAccount() {
                 </div>
 
                 <div className="body">
-                    {(companyAccounts || [])?.length <= 0 ? (
+                    {(companyAccounts!)?.length <= 0 ? (
                         <div className="empty-data">
                             <div className="text">
                                 Your company account is empty, try to insert one!

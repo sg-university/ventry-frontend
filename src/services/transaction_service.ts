@@ -13,6 +13,8 @@ import PatchOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/transactions/patch_one_by_id_request";
 import ReadAllByLocationIdRequest
     from "@/models/value_objects/contracts/requests/managements/transactions/read_all_by_location_id_request";
+import CheckoutRequest from "@/models/value_objects/contracts/requests/managements/transactions/checkout_request";
+import CheckoutResponse from "@/models/value_objects/contracts/response/managements/transactions/checkout_response";
 
 class TransactionService extends Service {
 
@@ -48,6 +50,11 @@ class TransactionService extends Service {
 
     patchOneById(request: PatchOneByIdRequest): Promise<AxiosResponse<Content<Transaction>>> {
         return this.client.instance.patch(`${this.path}/${request.id}`, request.body);
+    }
+
+
+    checkout(request: CheckoutRequest): Promise<AxiosResponse<Content<CheckoutResponse>>> {
+        return this.client.instance.post(`${this.path}/checkout`, request.body);
     }
 
 }

@@ -300,7 +300,7 @@ export default function Information() {
                         {
                             information: <InformationComponent/>,
                             location: <LocationComponent/>,
-                        }[currentModalMenu ? currentModalMenu : 'information']
+                        }[currentModalMenu || 'information']
                     }
                 </div>
             </div>
