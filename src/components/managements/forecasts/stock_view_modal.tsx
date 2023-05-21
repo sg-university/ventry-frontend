@@ -84,13 +84,13 @@ export default function StockViewModalComponent() {
 
     const currentChartData: ChartData<"line"> = {
         labels: [
-            ...(currentStockForecast?.prediction?.past || []).map(value => value.timestamp),
-            ...(currentStockForecast?.prediction?.future || []).map(value => value.timestamp)
+            ...(currentStockForecast?.prediction?.past!).map(value => value.timestamp),
+            ...(currentStockForecast?.prediction?.future!).map(value => value.timestamp)
         ],
         datasets: [
             {
                 label: "Past",
-                data: (currentStockForecast?.prediction?.past || []).map(value => {
+                data: (currentStockForecast?.prediction?.past!).map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),
                         y: value.quantityAfter!
@@ -104,7 +104,7 @@ export default function StockViewModalComponent() {
                         timestamp: new Date(lastPast?.timestamp!).getTime(),
                         quantityAfter: lastPast?.quantityAfter!
                     },
-                    ...(currentStockForecast?.prediction?.future || [])
+                    ...(currentStockForecast?.prediction?.future!)
                 ].map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),

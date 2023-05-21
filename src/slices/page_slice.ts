@@ -114,9 +114,10 @@ export default createSlice({
     name: 'page',
     initialState: <PageState>{
         itemManagement: <ItemManagementState>{
-            items: undefined,
+            items: [],
             currentItem: undefined,
-            currentItemBundleMaps: undefined,
+            currentItemBundleMaps: [],
+            currentItemBundle: undefined,
             currentModal: undefined,
             currentLocation: undefined,
             isShowModal: false,
@@ -128,14 +129,15 @@ export default createSlice({
             currentRole: undefined
         },
         locationManagement: <LocationManagementState>{
-            locations: undefined,
+            locations: [],
             currentLocation: undefined,
             currentModal: undefined,
             isShowModal: false,
         },
         companyAccountManagement: <CompanyAccountManagementState>{
-            companyAccounts: undefined,
-            roles: undefined,
+            companyAccounts: [],
+            companyLocations: [],
+            roles: [],
             currentCompany: undefined,
             currentAccount: undefined,
             currentRole: undefined,
@@ -144,7 +146,7 @@ export default createSlice({
             isShowModal: false,
         },
         itemStockForecastManagement: <ItemStockForecastManagement>{
-            items: undefined,
+            items: [],
             currentItem: undefined,
             currentStockForecast: undefined,
             currentModal: undefined,
@@ -152,7 +154,7 @@ export default createSlice({
             currentModalMenu: undefined,
         },
         itemTransactionForecastManagement: <ItemTransactionForecastManagement>{
-            items: undefined,
+            items: [],
             currentItem: undefined,
             currentTransactionForecast: undefined,
             currentModal: undefined,
@@ -162,7 +164,7 @@ export default createSlice({
         companyInformationManagement: <CompanyInformationManagementState>{
             currentCompany: undefined,
             currentLocation: undefined,
-            currentLocations: undefined,
+            currentLocations: [],
             currentModalMenu: undefined,
             currentModal: undefined,
             isShowModal: false,
@@ -170,17 +172,17 @@ export default createSlice({
         inventoryControlHistoryManagement: <InventoryControlHistoryManagement>{
             currentModal: undefined,
             isShowModal: false,
-            accountInventoryControls: undefined,
+            accountInventoryControls: [],
             currentInventoryControl: undefined,
-            accountItems: undefined,
+            accountItems: [],
             currentItem: undefined,
         },
         pointOfSaleManagement: <PointOfSaleManagement>{
             currentModal: undefined,
             isShowModal: false,
-            items: undefined,
+            items: [],
             transaction: undefined,
-            transactionItemMaps: undefined,
+            transactionItemMaps: [],
             searchValue: undefined
         }
     },

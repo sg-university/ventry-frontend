@@ -91,7 +91,7 @@ export default function AccountInsertModalComponent() {
             }))
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                 ...pageState.companyAccountManagement,
-                companyAccounts: [...(companyAccounts || []), content.data],
+                companyAccounts: [...(companyAccounts!), content.data],
                 isShowModal: !isShowModal,
             }))
         }).catch((error) => {

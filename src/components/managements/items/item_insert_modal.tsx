@@ -62,7 +62,7 @@ function MainComponent() {
                 const content: Content<Item> = response.data;
                 dispatch(pageSlice.actions.configureItemManagement({
                     ...pageState.itemManagement,
-                    items: [...(items || []), content.data]
+                    items: [...(items!), content.data]
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",

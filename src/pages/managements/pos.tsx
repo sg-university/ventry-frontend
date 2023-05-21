@@ -19,6 +19,8 @@ import Item from "@/models/entities/item";
 import Content from "@/models/value_objects/contracts/content";
 import {Field, Form, Formik, useFormikContext} from "formik";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
+import {PlusLg} from "react-bootstrap-icons";
+import messageModalSlice from "@/slices/message_modal_slice";
 
 
 const AutoSearchFormikMiddleware = () => {
@@ -45,10 +47,28 @@ export default function PointOfSale() {
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, items, transactionItemMaps} = pageState.pointOfSaleManagement;
 
+    const totalPrice = transactionItemMaps?.reduce((previous, current) => {
+        return previous + ((items!).find(item => item.id == current.itemId)?.unitSellPrice! * current.quantity)
+    }, 0)
 
     useEffect(() => {
+        prepareTransaction()
         fetchItems()
     }, [])
+
+    const prepareTransaction = () => {
+        dispatch(pageSlice.actions.configurePointOfSaleManagement({
+            ...pageState.pointOfSaleManagement,
+            transaction: {
+                id: undefined,
+                accountId: currentAccount?.id,
+                sellPrice: totalPrice,
+                timestamp: undefined,
+                createdAt: undefined,
+                updatedAt: undefined,
+            }
+        }))
+    }
 
     const fetchItems = () => {
         itemService.readAllByLocationId({
@@ -83,16 +103,26 @@ export default function PointOfSale() {
 
 
     const handleClickAdd = (item: Item) => {
+        if (item.quantity <= 0) {
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: `Item code "${item.code}" did not have enough available quantity.`,
+                isShow: true
+            }))
+            return
+        }
+
+
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
             transactionItemMaps: [
-                ...(transactionItemMaps || []),
+                ...transactionItemMaps!,
                 {
                     id: undefined,
                     transactionId: undefined,
                     itemId: item.id,
                     sellPrice: item.unitSellPrice,
-                    quantity: 1,
+                    quantity: 0,
                     createdAt: undefined,
                     updatedAt: undefined,
                 }
@@ -109,7 +139,20 @@ export default function PointOfSale() {
         }))
     }
 
+
     const handleClickIncrement = (transactionItemMap: TransactionItemMap) => {
+        const item = items!.find((item) => item.id === transactionItemMap.itemId)
+        if (item!.id === transactionItemMap.itemId) {
+            if (item!.quantity - (transactionItemMap.quantity + 1) < 0) {
+                dispatch(messageModalSlice.actions.configure({
+                    type: "failed",
+                    content: `Item code "${item!.code}" did not have enough available quantity.`,
+                    isShow: true
+                }))
+                return
+            }
+        }
+
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
             transactionItemMaps: transactionItemMaps?.map((value) => {
@@ -124,7 +167,17 @@ export default function PointOfSale() {
         }))
     }
 
+
     const handleClickDecrement = (transactionItemMap: TransactionItemMap) => {
+        if (transactionItemMap.quantity - 1 < 0) {
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: `Item code "${items!.find((item) => item.id === transactionItemMap.itemId)!.code}" must be greater than or equal to 0.`,
+                isShow: true
+            }))
+            return true
+        }
+
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
             transactionItemMaps: transactionItemMaps?.map((value) => {
@@ -139,11 +192,41 @@ export default function PointOfSale() {
         }))
     }
 
+    const handleClickCheckout = () => {
+        if (transactionItemMaps == undefined || transactionItemMaps?.length == 0) {
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                isShow: true,
+                content: "Please add an item to the order."
+            }))
+            return
+        }
+
+        if (totalPrice == 0) {
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                isShow: true,
+                content: "Total price must be greater than 0."
+            }))
+            return
+        }
+
+        dispatch(pageSlice.actions.configurePointOfSaleManagement({
+            ...pageState.pointOfSaleManagement,
+            currentModal: 'checkoutModal',
+            isShowModal: true,
+            transaction: {
+                ...pageState.pointOfSaleManagement.transaction,
+                sellPrice: totalPrice,
+            }
+        }))
+    }
+
     return (
         <Authenticated>
             <div className="page pos-management">
                 <MessageModal/>
-                {currentModal == 'checkoutModal' && <CheckoutModalComponent/>}
+                {currentModal == "checkoutModal" && <CheckoutModalComponent/>}
                 <div className="left-section">
                     <div className="top-section">
                         <div className="left-section">
@@ -179,7 +262,7 @@ export default function PointOfSale() {
                                 </div>
                             </div>
                         ) : undefined}
-                        {items && items.map((value, idx) => (
+                        {items && items.map((value, index) => (
                             <div key={value.id} className="card">
                                 <div className="image">
                                     <Image
@@ -229,36 +312,60 @@ export default function PointOfSale() {
                         <h1 className="title">Order</h1>
                     </div>
                     <div className="bottom-section">
-                        <div className="pad">
-                            {
-                                transactionItemMaps?.map((value, index) => (
-                                    <div key={index} className="transaction-item-map">
-                                        <div className="left-section">
-                                            <div className="name">
-                                                {(items || []).find(item => item.id == value.itemId)?.name}
+                        <div className="order">
+                            <div className="pad">
+                                {
+                                    transactionItemMaps?.map((value, index) => (
+                                        <div key={index} className="transaction-item-map">
+                                            <div className="left-section">
+                                                <div className="name">
+                                                    {(items!).find(item => item.id == value.itemId)?.name}
+                                                </div>
+                                                <div className="price">
+                                                    Rp. {(items!).find(item => item.id == value.itemId)?.unitSellPrice! * value.quantity}
+                                                </div>
                                             </div>
-                                            <div className="price">
-                                                Rp. {(items || []).find(item => item.id == value.itemId)?.unitSellPrice! * value.quantity}
+                                            <div className="right-section">
+                                                <div className="button decrement">
+                                                    <Image src={MinusIcon} alt="minus"
+                                                           className="image button decrement"
+                                                           onClick={() => handleClickDecrement(value)}/>
+                                                </div>
+                                                <div className="text quantity">
+                                                    {value.quantity}
+                                                </div>
+                                                <div className="button increment">
+                                                    <Image src={PlusIcon} alt="plus" className="image"
+                                                           onClick={() => handleClickIncrement(value)}/>
+                                                </div>
                                             </div>
+
+                                            <hr className="horizontal-line border opacity-100 w-100"/>
                                         </div>
-                                        <div className="right-section">
-                                            <button className="button decrement"
-                                                    onClick={() => handleClickDecrement(value)}>
-                                                <Image src={MinusIcon} alt="minus" className="image"/>
-                                            </button>
-                                            <div className="text quantity">
-                                                {value.quantity}
-                                            </div>
-                                            <button className="button increment"
-                                                    onClick={() => handleClickIncrement(value)}>
-                                                <Image src={PlusIcon} alt="plus" className="image"/>
-                                            </button>
-                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                        <div className="summary">
+                            <div className="pad">
+                                <div className="total">
+                                    <div className="top-section">Total</div>
+                                    <hr className="border border-dark opacity-100 w-100 p-0 m-0"/>
+                                    <div className="bottom-section">
+                                        Rp. {totalPrice}
                                     </div>
-                                ))
-                            }
+                                </div>
+                            </div>
                         </div>
 
+                        <div className="checkout">
+                            <button className="btn btn-primary" onClick={() => handleClickCheckout()}>
+                                <PlusLg className="icon"/>
+                                <div className="text">
+                                    Checkout
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

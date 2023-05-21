@@ -19,7 +19,6 @@ import Link from "next/link";
 import {useState} from "react";
 import AccountRegisterRequest from "@/models/value_objects/contracts/requests/authentications/account_register_request";
 import CompanyRegisterRequest from "@/models/value_objects/contracts/requests/authentications/company_register_request";
-import company from "@/models/entities/company";
 
 export default function Register() {
 
@@ -42,7 +41,6 @@ export default function Register() {
         confirmPassword: Yup.string()
             .required("Required")
             .oneOf([Yup.ref("password"), ""], "Passwords must match"),
-        // roleId: Yup.string().required("Required"),
     });
 
     const registerSchemaCompany = Yup.object().shape({
@@ -224,7 +222,10 @@ export default function Register() {
                                     <ErrorMessage name="companyAddress" component="div" className="text-danger"/>
                                 </fieldset>
                                 <div className="secondPageButtons">
-                                    <button onClick={() => {setPage(1); setTitle('Account Information');}} type="button"
+                                    <button onClick={() => {
+                                        setPage(1);
+                                        setTitle('Account Information');
+                                    }} type="button"
                                             className="btn btn-primary">Previous
                                     </button>
                                     <button type="submit" className="btn btn-primary">
@@ -267,7 +268,10 @@ export default function Register() {
                                     <ErrorMessage name="locationAddress" component="div" className="text-danger"/>
                                 </fieldset>
                                 <div className="secondPageButtons">
-                                    <button onClick={() => {setPage(2); setTitle('Company Information');}} type="button"
+                                    <button onClick={() => {
+                                        setPage(2);
+                                        setTitle('Company Information');
+                                    }} type="button"
                                             className="btn btn-primary">Previous
                                     </button>
                                     <button type="submit" className="btn btn-primary">
