@@ -81,7 +81,7 @@ export default function Accounts() {
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Update Account Succeed",
                     isShow: true
                 }))
             })
@@ -189,7 +189,7 @@ export default function Accounts() {
                                         <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
                                     </fieldset>
                                     <button type="submit" className="btn btn-primary pt-2">
-                                        Update Account
+                                        Update
                                     </button>
                                 </Form>
                             )}

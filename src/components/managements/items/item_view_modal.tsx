@@ -44,7 +44,7 @@ function MainComponent() {
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
                 items: content.data,
-                isShowModal: false
+                isShowModal: !isShowModal
             }))
         }).catch((error) => {
             console.log(error);
@@ -58,16 +58,14 @@ function MainComponent() {
         }))
     }
     const handleModalDelete = () => {
-        itemService.deleteOneById({id: currentItem?.id})
-            .then((response) => {
-                const content: Content<Item> = response.data;
-                fetchItemsByLocation()
-                dispatch(message_modal_slice.actions.configure({
-                    type: "succeed",
-                    content: content.message,
-                    isShow: true
-                }))
-            }).catch((error) => {
+        itemService.deleteOneById({id: currentItem?.id}).then(() => {
+            fetchItemsByLocation()
+            dispatch(message_modal_slice.actions.configure({
+                type: "succeed",
+                content: "Delete Item Succeed",
+                isShow: true
+            }))
+        }).catch((error) => {
             console.log(error)
             dispatch(message_modal_slice.actions.configure({
                 type: "failed",

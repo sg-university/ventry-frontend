@@ -93,7 +93,7 @@ function MainComponent(props) {
                 await createTransactionItem(content.data.id)
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Insert Transaction Succeed",
                     isShow: true
                 }))
                 getAllTransaction()
@@ -210,7 +210,7 @@ function MainComponent(props) {
                                     type="submit"
                                     className="btn btn-primary"
                                 >
-                                    Insert Transaction
+                                    Insert
                                 </button>
                             </div>
                         </Form>

@@ -126,7 +126,7 @@ function MainComponent(props) {
                 setModal("viewModal")
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Update Transaction Success",
+                    content: "Update Transaction Succeed",
                     isShow: true
                 }))
                 setTransaction(content.data)
@@ -244,7 +244,7 @@ function MainComponent(props) {
                                     type="submit"
                                     className="btn btn-primary"
                                 >
-                                    Update Transaction
+                                    Update
                                 </button>
                             </div>
                         </Form>

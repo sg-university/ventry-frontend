@@ -62,11 +62,11 @@ function MainComponent() {
                 const content: Content<Item> = response.data;
                 dispatch(pageSlice.actions.configureItemManagement({
                     ...pageState.itemManagement,
-                    items: [...(items || []), content.data]
+                    items: [...(items!), content.data]
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Insert Item Succeed",
                     isShow: true
                 }))
             })
@@ -228,7 +228,7 @@ function MainComponent() {
                                 type="submit"
                                 className="btn btn-primary"
                             >
-                                Insert Item
+                                Insert
                             </button>
                             <button
                                 type="button"
@@ -263,12 +263,11 @@ function ItemsComponent(props: any) {
         }
         itemBundleService
             .createOne(request)
-            .then((response) => {
-                const content: Content<ItemBundleMap> = response.data;
+            .then(() => {
                 dispatch(messageModalSlice.actions.configure({
-                    type: "succeed",
-                    content: content.message,
-                    isShow: true
+                  type: "succeed",
+                  content: "Insert Sub-Item Succeed",
+                  isShow: true
                 }))
                 fetchItemsByLocation()
             })
@@ -345,7 +344,7 @@ function ItemsComponent(props: any) {
                                 type="submit"
                                 className="btn btn-primary"
                             >
-                                Insert Item
+                                Insert
                             </button>
                             <button
                                 type="button"

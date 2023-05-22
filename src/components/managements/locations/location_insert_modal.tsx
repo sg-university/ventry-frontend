@@ -46,11 +46,11 @@ export default function LocationInsertModalComponent() {
                 const content: Content<Location> = response.data;
                 dispatch(pageSlice.actions.configureCompanyInformationManagement({
                     ...pageState.companyInformationManagement,
-                    currentLocations: [...(currentLocations || []), content.data]
+                    currentLocations: [...(currentLocations!), content.data]
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Insert Location Succeed",
                     isShow: true
                 }))
             })

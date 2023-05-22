@@ -146,7 +146,7 @@ export default function ItemTransactionHistory() {
                                 onClick={() => handleModalInsert()}
                             >
                                 <Image src={ButtonPlusImage} alt="plus"/>
-                                Insert Transaction
+                                Insert
                             </button>
                         </div>
                     </div>

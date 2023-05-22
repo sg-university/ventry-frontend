@@ -93,7 +93,7 @@ export default function TransactionViewModalComponent(props) {
                 handleShow()
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Delete Transaction Succeed",
                     isShow: true
                 }))
                 getAllTransaction()
@@ -131,14 +131,14 @@ export default function TransactionViewModalComponent(props) {
                     className="btn btn-primary"
                     onClick={handleModalUpdate}
                 >
-                    Update Transaction
+                    Update
                 </button>
                 <button
                     type="button"
                     className="btn btn-danger"
                     onClick={handleModalDelete}
                 >
-                    Delete Transaction
+                    Delete
                 </button>
             </Modal.Footer>
         </Modal>

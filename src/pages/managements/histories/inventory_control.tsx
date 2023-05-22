@@ -72,7 +72,7 @@ export default function ItemTransactionHistory() {
     const handleModalView = (inventoryControl: InventoryControl) => {
         dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
             ...pageState.inventoryControlHistoryManagement,
-            currentItem: (accountItems || []).find((item) => item.id === inventoryControl.itemId),
+            currentItem: (accountItems!).find((item) => item.id === inventoryControl.itemId),
             currentInventoryControl: inventoryControl,
             currentModal: "viewModal",
             isShowModal: !isShowModal
@@ -123,7 +123,7 @@ export default function ItemTransactionHistory() {
                 </div>
 
                 <div className="body">
-                    {(accountInventoryControls || [])?.length <= 0 ? (
+                    {(accountInventoryControls!)?.length <= 0 ? (
                         <div className="empty-data">
                             <div className="text">
                                 Your inventory controls is empty, try to insert one!

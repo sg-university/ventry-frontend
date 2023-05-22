@@ -49,12 +49,12 @@ export default function InventoryControlInsertModalComponent() {
             const content: Content<InventoryControl> = response.data;
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: content.message,
+                content: "Insert Inventory Control Succeed",
                 isShow: true
             }))
             dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
                 ...pageState.inventoryControlHistoryManagement,
-                accountInventoryControls: [...(accountInventoryControls || []), content.data],
+                accountInventoryControls: [...(accountInventoryControls!), content.data],
             }))
         }).catch((error) => {
             console.log(error)

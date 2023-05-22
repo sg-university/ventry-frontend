@@ -97,7 +97,7 @@ export default function Items() {
                                 onClick={() => handleInsertModal()}
                             >
                                 <Image src={ButtonPlusImage} alt="plus" className="image"/>
-                                Insert Item
+                                Insert
                             </button>
                         </div>
                     </div>

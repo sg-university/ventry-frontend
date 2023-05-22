@@ -51,7 +51,7 @@ export default function AccountViewModalComponent() {
                 }))
                 dispatch(pageSlice.actions.configureCompanyAccountManagement({
                         ...pageState.companyAccountManagement,
-                        isShowModal: false,
+                        isShowModal: !isShowModal,
                         currentModal: "",
                         currentAccount: null,
                         companyAccounts: companyAccounts?.filter((account) => account.id !== currentAccount?.id)
@@ -109,14 +109,14 @@ export default function AccountViewModalComponent() {
                     className="btn btn-primary"
                     onClick={() => handleModalUpdate()}
                 >
-                    Update Account
+                    Update
                 </button>
                 <button
                     type="button"
                     className="btn btn-danger"
                     onClick={() => handleModalDelete()}
                 >
-                    Delete Account
+                    Delete
                 </button>
             </Modal.Footer>
         </Modal>

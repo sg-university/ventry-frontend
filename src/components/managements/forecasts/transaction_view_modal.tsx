@@ -84,13 +84,13 @@ export default function TransactionViewModalComponent() {
 
     const currentChartData: ChartData<"line"> = {
         labels: [
-            ...(currentTransactionForecast?.prediction?.past || []).map(value => value.timestamp),
-            ...(currentTransactionForecast?.prediction?.future || []).map(value => value.timestamp)
+            ...(currentTransactionForecast?.prediction?.past!).map(value => value.timestamp),
+            ...(currentTransactionForecast?.prediction?.future!).map(value => value.timestamp)
         ],
         datasets: [
             {
                 label: "Past",
-                data: (currentTransactionForecast?.prediction?.past || []).map(value => {
+                data: (currentTransactionForecast?.prediction?.past!).map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),
                         y: value.quantity!
@@ -99,25 +99,18 @@ export default function TransactionViewModalComponent() {
             },
             {
                 label: "Future",
-                data: (currentTransactionForecast?.prediction?.future || []).map(value => {
+                data: [
+                    {
+                        timestamp: new Date(lastPast?.timestamp!).getTime(),
+                        quantity: lastPast?.quantity!
+                    },
+                    ...(currentTransactionForecast?.prediction?.future!)
+                ].map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),
                         y: value.quantity!
                     }
                 })
-            },
-            {
-                label: "Interpolation",
-                data: [
-                    {
-                        x: new Date(lastPast?.timestamp!).getTime(),
-                        y: lastPast?.quantity!
-                    },
-                    {
-                        x: new Date(firstFuture?.timestamp!).getTime(),
-                        y: firstFuture?.quantity!
-                    }
-                ]
             },
         ],
     }
