@@ -89,11 +89,9 @@ export default function Register() {
             }
 
         }
-        console.log(request);
         authenticationService.register(request)
             .then((result: AxiosResponse<Content<RegisterResponse>>) => {
                 const content = result.data;
-                console.log(result);
                 if (!content.data) {
                     dispatch(messageModalSlice.actions.configure({
                         title: "Status",
