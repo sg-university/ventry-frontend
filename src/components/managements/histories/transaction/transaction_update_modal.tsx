@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Modal} from "react-bootstrap";
-import {PageState} from "@/slices/page_slice";
+import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
 import "@/styles/components/managements/histories/transactions/transaction_update_modal.scss"
 import Content from "@/models/value_objects/contracts/content";
@@ -15,22 +15,49 @@ import CreateOneRequest
     from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/create_one_request";
 import DeleteOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/delete_one_by_id_request";
+import { AxiosResponse } from "axios";
+import TransactionItemMap from "@/models/entities/transaction_item_map";
 
-function MainComponent(props) {
-    const {
-        getAllTransaction,
-        transaction,
-        transactionItems,
-        getAllTransactionItems,
-        setTransaction
-    } = props.transactionController
-    const {setModal} = props
-    const [selectedItem, setSelectedItem] = useState([] as Object[])
+export default function TransactionUpdateModalComponent() {
+    const transactionService = new TransactionService()
+    const transactionItemMapService = new TransactionItemMapService();
     const pageState: PageState = useSelector((state: any) => state.page);
-    const dispatch = useDispatch();
-    const items = pageState.itemManagement.items
-    const transactionItem = transactionItems.filter((itm) => itm.transactionId === transaction.id)
-    const transactionItemData = transactionItem.map(item1 => ({item: items.find(item2 => item2.id === item1.itemId), ...item1}))
+    const { isShowModal, transaction, transactions, transactionItems } = pageState.transactionManagement
+    const [selectedItem, setSelectedItem] = useState([] as Object[])
+    const { items } = pageState.itemManagement
+    const transactionItem = transactionItems?.filter((itm) => itm.transactionId === transaction.id)
+    const transactionItemData = transactionItem?.map(item1 => ({item: items.find(item2 => item2.id === item1.itemId), ...item1}))
+    const dispatch = useDispatch()
+
+    const getAllTransactions = async (transaction: Transaction) => {
+        transactionService
+            .readAll()
+            .then((result: AxiosResponse<Content<Transaction[]>>) => {
+                const transactions = result.data;
+                getAllTransactionItems(transaction, transactions.data, true)
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    const getAllTransactionItems = (transaction: Transaction | undefined, transactions: Transaction[] | undefined, toViewModal) => {
+        transactionItemMapService
+            .readAll()
+            .then((result: AxiosResponse<Content<TransactionItemMap[]>>) => {
+                const transactionItems = result.data;
+                dispatch(pageSlice.actions.configureTransactionManagement({
+                    ...pageState.transactionManagement,
+                    transaction: transaction,
+                    transactions: transactions,
+                    transactionItems: transactionItems.data,
+                    currentModal: toViewModal == true ? "viewModal" : "updateModal"
+                })) 
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
 
     const handleClickSelect = (item, quantity) => {
         if (!selectedItem.some(i => i.item.id === item.id)) {
@@ -41,14 +68,13 @@ function MainComponent(props) {
     const handleClickDelete = (val) => {
         setSelectedItem(selectedItem.filter(i => i.item.name != val.item.name))
         if (val.id) {
-            const transcationItemService = new TransactionItemMapService()
             const request: DeleteOneByIdRequest = {
                 id: val.id
             }
-            transcationItemService
+            transactionItemMapService
                 .deleteOneById(request)
                 .then(() => {
-                    getAllTransactionItems()
+                    getAllTransactionItems(transaction, transactions, false)
                 })
                 .catch((error) => {
                     console.log(error)
@@ -77,7 +103,6 @@ function MainComponent(props) {
 
 
     const updateTransactionItem = async () => {
-        const transcationItemService = new TransactionItemMapService()
         selectedItem.forEach(i => {
             if (!i.id) {
                 const request: CreateOneRequest = {
@@ -88,12 +113,8 @@ function MainComponent(props) {
                         quantity: i.quantity
                     }
                 }
-                transcationItemService
+                transactionItemMapService
                     .createOne(request)
-                    .then(() => {
-                        setModal("viewModal")
-                        getAllTransactionItems()
-                    })
                     .catch((error) => {
                         console.log(error)
                         dispatch(messageModalSlice.actions.configure({
@@ -109,7 +130,6 @@ function MainComponent(props) {
 
     const updateTransaction = async () => {
         const totalPrice = await calculateTransaction()
-        const transactionService = new TransactionService()
         const request: PatchOneTransactionByIdRequest = {
             id: transaction.id,
             body: {
@@ -120,16 +140,14 @@ function MainComponent(props) {
         }
         transactionService
             .patchOneById(request)
-            .then((response) => {
-                const content: Content<Transaction> = response.data
-                getAllTransaction()
-                setModal("viewModal")
+            .then(async (response) => {
+                const transaction: Content<Transaction> = response.data
+                await getAllTransactions(transaction.data)
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
                     content: "Update Transaction Succeed",
                     isShow: true
                 }))
-                setTransaction(content.data)
             })
             .catch((error) => {
                 console.log(error)
@@ -146,128 +164,17 @@ function MainComponent(props) {
         updateTransactionItem()
     }
 
-    return (
-        <div className="main ">
-            <div className="form">
-                <Formik
-                    initialValues={{
-                        quantity: 0,
-                    }}
-                    onSubmit={handleUpdateSubmit}
-                    enableReinitialize
-                >
-                    {(props) => (
-                        <Form>
-                            <div className="column">
-                                <div className="quantity">
-                                    Quantity : {selectedItem.length}
-                                </div>
-                                <div className="table-sp">
-                                    <table className="table ">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Selected Item ID</th>
-                                            <th scope="col">Code</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {selectedItem.map((val, idx) => {
-                                            return (
-                                                <tr key={idx}>
-                                                    <td>{val.item.id}</td>
-                                                    <td>{val.item.code}</td>
-                                                    <td>{val.item.name}</td>
-                                                    <td>{val.quantity}</td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-outline-primary"
-                                                            onClick={() => handleClickDelete(val)}
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <ErrorMessage
-                                    name="product_id"
-                                    component="div"
-                                    className="text-danger"
-                                />
-                                <div className="table-p">
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Code</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {pageState.itemManagement.items.map((val, idx) => {
-                                            return (
-                                                <tr key={idx}>
-                                                    <td>{val.code}</td>
-                                                    <td>{val.name}</td>
-                                                    <td>{val.unitSellPrice}</td>
-                                                    <td><Field type="number" name="quantity" className="form-control"/>
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            type="button"
-                                                            className="btn btn-outline-primary"
-                                                            onClick={() => handleClickSelect(val, props.values.quantity)}
-                                                        >
-                                                            Select
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <hr/>
-                            <div className="button">
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary"
-                                >
-                                    Update
-                                </button>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-        </div>
-    );
-}
-
-export default function TransactionUpdateModalComponent(props) {
-    const [isShow, setIsShow] = React.useState(true)
-    const {transactionController, setModal} = props
-
-    const handleShow = () => {
-        setIsShow(!isShow)
-        setModal("")
-    };
+    const handleShowModal = () => {
+        dispatch(pageSlice.actions.configureTransactionManagement({
+            ...pageState.transactionManagement,
+            isShowModal: !isShowModal,
+        }))
+    }
 
     return (
         <Modal
-            show={isShow}
-            onHide={handleShow}
+            show={isShowModal}
+            onHide={handleShowModal}
             centered
             className="component product-update-modal"
         >
@@ -276,10 +183,111 @@ export default function TransactionUpdateModalComponent(props) {
             </Modal.Header>
 
             <Modal.Body className="body">
-                <MainComponent
-                    transactionController={transactionController}
-                    setModal={setModal}
-                />
+                <div className="main ">
+                    <div className="form">
+                        <Formik
+                            initialValues={{
+                                quantity: 0,
+                            }}
+                            onSubmit={handleUpdateSubmit}
+                            enableReinitialize
+                        >
+                            {(props) => (
+                                <Form>
+                                    <div className="column">
+                                        <div className="quantity">
+                                            Quantity : {selectedItem.length}
+                                        </div>
+                                        <div className="table-sp">
+                                            <table className="table ">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Selected Item ID</th>
+                                                    <th scope="col">Code</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {selectedItem.map((val, idx) => {
+                                                    return (
+                                                        <tr key={idx}>
+                                                            <td>{val.item.id}</td>
+                                                            <td>{val.item.code}</td>
+                                                            <td>{val.item.name}</td>
+                                                            <td>{val.quantity}</td>
+                                                            <td>
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-outline-primary"
+                                                                    onClick={() => handleClickDelete(val)}
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <ErrorMessage
+                                            name="product_id"
+                                            component="div"
+                                            className="text-danger"
+                                        />
+                                        <div className="table-p">
+                                            <table className="table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Code</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {pageState.itemManagement.items.map((val, idx) => {
+                                                    return (
+                                                        <tr key={idx}>
+                                                            <td>{val.code}</td>
+                                                            <td>{val.name}</td>
+                                                            <td>{val.unitSellPrice}</td>
+                                                            <td><Field type="number" name="quantity" className="form-control"/>
+                                                            </td>
+                                                            <td>
+                                                                <button
+                                                                    type="button"
+                                                                    className="btn btn-outline-primary"
+                                                                    onClick={() => handleClickSelect(val, props.values.quantity)}
+                                                                >
+                                                                    Select
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+                                    <div className="button">
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                        >
+                                            Update
+                                        </button>
+                                    </div>
+                                </Form>
+                            )}
+                        </Formik>
+                    </div>
+                </div>
             </Modal.Body>
         </Modal>
     );
