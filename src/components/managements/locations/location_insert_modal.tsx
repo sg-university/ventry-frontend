@@ -50,7 +50,7 @@ export default function LocationInsertModalComponent() {
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Insert Location Succeed",
                     isShow: true
                 }))
             })

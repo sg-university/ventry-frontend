@@ -68,9 +68,9 @@ export default function Register() {
 
     const handleSubmitCompany = (values: any, actions: any) => {
         const companyData: CompanyRegisterRequest = {
-            name: values.name,
-            description: values.description,
-            address: values.address
+            name: values.companyName,
+            description: values.companyDescription,
+            address: values.companyAddress
         }
         setCompanyRequest(companyData);
         setTitle('Location Information');
@@ -83,16 +83,17 @@ export default function Register() {
             account: accountRequest,
             company: companyRequest,
             location: {
-                name: values.name,
-                description: values.description,
-                address: values.address
+                name: values.locationName,
+                description: values.locationDescription,
+                address: values.locationAddress
             }
 
         }
+        console.log(request);
         authenticationService.register(request)
             .then((result: AxiosResponse<Content<RegisterResponse>>) => {
                 const content = result.data;
-
+                console.log(result);
                 if (!content.data) {
                     dispatch(messageModalSlice.actions.configure({
                         title: "Status",
@@ -105,7 +106,7 @@ export default function Register() {
                     dispatch(messageModalSlice.actions.configure({
                         title: "Status",
                         type: "succeed",
-                        content: content.message,
+                        content: "Register Succeed",
                         isShow: true
                     }))
                     router.push('/authentications/login')

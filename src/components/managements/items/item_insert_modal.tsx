@@ -66,7 +66,7 @@ function MainComponent() {
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: content.message,
+                    content: "Insert Item Succeed",
                     isShow: true
                 }))
             })
@@ -263,12 +263,11 @@ function ItemsComponent(props: any) {
         }
         itemBundleService
             .createOne(request)
-            .then((response) => {
-                const content: Content<ItemBundleMap> = response.data;
+            .then(() => {
                 dispatch(messageModalSlice.actions.configure({
-                    type: "succeed",
-                    content: content.message,
-                    isShow: true
+                  type: "succeed",
+                  content: "Insert Sub-Item Succeed",
+                  isShow: true
                 }))
                 fetchItemsByLocation()
             })
