@@ -12,8 +12,10 @@ import TransactionItemMapService from "@/services/transaction_item_map_service";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
 import Item from "@/models/entities/item";
 import {AuthenticationState} from "@/slices/authentication_slice";
+import moment from "moment";
 
 type FormikInitialValues = {
+    transactionTimestamp: string
     newTransactionItemMaps: TransactionItemMap[]
 }
 
@@ -136,6 +138,7 @@ export default function TransactionUpdateModalComponent() {
     }
 
     const formikInitialValues: FormikInitialValues = {
+        transactionTimestamp: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
         newTransactionItemMaps: items!.map((item) => {
             return {
                 id: undefined,
@@ -172,6 +175,13 @@ export default function TransactionUpdateModalComponent() {
                             {
                                 (props) => (
                                     <Form>
+                                        <div className="transaction-timestamp">
+                                            <Field
+                                                className="form-control"
+                                                type="datetime-local"
+                                                name="transactionTimestamp"
+                                            />
+                                        </div>
                                         <div className="new-transaction-item-maps">
                                             <table className="table ">
                                                 <thead>

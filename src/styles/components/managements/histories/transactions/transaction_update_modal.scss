@@ -1,14 +1,8 @@
-<<<<<<< HEAD
-
-.component.transaction-history-update-modal .body {
-=======
-.component.product-update-modal {
+.component.transaction-history-update-modal {
   z-index: 2000;
 }
 
-.component.product-update-modal .body .main .form,
-.component.product-update-modal .body .main .form form {
->>>>>>> main
+.component.transaction-history-update-modal .body {
   display: flex;
   flex: 1;
   flex-flow: column wrap;
