@@ -11,8 +11,10 @@ import Transaction from "@/models/entities/transaction";
 import TransactionItemMapService from "@/services/transaction_item_map_service";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
 import Item from "@/models/entities/item";
+import moment from "moment";
 
 type FormikInitialValues = {
+    transactionTimestamp: string
     currentTransactionItemMaps: TransactionItemMap[]
     newTransactionItemMaps: TransactionItemMap[]
 }
@@ -74,7 +76,7 @@ export default function TransactionUpdateModalComponent() {
                 body: {
                     accountId: currentTransaction!.accountId,
                     sellPrice: totalSellPrice,
-                    timestamp: currentTransaction!.timestamp
+                    timestamp: new Date(values.transactionTimestamp).toISOString()
                 }
             }).then((response) => {
             const transactionContent: Content<Transaction> = response.data;
@@ -197,6 +199,7 @@ export default function TransactionUpdateModalComponent() {
     }
 
     const formikInitialValues: FormikInitialValues = {
+        transactionTimestamp: moment(new Date(currentTransaction!.timestamp)).format("YYYY-MM-DDTHH:mm"),
         currentTransactionItemMaps: currentTransactionItemMaps!,
         newTransactionItemMaps: items!.map((item) => {
             return {
@@ -233,6 +236,13 @@ export default function TransactionUpdateModalComponent() {
                         {
                             (props) => (
                                 <Form>
+                                    <div className="transaction-timestamp">
+                                        <Field
+                                            className="form-control"
+                                            type="datetime-local"
+                                            name="transactionTimestamp"
+                                        />
+                                    </div>
                                     <div className="current-transaction-item-maps">
                                         <table className="table ">
                                             <thead>

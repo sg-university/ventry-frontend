@@ -1,11 +1,11 @@
-.message-modal-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.message-modal {
+  z-index: 2000;
 
-  .message-modal-icon {
-    width: 100px;
+  .body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 }
