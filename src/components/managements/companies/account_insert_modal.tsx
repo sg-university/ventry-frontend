@@ -37,6 +37,8 @@ export default function AccountInsertModalComponent() {
         companyAccounts,
         companyLocations,
         currentCompany,
+        currentRole,
+        currentLocation,
         isShowModal,
     } = pageState.companyAccountManagement;
     const dispatch = useDispatch();
@@ -120,8 +122,8 @@ export default function AccountInsertModalComponent() {
                         validationSchema={insertSchema}
                         initialValues={{
                             name: "",
-                            roleId: roles ? roles[0].id : "",
-                            locationId: companyLocations ? companyLocations[0].id : "",
+                            roleId: roles![0].id || "",
+                            locationId: companyLocations![0].id || "",
                             email: "",
                             password: "",
                             confirmPassword: ""
