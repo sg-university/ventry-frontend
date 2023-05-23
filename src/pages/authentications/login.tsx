@@ -50,7 +50,7 @@ export default function Login() {
                     dispatch(authenticationSlice.actions.login(content.data.entity));
                     dispatch(pageSlice.actions.configureAccountManagement({
                         ...pageState.accountManagement,
-                        account: content.data,
+                        currentAccount: content.data.entity,
                     }))
                 }
             })

@@ -89,6 +89,14 @@ export interface InventoryControlHistoryManagement {
     accountItems: Item[] | undefined
 }
 
+export interface TransactionManagementState {
+  transactions: Transaction[] | undefined
+  transaction: Transaction | undefined
+  transactionItems: TransactionItemMap[] | undefined
+  currentModal: string | undefined
+  isShowModal: boolean | undefined
+}
+
 export interface PointOfSaleManagement {
     currentModal: string | undefined
     isShowModal: boolean | undefined
@@ -107,6 +115,7 @@ export interface PageState {
     itemTransactionForecastManagement: ItemTransactionForecastManagement
     companyInformationManagement: CompanyInformationManagementState
     inventoryControlHistoryManagement: InventoryControlHistoryManagement
+    transactionManagement: TransactionManagementState
     pointOfSaleManagement: PointOfSaleManagement
 }
 
@@ -177,6 +186,13 @@ export default createSlice({
             accountItems: [],
             currentItem: undefined,
         },
+        transactionManagement: <TransactionManagementState>{
+          transactions: undefined,
+          transaction: undefined,
+          transactionItems: undefined,
+          currentModal: "noModal",
+          isShowModal: false
+        },
         pointOfSaleManagement: <PointOfSaleManagement>{
             currentModal: undefined,
             isShowModal: false,
@@ -210,6 +226,9 @@ export default createSlice({
         },
         configureInventoryControlHistoryManagement(state, action) {
             state.inventoryControlHistoryManagement = action.payload;
+        },
+        configureTransactionManagement(state, action) {
+          state.transactionManagement = action.payload;
         },
         configurePointOfSaleManagement(state, action) {
             state.pointOfSaleManagement = action.payload;

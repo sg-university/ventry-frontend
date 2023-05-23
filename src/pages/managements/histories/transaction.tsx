@@ -10,7 +10,6 @@ import Item from "@/models/entities/item";
 import ItemService from "@/services/item_service";
 import Content from "@/models/value_objects/contracts/content";
 import MessageModal from "@/components/message_modal";
-import messageModalSlice from "@/slices/message_modal_slice";
 import Authenticated from "@/layouts/authenticated";
 import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
 import ProductCardImage from "@/assets/images/product_management_card.svg";
@@ -22,15 +21,14 @@ import TransactionItemMapService from "@/services/transaction_item_map_service";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
 
 export default function ItemTransactionHistory() {
-    const [modal, setModal] = useState("")
-    const [transaction, setTransaction] = useState({})
-    const [transactionHistory, setTransactionHistory] = useState([] as object[])
-    const [transactionItems, setTransactionItems] = React.useState([] as object[])
+    const itemService = new ItemService();
+    const transactionService = new TransactionService();
+    const transactionItemMapService = new TransactionItemMapService();
     const pageState: PageState = useSelector((state: any) => state.page);
+    const { transactions, currentModal } = pageState.transactionManagement
     const dispatch = useDispatch();
 
     const getAllItems = () => {
-        const itemService = new ItemService();
         itemService
             .readAll()
             .then((result: AxiosResponse<Content<Item[]>>) => {
@@ -42,90 +40,72 @@ export default function ItemTransactionHistory() {
             })
             .catch((error) => {
                 console.log(error)
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
             });
     }
 
-    const getAllTransaction = () => {
-        const transactionService = new TransactionService();
+    const getAllTransactions = async () => {
         transactionService
             .readAll()
             .then((result: AxiosResponse<Content<Transaction[]>>) => {
-                const {data} = result.data;
-                setTransactionHistory(data)
+                const transactions = result.data;
+                getAllTransactionItems(transactions.data)
             })
             .catch((error) => {
                 console.log(error)
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
             });
     }
 
-    const getAllTransactionItems = () => {
-        const transactionItemMapService = new TransactionItemMapService();
+    const getAllTransactionItems = (transactions: Transaction[]) => {
         transactionItemMapService
             .readAll()
             .then((result: AxiosResponse<Content<TransactionItemMap[]>>) => {
-                const {data} = result.data;
-                setTransactionItems(data)
+                const transactionItems = result.data;
+                dispatch(pageSlice.actions.configureTransactionManagement({
+                  ...pageState.transactionManagement,
+                  transactions: transactions,
+                  transactionItems: transactionItems.data
+                })) 
             })
             .catch((error) => {
                 console.log(error)
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
             });
     }
 
     useEffect(() => {
-        getAllTransaction()
-        getAllTransactionItems()
+        getAllTransactions()
         if (pageState.itemManagement.items?.length == 0) getAllItems()
     }, [])
 
     const handleModalInsert = () => {
-        setModal("insertModal")
+      dispatch(pageSlice.actions.configureTransactionManagement({
+        ...pageState.transactionManagement,
+        currentModal: "insertModal",
+        isShowModal: true
+      }))
     }
 
     const handleModalView = (transaction: Transaction) => {
-        setTransaction(transaction)
-        setModal("viewModal")
+      dispatch(pageSlice.actions.configureTransactionManagement({
+        ...pageState.transactionManagement,
+        transaction: transaction,
+        currentModal: "viewModal",
+        isShowModal: true
+      }))
     }
 
-    const convertDate = (dateTime) => {
+    const convertDate = (dateTime: string) => {
         const date = new Date(dateTime).toDateString()
         const time = new Date(dateTime).toLocaleTimeString()
         return date + " " + time
-    }
-
-    const transactionController = {
-        transaction,
-        setTransaction,
-        transactionItems,
-        getAllTransaction,
-        getAllTransactionItems
     }
 
     return (
         <Authenticated>
             <div className="page item-transaction-history">
                 <MessageModal/>
-                {modal == 'insertModal' &&
-                    <TransactionInsertModalComponent setModal={setModal} getAllTransaction={getAllTransaction}
-                                                     getAllTransactionItems={getAllTransactionItems}/>}
-                {modal == 'viewModal' &&
-                    <TransactionViewModalComponent setModal={setModal} transactionController={transactionController}/>}
-                {modal == 'updateModal' && <TransactionUpdateModalComponent setModal={setModal}
-                                                                            transactionController={transactionController}/>}
+                {currentModal == 'insertModal' && <TransactionInsertModalComponent/>}
+                {currentModal == 'viewModal' && <TransactionViewModalComponent/>}
+                {currentModal == 'updateModal' && <TransactionUpdateModalComponent/>}
                 <div className="header">
                     <div className="left-section">
                         <div className="title">
@@ -153,14 +133,14 @@ export default function ItemTransactionHistory() {
                 </div>
 
                 <div className="body">
-                    {transactionHistory.length <= 0 ? (
+                    {transactions && transactions.length <= 0 ? (
                         <div className="empty-data">
                             <div className="text">
                                 Your product transactions is empty, try to insert one!
                             </div>
                         </div>
                     ) : null}
-                    {transactionHistory.map((val, idx) => (
+                    {transactions && transactions.map((val, idx) => (
                         <div key={val.id} className="card">
                             <div className="image">
                                 <Image
@@ -186,11 +166,11 @@ export default function ItemTransactionHistory() {
                                     </div>
                                 </div>
                                 {/* <div className="name">
-                  <div className="text">Name: {val.product.name}</div>
-                </div>
-                <div className="quantity">
-                  <div className="text">Quantity: {val.quantity}</div>
-                </div> */}
+                                  <div className="text">Name: {val.product.name}</div>
+                                </div>
+                                <div className="quantity">
+                                  <div className="text">Quantity: {val.quantity}</div>
+                                </div> */}
                             </div>
                             <div className="control">
                                 <button
