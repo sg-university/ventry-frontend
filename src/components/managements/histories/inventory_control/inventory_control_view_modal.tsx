@@ -44,7 +44,7 @@ export default function InventoryControlViewModalComponent() {
             const content: Content<InventoryControl> = response.data
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Delete Inventory Control Succeed",
+                content: "Delete Inventory Control succeed.",
                 isShow: true
             }))
             dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({

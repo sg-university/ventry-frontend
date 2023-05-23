@@ -36,7 +36,7 @@ export default function InventoryControlUpdateModalComponent() {
             isShowModal: !isShowModal,
         }))
     }
-    const handleUpdateSubmit = (values: any, actions: any) => {
+    const handleSubmitUpdate = (values: any, actions: any) => {
         console.log(values)
         inventoryControlService
             .patchOneById({
@@ -53,7 +53,7 @@ export default function InventoryControlUpdateModalComponent() {
                 const content: Content<InventoryControl> = response.data
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Update Inventory Control Succeed",
+                    content: "Update Inventory Control succeed.",
                     isShow: true
                 }))
                 dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
@@ -75,9 +75,6 @@ export default function InventoryControlUpdateModalComponent() {
                     isShow: true
                 }))
             })
-            .finally(() => {
-                actions.setSubmitting(false);
-            });
     }
 
     return (
@@ -103,7 +100,7 @@ export default function InventoryControlUpdateModalComponent() {
                                 quantityBefore: currentInventoryControl?.quantityBefore,
                                 quantityAfter: currentInventoryControl?.quantityAfter
                             }}
-                            onSubmit={handleUpdateSubmit}
+                            onSubmit={handleSubmitUpdate}
                             enableReinitialize
                         >
                             {(props) => (

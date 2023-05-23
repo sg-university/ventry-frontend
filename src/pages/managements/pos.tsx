@@ -48,7 +48,7 @@ export default function PointOfSale() {
     const {currentModal, items, transactionItemMaps} = pageState.pointOfSaleManagement;
 
     const totalPrice = transactionItemMaps?.reduce((previous, current) => {
-        return previous + ((items!).find(item => item.id == current.itemId)?.unitSellPrice! * current.quantity)
+        return previous + (items!.find(item => item.id == current.itemId)!.unitSellPrice! * current.quantity!)
     }, 0)
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function PointOfSale() {
     const prepareTransaction = () => {
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
-            transaction: {
+            currentTransaction: {
                 id: undefined,
                 accountId: currentAccount?.id,
                 sellPrice: totalPrice,
@@ -143,7 +143,7 @@ export default function PointOfSale() {
     const handleClickIncrement = (transactionItemMap: TransactionItemMap) => {
         const item = items!.find((item) => item.id === transactionItemMap.itemId)
         if (item!.id === transactionItemMap.itemId) {
-            if (item!.quantity - (transactionItemMap.quantity + 1) < 0) {
+            if (item!.quantity - (transactionItemMap.quantity! + 1) < 0) {
                 dispatch(messageModalSlice.actions.configure({
                     type: "failed",
                     content: `Item code "${item!.code}" did not have enough available quantity.`,
@@ -159,7 +159,7 @@ export default function PointOfSale() {
                 if (value.itemId == transactionItemMap.itemId) {
                     return {
                         ...value,
-                        quantity: value.quantity + 1
+                        quantity: value.quantity! + 1
                     }
                 }
                 return value
@@ -169,7 +169,7 @@ export default function PointOfSale() {
 
 
     const handleClickDecrement = (transactionItemMap: TransactionItemMap) => {
-        if (transactionItemMap.quantity - 1 < 0) {
+        if (transactionItemMap.quantity! - 1 < 0) {
             dispatch(messageModalSlice.actions.configure({
                 type: "failed",
                 content: `Item code "${items!.find((item) => item.id === transactionItemMap.itemId)!.code}" must be greater than or equal to 0.`,
@@ -184,7 +184,7 @@ export default function PointOfSale() {
                 if (value.itemId == transactionItemMap.itemId) {
                     return {
                         ...value,
-                        quantity: value.quantity - 1
+                        quantity: value.quantity! - 1
                     }
                 }
                 return value
@@ -215,8 +215,8 @@ export default function PointOfSale() {
             ...pageState.pointOfSaleManagement,
             currentModal: 'checkoutModal',
             isShowModal: true,
-            transaction: {
-                ...pageState.pointOfSaleManagement.transaction,
+            currentTransaction: {
+                ...pageState.pointOfSaleManagement.currentTransaction,
                 sellPrice: totalPrice,
             }
         }))
@@ -319,10 +319,10 @@ export default function PointOfSale() {
                                         <div key={index} className="transaction-item-map">
                                             <div className="left-section">
                                                 <div className="name">
-                                                    {(items!).find(item => item.id == value.itemId)?.name}
+                                                    {items!.find(item => item.id == value.itemId)?.name}
                                                 </div>
                                                 <div className="price">
-                                                    Rp. {(items!).find(item => item.id == value.itemId)?.unitSellPrice! * value.quantity}
+                                                    Rp. {items!.find(item => item.id == value.itemId)?.unitSellPrice! * value.quantity!}
                                                 </div>
                                             </div>
                                             <div className="right-section">

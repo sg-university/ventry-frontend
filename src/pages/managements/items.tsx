@@ -30,7 +30,7 @@ export default function Items() {
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {currentModal, items} = pageState.itemManagement;
+    const {currentModal, items, isShowModal} = pageState.itemManagement;
 
     useEffect(() => {
         fetchItemsByAccountLocation()
@@ -43,7 +43,9 @@ export default function Items() {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
-                items: content.data,
+                items: content.data.sort((a, b) => {
+                    return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                })
             }))
         }).catch((error) => {
             console.log(error);

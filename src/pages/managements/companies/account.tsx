@@ -46,7 +46,9 @@ export default function CompanyAccount() {
                 dispatch(pageSlice.actions.configureCompanyAccountManagement({
                     ...pageState.companyAccountManagement,
                     currentCompany: companyContent.data[0],
-                    companyAccounts: accountContent.data,
+                    companyAccounts: accountContent.data.sort((a, b) => {
+                        return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                    }),
                 }))
             }).catch((error) => {
                 console.log(error);

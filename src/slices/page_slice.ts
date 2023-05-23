@@ -89,19 +89,22 @@ export interface InventoryControlHistoryManagement {
     accountItems: Item[] | undefined
 }
 
-export interface TransactionManagementState {
-  transactions: Transaction[] | undefined
-  transaction: Transaction | undefined
-  transactionItems: TransactionItemMap[] | undefined
-  currentModal: string | undefined
-  isShowModal: boolean | undefined
+export interface TransactionHistoryManagementState {
+    items: Item[] | undefined
+    transactions: Transaction[] | undefined
+    transactionItemMaps: TransactionItemMap[] | undefined
+    currentItem: Item | undefined
+    currentTransaction: Transaction | undefined
+    currentTransactionItemMaps: TransactionItemMap[] | undefined
+    currentModal: string | undefined
+    isShowModal: boolean | undefined
 }
 
 export interface PointOfSaleManagement {
     currentModal: string | undefined
     isShowModal: boolean | undefined
     items: Item[] | undefined
-    transaction: Transaction | undefined
+    currentTransaction: Transaction | undefined
     transactionItemMaps: TransactionItemMap[] | undefined
     searchValue: string | undefined
 }
@@ -115,7 +118,7 @@ export interface PageState {
     itemTransactionForecastManagement: ItemTransactionForecastManagement
     companyInformationManagement: CompanyInformationManagementState
     inventoryControlHistoryManagement: InventoryControlHistoryManagement
-    transactionManagement: TransactionManagementState
+    transactionHistoryManagement: TransactionHistoryManagementState
     pointOfSaleManagement: PointOfSaleManagement
 }
 
@@ -157,7 +160,13 @@ export default createSlice({
         itemStockForecastManagement: <ItemStockForecastManagement>{
             items: [],
             currentItem: undefined,
-            currentStockForecast: undefined,
+            currentStockForecast: {
+                prediction: {
+                    past: [],
+                    future: []
+                },
+                metric: undefined
+            },
             currentModal: undefined,
             isShowModal: false,
             currentModalMenu: undefined,
@@ -165,7 +174,13 @@ export default createSlice({
         itemTransactionForecastManagement: <ItemTransactionForecastManagement>{
             items: [],
             currentItem: undefined,
-            currentTransactionForecast: undefined,
+            currentTransactionForecast: {
+                prediction: {
+                    past: [],
+                    future: []
+                },
+                metric: undefined
+            },
             currentModal: undefined,
             isShowModal: false,
             currentModalMenu: undefined,
@@ -186,18 +201,22 @@ export default createSlice({
             accountItems: [],
             currentItem: undefined,
         },
-        transactionManagement: <TransactionManagementState>{
-          transactions: undefined,
-          transaction: undefined,
-          transactionItems: undefined,
-          currentModal: "noModal",
-          isShowModal: false
+        transactionHistoryManagement: <TransactionHistoryManagementState>{
+            items: [],
+            transactions: [],
+            transactionItemMaps: [],
+            currentItem: undefined,
+            currentTransaction: undefined,
+            currentTransactionItemMaps: [],
+            currentModal: undefined,
+            isShowModal: false
         },
         pointOfSaleManagement: <PointOfSaleManagement>{
             currentModal: undefined,
             isShowModal: false,
             items: [],
             transaction: undefined,
+            currentTransaction: undefined,
             transactionItemMaps: [],
             searchValue: undefined
         }
@@ -227,8 +246,8 @@ export default createSlice({
         configureInventoryControlHistoryManagement(state, action) {
             state.inventoryControlHistoryManagement = action.payload;
         },
-        configureTransactionManagement(state, action) {
-          state.transactionManagement = action.payload;
+        configureTransactionHistoryManagement(state, action) {
+            state.transactionHistoryManagement = action.payload;
         },
         configurePointOfSaleManagement(state, action) {
             state.pointOfSaleManagement = action.payload;

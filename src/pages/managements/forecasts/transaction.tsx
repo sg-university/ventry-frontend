@@ -39,7 +39,9 @@ export default function Transaction() {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configureItemTransactionForecastManagement({
                 ...pageState.itemTransactionForecastManagement,
-                items: content.data,
+                items: content.data.sort((a, b) => {
+                    return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                }),
             }))
         }).catch((error) => {
             console.log(error);

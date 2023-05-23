@@ -23,7 +23,7 @@ export default function LocationUpdateModalComponent() {
     const {currentLocations, currentLocation, isShowModal} = pageState.companyInformationManagement
     const dispatch = useDispatch();
 
-    const handleUpdateSubmit = (values: any, actions: any) => {
+    const handleSubmitUpdate = (values: any, actions: any) => {
         locationService
             .patchOneById({
                 id: currentLocation?.id,
@@ -48,7 +48,7 @@ export default function LocationUpdateModalComponent() {
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Update Location Succeed",
+                    content: "Update Location succeed.",
                     isShow: true
                 }))
             })
@@ -93,7 +93,7 @@ export default function LocationUpdateModalComponent() {
                                 description: currentLocation?.description,
                                 address: currentLocation?.address
                             }}
-                            onSubmit={handleUpdateSubmit}
+                            onSubmit={handleSubmitUpdate}
                             enableReinitialize
                         >
                             {(props) => (

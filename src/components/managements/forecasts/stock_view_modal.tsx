@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Modal} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -37,13 +37,6 @@ export default function StockViewModalComponent() {
         currentStockForecast,
     } = pageState.itemStockForecastManagement;
 
-    useEffect(() => {
-        dispatch(pageSlice.actions.configureItemStockForecastManagement({
-            ...pageState.itemStockForecastManagement,
-            currentStockForecast: undefined,
-        }))
-    }, [])
-
 
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureItemStockForecastManagement({
@@ -69,28 +62,26 @@ export default function StockViewModalComponent() {
             }))
         }).catch((error) => {
             dispatch(messageModalSlice.actions.configure({
-                isShowModal: true,
-                title: "Status",
+                isShowModal: !isShowModal,
+
                 content: error.message,
                 type: "failed",
             }))
         })
     }
 
-    const pastLength = currentStockForecast?.prediction?.past?.length || 0
-    const futureLength = currentStockForecast?.prediction?.future?.length || 0
-    const lastPast = currentStockForecast?.prediction?.past?.slice(pastLength - 1, pastLength)?.pop()
-    const firstFuture = currentStockForecast?.prediction?.future?.slice(0, 1)?.pop()
+    const pastLength = currentStockForecast!.prediction!.past!.length
+    const lastPast = currentStockForecast!.prediction!.past!.slice(pastLength - 1, pastLength)?.pop()
 
     const currentChartData: ChartData<"line"> = {
         labels: [
-            ...(currentStockForecast?.prediction?.past!).map(value => value.timestamp),
-            ...(currentStockForecast?.prediction?.future!).map(value => value.timestamp)
+            ...currentStockForecast!.prediction!.past!.map(value => value.timestamp),
+            ...currentStockForecast!.prediction!.future!.map(value => value.timestamp)
         ],
         datasets: [
             {
                 label: "Past",
-                data: (currentStockForecast?.prediction?.past!).map(value => {
+                data: currentStockForecast!.prediction!.past!.map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),
                         y: value.quantityAfter!
@@ -104,7 +95,7 @@ export default function StockViewModalComponent() {
                         timestamp: new Date(lastPast?.timestamp!).getTime(),
                         quantityAfter: lastPast?.quantityAfter!
                     },
-                    ...(currentStockForecast?.prediction?.future!)
+                    ...currentStockForecast?.prediction?.future!
                 ].map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),

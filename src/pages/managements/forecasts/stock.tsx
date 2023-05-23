@@ -39,7 +39,9 @@ export default function Stock() {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configureItemStockForecastManagement({
                 ...pageState.itemStockForecastManagement,
-                items: content.data,
+                items: content.data.sort((a, b) => {
+                    return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                }),
             }))
         }).catch((error) => {
             console.log(error);

@@ -1,24 +1,24 @@
+<<<<<<< HEAD
+
+.component.transaction-history-update-modal .body {
+=======
 .component.product-update-modal {
   z-index: 2000;
 }
 
 .component.product-update-modal .body .main .form,
 .component.product-update-modal .body .main .form form {
+>>>>>>> main
   display: flex;
   flex: 1;
   flex-flow: column wrap;
-  width: 100%;
-  height: 100%;
+  justify-content: flex-start;
+  align-content: flex-start;
 
-  .column {
-    .quantity {
-      margin-left: 0.5vw;
-    }
-
-    .table-p {
-      max-height: 40vh;
-      overflow: auto;
-    }
+  .current-transaction-item-maps,
+  .new-transaction-item-maps {
+    max-height: 40vh;
+    overflow: auto;
   }
 
   .button {
@@ -27,6 +27,3 @@
   }
 }
 
-.component.product-update-modal .body .main .form form .row fieldset {
-  margin: 0vh 1vh 0vh 1vh;
-}

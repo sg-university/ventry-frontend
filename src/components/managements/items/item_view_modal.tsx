@@ -19,13 +19,15 @@ function MainComponent() {
     const locationService: LocationService = new LocationService();
     const itemService: ItemService = new ItemService()
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {currentLocation, currentItem} = pageState.itemManagement
+    const {currentLocation, currentItem, isShowModal} = pageState.itemManagement
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState
     const dispatch = useDispatch();
+
     useEffect(() => {
         fetchCurrentLocation()
     }, [])
+
     const fetchCurrentLocation = () => {
         locationService.readAllByItemId({itemId: currentItem?.id})
             .then((response) => {
@@ -62,7 +64,7 @@ function MainComponent() {
             fetchItemsByLocation()
             dispatch(message_modal_slice.actions.configure({
                 type: "succeed",
-                content: "Delete Item Succeed",
+                content: "Delete Item succeed.",
                 isShow: true
             }))
         }).catch((error) => {
@@ -105,8 +107,8 @@ function MainComponent() {
         <div className="image"> Image:{" "} <Image src={ItemCardImage} alt="item"/></div>
         <hr/>
         <div className="button">
-            <button type="button" className="btn btn-primary" onClick={() => handleModalUpdate()}> Update Item</button>
-            <button type="button" className="btn btn-danger" onClick={() => handleModalDelete()}> Delete Item</button>
+            <button type="button" className="btn btn-primary" onClick={() => handleModalUpdate()}>Update</button>
+            <button type="button" className="btn btn-danger" onClick={() => handleModalDelete()}>Delete</button>
         </div>
     </div>);
 }
