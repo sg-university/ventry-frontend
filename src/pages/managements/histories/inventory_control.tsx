@@ -10,7 +10,7 @@ import MessageModal from "@/components/message_modal";
 import Authenticated from "@/layouts/authenticated";
 import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
-import "@/styles/pages/managements/histories/stock.scss"
+import "@/styles/pages/managements/histories/inventory_control.scss"
 import ItemService from "@/services/item_service";
 import Item from "@/models/entities/item";
 import InventoryControlViewModalComponent
@@ -48,8 +48,12 @@ export default function ItemTransactionHistory() {
                 const inventoryControlsContent: Content<InventoryControl[]> = response[1].data;
                 dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
                     ...pageState.itemManagement,
-                    accountItems: itemsContent.data,
-                    accountInventoryControls: inventoryControlsContent.data.filter((item) => item.accountId === currentAccount?.id)
+                    accountItems: itemsContent.data.sort((a, b) => {
+                        return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                    }),
+                    accountInventoryControls: inventoryControlsContent.data.filter((item) => item.accountId === currentAccount?.id).sort((a, b) => {
+                        return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                    }),
                 }))
             })
             .catch((error) => {
@@ -72,10 +76,10 @@ export default function ItemTransactionHistory() {
     const handleModalView = (inventoryControl: InventoryControl) => {
         dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
             ...pageState.inventoryControlHistoryManagement,
-            currentItem: (accountItems!).find((item) => item.id === inventoryControl.itemId),
+            currentItem: accountItems!.find((item) => item.id === inventoryControl.itemId),
             currentInventoryControl: inventoryControl,
             currentModal: "viewModal",
-            isShowModal: !isShowModal
+            isShowModal: true
         }))
     }
 
@@ -141,7 +145,7 @@ export default function ItemTransactionHistory() {
                             <div className="content">
                                 <div className="left">
                                     <div className="id">
-                                        <div className="text">Code: {value.id}</div>
+                                        <div className="text">ID: {value.id}</div>
                                     </div>
                                     <div className="date">
                                         <div className="text">{convertDate(value.timestamp)}</div>

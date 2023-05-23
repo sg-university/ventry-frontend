@@ -32,7 +32,7 @@ export default function LocationInsertModalComponent() {
         }))
     };
 
-    const handleInsertSubmit = (values: any, actions: any) => {
+    const handleSubmitInsert = (values: any, actions: any) => {
         locationService
             .createOne({
                 body: {
@@ -46,11 +46,12 @@ export default function LocationInsertModalComponent() {
                 const content: Content<Location> = response.data;
                 dispatch(pageSlice.actions.configureCompanyInformationManagement({
                     ...pageState.companyInformationManagement,
-                    currentLocations: [...(currentLocations!), content.data]
+                    currentLocations: [content.data, ...currentLocations!],
+                    isShowModal: !isShowModal,
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Insert Location Succeed",
+                    content: "Insert Location succeed.",
                     isShow: true
                 }))
             })
@@ -87,7 +88,7 @@ export default function LocationInsertModalComponent() {
                             description: "",
                             address: ""
                         }}
-                        onSubmit={handleInsertSubmit}
+                        onSubmit={handleSubmitInsert}
                         enableReinitialize
                     >
                         {(props) => (

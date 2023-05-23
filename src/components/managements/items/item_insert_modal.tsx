@@ -13,7 +13,6 @@ import CreateOneItemBundleRequest
 import "@/styles/components/managements/items/item_insert_modal.scss";
 import {AuthenticationState} from "@/slices/authentication_slice";
 import Item from "@/models/entities/item";
-import ItemBundleMap from "@/models/entities/item_bundle_map";
 
 const insertMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -50,7 +49,7 @@ function MainComponent() {
     const dispatch = useDispatch();
 
 
-    const handleInsertSubmit = (values: any, actions: any) => {
+    const handleSubmitInsert = (values: any, actions: any) => {
         itemService
             .createOne({
                 body: {
@@ -62,11 +61,12 @@ function MainComponent() {
                 const content: Content<Item> = response.data;
                 dispatch(pageSlice.actions.configureItemManagement({
                     ...pageState.itemManagement,
-                    items: [...(items!), content.data]
+                    items: [content.data, ...items!],
+                    isShowModal: !isShowModal,
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Insert Item Succeed",
+                    content: "Insert Item succeed.",
                     isShow: true
                 }))
             })
@@ -107,7 +107,7 @@ function MainComponent() {
                     description: "",
                     image_url: "",
                 }}
-                onSubmit={handleInsertSubmit}
+                onSubmit={handleSubmitInsert}
                 enableReinitialize
             >
                 {(props) => (
@@ -252,7 +252,7 @@ function ItemsComponent(props: any) {
 
     const dispatch = useDispatch();
 
-    const handleInsertSubmit = (values: any, actions: any) => {
+    const handleSubmitInsert = (values: any, actions: any) => {
         const itemBundleService = new ItemBundleService()
         const request: CreateOneItemBundleRequest = {
             body: {
@@ -265,9 +265,9 @@ function ItemsComponent(props: any) {
             .createOne(request)
             .then(() => {
                 dispatch(messageModalSlice.actions.configure({
-                  type: "succeed",
-                  content: "Insert Sub-Item Succeed",
-                  isShow: true
+                    type: "succeed",
+                    content: "Insert Sub-Item succeed.",
+                    isShow: true
                 }))
                 fetchItemsByLocation()
             })
@@ -294,7 +294,7 @@ function ItemsComponent(props: any) {
                     subItem: items ? items[1].id : "",
                     bundle_quantity: 0
                 }}
-                onSubmit={handleInsertSubmit}
+                onSubmit={handleSubmitInsert}
                 enableReinitialize
             >
                 {(props) => (

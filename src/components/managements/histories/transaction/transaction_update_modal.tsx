@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import React from "react";
+import {Field, Form, Formik, FormikProps} from "formik";
 import {Modal} from "react-bootstrap";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,144 +9,46 @@ import messageModalSlice from "@/slices/message_modal_slice";
 import TransactionService from "@/services/transaction_service";
 import Transaction from "@/models/entities/transaction";
 import TransactionItemMapService from "@/services/transaction_item_map_service";
-import PatchOneTransactionByIdRequest
-    from "@/models/value_objects/contracts/requests/managements/transactions/patch_one_by_id_request";
-import CreateOneRequest
-    from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/create_one_request";
-import DeleteOneByIdRequest
-    from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/delete_one_by_id_request";
-import { AxiosResponse } from "axios";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
+import Item from "@/models/entities/item";
+
+type FormikInitialValues = {
+    currentTransactionItemMaps: TransactionItemMap[]
+    newTransactionItemMaps: TransactionItemMap[]
+}
+
 
 export default function TransactionUpdateModalComponent() {
     const transactionService = new TransactionService()
     const transactionItemMapService = new TransactionItemMapService();
     const pageState: PageState = useSelector((state: any) => state.page);
-    const { isShowModal, transaction, transactions, transactionItems } = pageState.transactionManagement
-    const [selectedItem, setSelectedItem] = useState([] as Object[])
-    const { items } = pageState.itemManagement
-    const transactionItem = transactionItems?.filter((itm) => itm.transactionId === transaction.id)
-    const transactionItemData = transactionItem?.map(item1 => ({item: items.find(item2 => item2.id === item1.itemId), ...item1}))
+    const {
+        isShowModal,
+        currentTransaction,
+        currentTransactionItemMaps,
+        transactionItemMaps,
+        transactions,
+        items,
+    } = pageState.transactionHistoryManagement
     const dispatch = useDispatch()
 
-    const getAllTransactions = async (transaction: Transaction) => {
-        transactionService
-            .readAll()
-            .then((result: AxiosResponse<Content<Transaction[]>>) => {
-                const transactions = result.data;
-                getAllTransactionItems(transaction, transactions.data, true)
-            })
-            .catch((error) => {
-                console.log(error)
-            });
-    }
 
-    const getAllTransactionItems = (transaction: Transaction | undefined, transactions: Transaction[] | undefined, toViewModal) => {
+    const handleClickDelete = (value: TransactionItemMap) => {
         transactionItemMapService
-            .readAll()
-            .then((result: AxiosResponse<Content<TransactionItemMap[]>>) => {
-                const transactionItems = result.data;
-                dispatch(pageSlice.actions.configureTransactionManagement({
-                    ...pageState.transactionManagement,
-                    transaction: transaction,
-                    transactions: transactions,
-                    transactionItems: transactionItems.data,
-                    currentModal: toViewModal == true ? "viewModal" : "updateModal"
-                })) 
+            .deleteOneById({
+                id: value.id
             })
-            .catch((error) => {
-                console.log(error)
-            });
-    }
-
-    const handleClickSelect = (item, quantity) => {
-        if (!selectedItem.some(i => i.item.id === item.id)) {
-            setSelectedItem([...selectedItem, {item, quantity}])
-        }
-    };
-
-    const handleClickDelete = (val) => {
-        setSelectedItem(selectedItem.filter(i => i.item.name != val.item.name))
-        if (val.id) {
-            const request: DeleteOneByIdRequest = {
-                id: val.id
-            }
-            transactionItemMapService
-                .deleteOneById(request)
-                .then(() => {
-                    getAllTransactionItems(transaction, transactions, false)
-                })
-                .catch((error) => {
-                    console.log(error)
-                    dispatch(messageModalSlice.actions.configure({
-                        title: "Status",
-                        type: "failed",
-                        content: error.message,
-                        isShow: true
-                    }))
-                });
-        }
-    };
-
-    const calculateTransaction = async () => {
-        let totalPrice = 0
-        selectedItem.forEach(i => {
-            totalPrice = totalPrice + (i.item.unitSellPrice * i.quantity)
-        });
-
-        return totalPrice
-    }
-
-    useEffect(() => {
-        setSelectedItem(transactionItemData)
-    }, [])
-
-
-    const updateTransactionItem = async () => {
-        selectedItem.forEach(i => {
-            if (!i.id) {
-                const request: CreateOneRequest = {
-                    body: {
-                        transactionId: transaction.id,
-                        itemId: i.item.id,
-                        sellPrice: i.item.unitSellPrice,
-                        quantity: i.quantity
-                    }
-                }
-                transactionItemMapService
-                    .createOne(request)
-                    .catch((error) => {
-                        console.log(error)
-                        dispatch(messageModalSlice.actions.configure({
-                            title: "Status",
-                            type: "failed",
-                            content: error.message,
-                            isShow: true
-                        }))
-                    });
-            }
-        });
-    }
-
-    const updateTransaction = async () => {
-        const totalPrice = await calculateTransaction()
-        const request: PatchOneTransactionByIdRequest = {
-            id: transaction.id,
-            body: {
-                accountId: transaction.accountId,
-                sellPrice: totalPrice,
-                timestamp: transaction.timestamp
-            }
-        }
-        transactionService
-            .patchOneById(request)
-            .then(async (response) => {
-                const transaction: Content<Transaction> = response.data
-                await getAllTransactions(transaction.data)
+            .then((response) => {
+                const content: Content<TransactionItemMap> = response.data
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Update Transaction Succeed",
+                    content: "Delete Transaction Item succeed.",
                     isShow: true
+                }))
+                dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+                    ...pageState.transactionHistoryManagement,
+                    currentTransactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== content.data.id),
+                    transactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== content.data.id),
                 }))
             })
             .catch((error) => {
@@ -157,121 +59,277 @@ export default function TransactionUpdateModalComponent() {
                     isShow: true
                 }))
             });
-    }
+    };
 
-    const handleUpdateSubmit = () => {
-        updateTransaction()
-        updateTransactionItem()
+
+    const handleSubmitUpdate = (values: FormikInitialValues) => {
+        const newTransactionItemMaps: TransactionItemMap[] = values.newTransactionItemMaps
+        const currentTransactionItemMaps: TransactionItemMap[] = values.currentTransactionItemMaps
+        const allTransactionItemMaps: TransactionItemMap[] = [...currentTransactionItemMaps, ...newTransactionItemMaps]
+        const totalSellPrice: number = allTransactionItemMaps!.reduce((total, tim) => total + (tim.sellPrice! * tim.quantity!), 0)
+
+        transactionService
+            .patchOneById({
+                id: currentTransaction!.id,
+                body: {
+                    accountId: currentTransaction!.accountId,
+                    sellPrice: totalSellPrice,
+                    timestamp: currentTransaction!.timestamp
+                }
+            }).then((response) => {
+            const transactionContent: Content<Transaction> = response.data;
+
+            Promise.all([
+                    ...currentTransactionItemMaps.map(tim =>
+                        transactionItemMapService
+                            .patchOneById({
+                                id: tim.id!,
+                                body: {
+                                    itemId: tim.itemId!,
+                                    quantity: tim.quantity!,
+                                    sellPrice: tim.sellPrice!,
+                                    transactionId: tim.transactionId!
+                                }
+                            })
+                    ),
+                    ...newTransactionItemMaps.filter(tim => tim.quantity! > 0 && tim.sellPrice! > 0).map(tim =>
+                        transactionItemMapService
+                            .createOne({
+                                body: {
+                                    itemId: tim.itemId!,
+                                    quantity: tim.quantity!,
+                                    sellPrice: tim.sellPrice!,
+                                    transactionId: tim.transactionId!
+                                }
+                            })
+                    )
+                ]
+            ).then((response) => {
+                const transactionItemMapContents: Content<TransactionItemMap>[] = response.map((res) => res.data)
+
+                dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+                    ...pageState.transactionHistoryManagement,
+                    currentTransaction: transactionContent.data,
+                    transactions: transactions!.map((t) => {
+                        if (t.id === transactionContent.data!.id) {
+                            return transactionContent.data
+                        } else {
+                            return t
+                        }
+                    }),
+                    transactionItemMaps: [
+                        ...transactionItemMaps!.map((tim1) => {
+                            const index: number = transactionItemMapContents.findIndex((tim2) => tim2.data.id === tim1.id)
+                            if (index !== -1) {
+                                return transactionItemMapContents[index].data
+                            } else {
+                                return tim1
+                            }
+                        }),
+                        ...transactionItemMapContents.filter((tim1) => {
+                            const index: number = transactionItemMaps!.findIndex((tim2) => tim2.id === tim1.data.id)
+                            return index === -1
+                        }).map((tim) => tim.data)
+                    ],
+                    currentTransactionItemMaps: transactionItemMapContents.map((tim) => tim.data),
+                }))
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: "Update Transaction succeed.",
+                    isShow: true
+                }))
+            }).catch((error) => {
+                console.log(error)
+                dispatch(messageModalSlice.actions.configure({
+                    type: "failed",
+                    content: error.message,
+                    isShow: true
+                }))
+            });
+        })
     }
 
     const handleShowModal = () => {
-        dispatch(pageSlice.actions.configureTransactionManagement({
-            ...pageState.transactionManagement,
+        dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+            ...pageState.transactionHistoryManagement,
             isShowModal: !isShowModal,
         }))
     }
 
+    const getNewTransactionItemMapQuantity = (value: Item, props: FormikProps<FormikInitialValues>): string => {
+        const newTransactionItemMaps: TransactionItemMap[] = props.values.newTransactionItemMaps
+        const index: number = newTransactionItemMaps.findIndex((tim) => tim.itemId === value.id)
+        return `newTransactionItemMaps[${index}].quantity`
+    }
+
+    const getNewTransactionItemMapSellPrice = (value: Item, props: FormikProps<FormikInitialValues>): string => {
+        const newTransactionItemMaps: TransactionItemMap[] = props.values.newTransactionItemMaps
+        const index: number = newTransactionItemMaps.findIndex((tim) => tim.itemId === value.id)
+        return `newTransactionItemMaps[${index}].sellPrice`
+    }
+
+    const handleChangeNewTransactionItemMapQuantity = (event: any, props: FormikProps<FormikInitialValues>, value: Item) => {
+        if (event.target.value < 0) {
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: "Quantity must be greater than or equal to 0.",
+                isShow: true
+            }))
+            return
+        }
+
+        props.handleChange(event)
+        props.setFieldValue(
+            "newTransactionItemMaps",
+            props.values.newTransactionItemMaps.map((tim) => {
+                    if (tim.itemId === value.id) {
+                        return {
+                            ...tim,
+                            quantity: event.target.value,
+                            sellPrice: value.unitSellPrice * event.target.value
+                        }
+                    } else {
+                        return tim
+                    }
+                }
+            )
+        )
+    }
+
+    const formikInitialValues: FormikInitialValues = {
+        currentTransactionItemMaps: currentTransactionItemMaps!,
+        newTransactionItemMaps: items!.map((item) => {
+            return {
+                id: undefined,
+                quantity: 0,
+                transactionId: currentTransaction!.id,
+                itemId: item.id,
+                sellPrice: 0,
+                createdAt: undefined,
+                updatedAt: undefined
+            }
+        })
+    }
+
     return (
         <Modal
+            size="xl"
             show={isShowModal}
             onHide={handleShowModal}
             centered
-            className="component product-update-modal"
+            className="component transaction-history-update-modal"
         >
             <Modal.Header closeButton className="header">
                 <Modal.Title>Update Transaction History</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="body">
-                <div className="main ">
-                    <div className="form">
-                        <Formik
-                            initialValues={{
-                                quantity: 0,
-                            }}
-                            onSubmit={handleUpdateSubmit}
-                            enableReinitialize
-                        >
-                            {(props) => (
+                <div className="form">
+                    <Formik
+                        initialValues={formikInitialValues}
+                        onSubmit={handleSubmitUpdate}
+                        enableReinitialize
+                    >
+                        {
+                            (props) => (
                                 <Form>
-                                    <div className="column">
-                                        <div className="quantity">
-                                            Quantity : {selectedItem.length}
-                                        </div>
-                                        <div className="table-sp">
-                                            <table className="table ">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Selected Item ID</th>
-                                                    <th scope="col">Code</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Quantity</th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {selectedItem.map((val, idx) => {
-                                                    return (
-                                                        <tr key={idx}>
-                                                            <td>{val.item.id}</td>
-                                                            <td>{val.item.code}</td>
-                                                            <td>{val.item.name}</td>
-                                                            <td>{val.quantity}</td>
-                                                            <td>
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-outline-primary"
-                                                                    onClick={() => handleClickDelete(val)}
-                                                                >
-                                                                    Delete
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <ErrorMessage
-                                            name="product_id"
-                                            component="div"
-                                            className="text-danger"
-                                        />
-                                        <div className="table-p">
-                                            <table className="table">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Code</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Quantity</th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {pageState.itemManagement.items.map((val, idx) => {
-                                                    return (
-                                                        <tr key={idx}>
-                                                            <td>{val.code}</td>
-                                                            <td>{val.name}</td>
-                                                            <td>{val.unitSellPrice}</td>
-                                                            <td><Field type="number" name="quantity" className="form-control"/>
-                                                            </td>
-                                                            <td>
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-outline-primary"
-                                                                    onClick={() => handleClickSelect(val, props.values.quantity)}
-                                                                >
-                                                                    Select
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div className="current-transaction-item-maps">
+                                        <table className="table ">
+                                            <thead>
+                                            <tr>
+                                                <th>Selected Item ID</th>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Sell Price</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {props.values.currentTransactionItemMaps!.map((value, index) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{items!.find(item => item.id === value.itemId)!.id}</td>
+                                                        <td>{items!.find(item => item.id === value.itemId)!.code}</td>
+                                                        <td>{items!.find(item => item.id === value.itemId)!.name}</td>
+                                                        <td>Rp. {items!.find(item => item.id === value.itemId)!.unitSellPrice}</td>
+                                                        <td>
+                                                            <Field
+                                                                type="number"
+                                                                name={`currentTransactionItemMaps[${index}].quantity`}
+                                                                className="form-control"
+                                                                onChange={(event: any) => {
+                                                                    props.handleChange(event)
+                                                                    props.setFieldValue(
+                                                                        `currentTransactionItemMaps[${index}].sellPrice`,
+                                                                        event.target.value * items!.find(item => item.id === value.itemId)!.unitSellPrice
+                                                                    )
+                                                                }}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <Field
+                                                                type="number"
+                                                                name={`currentTransactionItemMaps[${index}].sellPrice`}
+                                                                className="form-control"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-outline-primary"
+                                                                onClick={() => handleClickDelete(value)}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="new-transaction-item-maps">
+                                        <table className="table ">
+                                            <thead>
+                                            <tr>
+                                                <th>Item ID</th>
+                                                <th>Code</th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Sell Price</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {items!.map((value, index) => {
+                                                return (
+                                                    <tr key={value.id}>
+                                                        <td>{value.id}</td>
+                                                        <td>{value.code}</td>
+                                                        <td>{value.name}</td>
+                                                        <td>Rp. {value.unitSellPrice}</td>
+                                                        <td>
+                                                            <Field
+                                                                type="number"
+                                                                name={getNewTransactionItemMapQuantity(value, props)}
+                                                                className="form-control"
+                                                                onChange={(event: any) => handleChangeNewTransactionItemMapQuantity(event, props, value)}
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <Field
+                                                                type="number"
+                                                                name={getNewTransactionItemMapSellPrice(value, props)}
+                                                                className="form-control"
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                            </tbody>
+                                        </table>
                                     </div>
 
                                     <hr/>
@@ -284,11 +342,11 @@ export default function TransactionUpdateModalComponent() {
                                         </button>
                                     </div>
                                 </Form>
-                            )}
-                        </Formik>
-                    </div>
+                            )
+                        }
+                    </Formik>
                 </div>
             </Modal.Body>
         </Modal>
-    );
+    )
 }

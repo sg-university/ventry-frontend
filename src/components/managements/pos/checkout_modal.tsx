@@ -27,7 +27,7 @@ export default function CheckoutModalComponent() {
     const transactionItemMapService = new TransactionItemMapService();
     const inventoryControlService = new InventoryControlService();
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {isShowModal, transaction, transactionItemMaps, items} = pageState.pointOfSaleManagement;
+    const {isShowModal, currentTransaction, transactionItemMaps, items} = pageState.pointOfSaleManagement;
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState
     const dispatch = useDispatch();
@@ -42,8 +42,8 @@ export default function CheckoutModalComponent() {
         transactionService.checkout({
             body: {
                 transaction: {
-                    accountId: transaction?.accountId,
-                    sellPrice: transaction?.sellPrice!,
+                    accountId: currentTransaction?.accountId,
+                    sellPrice: currentTransaction?.sellPrice!,
                     timestamp: new Date().toISOString()
                 },
                 transactionItemMaps: transactionItemMaps!.map((tim) => {
@@ -60,17 +60,14 @@ export default function CheckoutModalComponent() {
             dispatch(pageSlice.actions.configurePointOfSaleManagement({
                 ...pageState.pointOfSaleManagement,
                 items: items?.map((item) => {
-                    const tim = transactionItemMaps?.find((tim) => tim.itemId === item.id)
-                    if (tim) {
-                        return {
-                            ...item,
-                            quantity: item.quantity! - tim.quantity!
-                        }
+                    const patchedItem = content.data.items!.find((i) => i.id === item.id)
+                    if (patchedItem) {
+                        return patchedItem
                     } else {
                         return item
                     }
                 }),
-                transaction: {
+                currentTransaction: {
                     id: undefined,
                     accountId: currentAccount?.id,
                     sellPrice: 0,
@@ -79,6 +76,7 @@ export default function CheckoutModalComponent() {
                     updatedAt: undefined,
                 },
                 transactionItemMaps: [],
+                isShowModal: !isShowModal,
             }))
 
             dispatch(messageModalSlice.actions.configure({
@@ -110,7 +108,7 @@ export default function CheckoutModalComponent() {
                         initialValues={{
                             "totalPrice": 0,
                             "paymentMethod": "cash",
-                            "isRecord": true    
+                            "isRecord": true
                         }}
                         onSubmit={handleSubmitCheckout}
                         enableReinitialize

@@ -46,7 +46,7 @@ function MainComponent() {
     const itemService: ItemService = new ItemService();
     const inventoryControlService = new InventoryControlService()
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {currentItem, currentLocation, isShowModal} = pageState.itemManagement;
+    const {items, currentItem, currentLocation, isShowModal} = pageState.itemManagement;
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState
     const dispatch = useDispatch();
@@ -78,20 +78,7 @@ function MainComponent() {
             }))
         })
     }
-    const fetchItemsByLocation = (item: Item) => {
-        itemService.readAllByLocationId({locationId: currentAccount?.locationId}).then((response) => {
-            const content: Content<Item[]> = response.data;
-            dispatch(pageSlice.actions.configureItemManagement({
-                ...pageState.itemManagement,
-                items: content.data,
-                item: item,
-                isShowModal: !isShowModal,
-            }))
-        }).catch((error) => {
-            console.log(error);
-        })
-    }
-    const handleUpdateSubmit = (values: any, actions: any) => {
+    const handleSubmitUpdate = (values: any, actions: any) => {
         const quantityBefore = currentItem?.quantity
         itemService.patchOneById({
             id: currentItem?.id,
@@ -99,10 +86,19 @@ function MainComponent() {
         }).then((response) => {
             const content: Content<Item> = response.data;
             recordChanges(quantityBefore!, values.quantity)
-            fetchItemsByLocation(content.data)
+            dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                items: items!.map((item) => {
+                    if (item.id === content.data.id) {
+                        return content.data
+                    }
+                    return item
+                }),
+                currentItem: content.data,
+            }))
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Update Item Succeed",
+                content: "Update Item succeed.",
                 isShow: true
             }))
         }).catch((error) => {
@@ -119,8 +115,8 @@ function MainComponent() {
     return (<div className="main">
         <div className="form">
             <Formik validationSchema={updateMainSchema}
-                    initialValues={{...(currentItem || {}), is_record: false,}}
-                    onSubmit={handleUpdateSubmit}
+                    initialValues={{...currentItem!, is_record: false,}}
+                    onSubmit={handleSubmitUpdate}
                     enableReinitialize
             >
                 {(props) => (
@@ -186,9 +182,7 @@ function MainComponent() {
                         </div>
                         <hr/>
                         <div className="button">
-                            <button type="submit" className="btn btn-primary"> Update Item</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => handleShow()}> Close
-                            </button>
+                            <button type="submit" className="btn btn-primary">Update</button>
                         </div>
                     </Form>
                 )
@@ -248,7 +242,7 @@ function ItemBundleComponent() {
             fetchCurrentItemBundleMaps()
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Delete Sub-Item Succeed",
+                content: "Delete Sub-Item succeed.",
                 isShow: true
             }))
         }).catch((error) => {
@@ -271,17 +265,20 @@ function ItemBundleComponent() {
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
-                <tbody> {currentItemBundleMaps && currentItemBundleMaps.map((val, idx) => {
-                    return (<tr key={idx}>
-                        <td>{val.subItemId}</td>
-                        <td>{items?.find(item => item.id == val.subItemId)?.name}</td>
-                        <td>{val.quantity}</td>
-                        <td className="action">
-                            <PencilFill className="icon" onClick={() => handleUpdateClick(val)}/>
-                            <Trash3Fill className="icon" onClick={() => handleDeleteClick(val)}/>
-                        </td>
-                    </tr>);
-                })} </tbody>
+                <tbody> {currentItemBundleMaps && currentItemBundleMaps.map((value, index) => {
+                    return (
+                        <tr key={value.id}>
+                            <td>{value.subItemId}</td>
+                            <td>{items!.find(item => item.id === value.subItemId)?.name}</td>
+                            <td>{value.quantity}</td>
+                            <td className="action">
+                                <PencilFill className="icon" onClick={() => handleUpdateClick(value)}/>
+                                <Trash3Fill className="icon" onClick={() => handleDeleteClick(value)}/>
+                            </td>
+                        </tr>
+                    );
+                })}
+                </tbody>
             </table>
         </div>
         <div className="button">
@@ -310,24 +307,22 @@ function ItemBundleForm(props: any) {
             console.log(error)
         })
     }
-    const handleUpdateSubmit = (values: any, actions: any) => {
+    const handleSubmitUpdate = (values: any, actions: any) => {
         const request: PatchOneItemBundleByIdRequest = {
             id: currentItemBundle?.id,
             body: {superItemId: currentItem?.id, subItemId: values.subItem, quantity: values.bundle_quantity}
         }
         itemBundleService.patchOneById(request).then((result) => {
             fetchCurrentItemBundleMaps()
-            const messageModalState: MessageModalState = {
-                title: "Status",
+            dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Update Sub-Item Succeed",
+                content: "Update Sub-Item succeed.",
                 isShow: true
-            }
-            dispatch(messageModalSlice.actions.configure(messageModalState))
+            }))
         }).catch((error) => {
             console.log(error)
             dispatch(messageModalSlice.actions.configure({
-                title: "Status",
+
                 type: "failed",
                 content: error.message,
                 isShow: true
@@ -336,7 +331,7 @@ function ItemBundleForm(props: any) {
             actions.setSubmitting(false);
         });
     }
-    const handleInsertSubmit = (values: any, actions: any) => {
+    const handleSubmitInsert = (values: any, actions: any) => {
         const itemBundleService = new ItemBundleService()
         const request: CreateOneItemBundleRequest = {
             body: {
@@ -350,7 +345,7 @@ function ItemBundleForm(props: any) {
             fetchCurrentItemBundleMaps()
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Insert Sub-Item Succeed",
+                content: "Insert Sub-Item succeed.",
                 isShow: true
             }))
         }).catch((error) => {
@@ -367,10 +362,10 @@ function ItemBundleForm(props: any) {
     const handleSubmit = (values: any, actions: any) => {
         switch (currentAction) {
             case "insert":
-                handleInsertSubmit(values, actions)
+                handleSubmitInsert(values, actions)
                 break;
             case "update":
-                handleUpdateSubmit(values, actions)
+                handleSubmitUpdate(values, actions)
                 break;
             default:
                 break;

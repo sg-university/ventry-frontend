@@ -85,13 +85,13 @@ export default function AccountInsertModalComponent() {
         }).then((response) => {
             const content: Content<Account> = response.data;
             dispatch(messageModalSlice.actions.configure({
-                content: "Insert Account Succeed",
+                content: "Insert Account succeed.",
                 type: "succeed",
                 isShow: true
             }))
             dispatch(pageSlice.actions.configureCompanyAccountManagement({
                 ...pageState.companyAccountManagement,
-                companyAccounts: [...(companyAccounts!), content.data],
+                companyAccounts: [content.data, ...companyAccounts!],
                 isShowModal: !isShowModal,
             }))
         }).catch((error) => {

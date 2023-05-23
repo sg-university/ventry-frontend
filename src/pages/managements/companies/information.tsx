@@ -73,7 +73,7 @@ function InformationComponent() {
                 const content: Content<Company> = response.data;
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Update Company Information Succeed",
+                    content: "Update Company Information succeed.",
                     isShow: true
                 }))
                 dispatch(pageSlice.actions.configureCompanyInformationManagement({
@@ -189,7 +189,7 @@ function LocationComponent() {
                 }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
-                    content: "Delete Location Succeed",
+                    content: "Delete Location succeed.",
                     isShow: true
                 }))
             })
