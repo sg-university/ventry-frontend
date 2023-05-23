@@ -1,5 +1,9 @@
 $primary-blue: #007bff;
 
+.component.item-update-modal {
+  z-index: 2000;
+}
+
 .component.item-update-modal .active {
   color: white;
   background-color: $primary-blue;

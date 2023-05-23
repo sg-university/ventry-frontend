@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 
 .component.transaction-history-update-modal .body {
+=======
+.component.product-update-modal {
+  z-index: 2000;
+}
+
+.component.product-update-modal .body .main .form,
+.component.product-update-modal .body .main .form form {
+>>>>>>> main
   display: flex;
   flex: 1;
   flex-flow: column wrap;

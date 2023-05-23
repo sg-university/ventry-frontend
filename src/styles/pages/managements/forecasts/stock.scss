@@ -162,6 +162,10 @@
   margin: 2vh 0 0 0;
 }
 
+.component.item-view-modal {
+  z-index: 2000;
+}
+
 .component.item-view-modal .body .options,
 .component.item-view-modal .body .options form {
   display: flex;

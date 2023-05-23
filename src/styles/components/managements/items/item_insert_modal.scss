@@ -1,5 +1,9 @@
 $primary-blue: #007bff;
 
+.component.item-insert-modal {
+  z-index: 2000;
+}
+
 .component.item-insert-modal .active {
   color: white;
   background-color: $primary-blue;

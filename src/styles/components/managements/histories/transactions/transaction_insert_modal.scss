@@ -1,3 +1,14 @@
+.component.product-insert-modal {
+  z-index: 2000;
+}
+
+.component.product-insert-modal .body {
+  display: flex;
+  flex: 1;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
 .component.transaction-history-insert-modal .body {
   display: flex;

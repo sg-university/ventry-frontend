@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 .component.transaction-view-modal .body {
+=======
+.component.product-view-modal {
+  z-index: 2000;
+}
+
+.component.product-view-modal .body {
+>>>>>>> main
   display: flex;
   flex: 1;
   flex-flow: column;
