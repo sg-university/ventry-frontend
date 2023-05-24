@@ -55,31 +55,26 @@
   .page.inventory-control-history .header {
     min-height: 0;
     display: flex;
-    flex: 6;
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
     padding: 2vh 2vh 2vh 2vh;
     width: 100%;
-    height: 100%;
   }
 
   .page.inventory-control-history .header .left-section {
     display: flex;
-    flex: 7;
     flex-flow: column;
     justify-content: center;
     align-items: flex-start;
-    height: 100%;
   }
 
   .page.inventory-control-history .header .right-section {
     display: flex;
-    flex: 3;
     flex-flow: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    padding-top: 2vh;
   }
 
   .page.inventory-control-history .body {
