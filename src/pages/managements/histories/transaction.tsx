@@ -1,14 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import Image from "next/image";
-import {AxiosResponse} from "axios";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import TransactionService from "@/services/transaction_service";
 import Transaction from "@/models/entities/transaction";
-import Item from "@/models/entities/item";
 import ItemService from "@/services/item_service";
-import Content from "@/models/value_objects/contracts/content";
 import MessageModal from "@/components/message_modal";
 import Authenticated from "@/layouts/authenticated";
 import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
@@ -18,6 +15,9 @@ import TransactionViewModalComponent from "@/components/managements/histories/tr
 import "@/styles/pages/managements/histories/transaction.scss"
 import TransactionUpdateModalComponent from "@/components/managements/histories/transaction/transaction_update_modal";
 import TransactionItemMapService from "@/services/transaction_item_map_service";
+import {AuthenticationState} from "@/slices/authentication_slice";
+import Content from "@/models/value_objects/contracts/content";
+import Item from "@/models/entities/item";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
 
 export default function ItemTransactionHistory() {
@@ -25,72 +25,70 @@ export default function ItemTransactionHistory() {
     const transactionService = new TransactionService();
     const transactionItemMapService = new TransactionItemMapService();
     const pageState: PageState = useSelector((state: any) => state.page);
-    const { transactions, currentModal } = pageState.transactionManagement
+    const {transactions, currentModal, transactionItemMaps} = pageState.transactionHistoryManagement
+    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
+    const {currentAccount} = authenticationState;
     const dispatch = useDispatch();
 
-    const getAllItems = () => {
-        itemService
-            .readAll()
-            .then((result: AxiosResponse<Content<Item[]>>) => {
-                const content = result.data;
-                dispatch(pageSlice.actions.configureItemManagement({
-                    ...pageState.itemManagement,
-                    items: content.data
-                }))
-            })
-            .catch((error) => {
-                console.log(error)
-            });
-    }
 
-    const getAllTransactions = async () => {
-        transactionService
-            .readAll()
-            .then((result: AxiosResponse<Content<Transaction[]>>) => {
-                const transactions = result.data;
-                getAllTransactionItems(transactions.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            });
-    }
+    const fetchAllItemsAndTransactions = () => {
+        Promise.all([
+            itemService
+                .readAllByLocationId({
+                    locationId: currentAccount!.locationId
+                }),
+            transactionService
+                .readAllByLocationId({
+                    locationId: currentAccount!.locationId
+                }),
+            transactionItemMapService
+                .readAllByLocationId({
+                    locationId: currentAccount!.locationId
+                })
+        ]).then((response) => {
+            const itemsContent: Content<Item[]> = response[0].data
+            const transactionsContent: Content<Transaction[]> = response[1].data
+            const transactionItemMapsContent: Content<TransactionItemMap[]> = response[2].data
 
-    const getAllTransactionItems = (transactions: Transaction[]) => {
-        transactionItemMapService
-            .readAll()
-            .then((result: AxiosResponse<Content<TransactionItemMap[]>>) => {
-                const transactionItems = result.data;
-                dispatch(pageSlice.actions.configureTransactionManagement({
-                  ...pageState.transactionManagement,
-                  transactions: transactions,
-                  transactionItems: transactionItems.data
-                })) 
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+            dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+                ...pageState.transactionHistoryManagement,
+                items: itemsContent.data.sort((a, b) => {
+                    return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                }),
+                transactions: transactionsContent.data.sort((a, b) => {
+                    return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                }),
+                transactionItemMaps: transactionItemMapsContent.data.sort((a, b) => {
+                    return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                })
+            }))
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     useEffect(() => {
-        getAllTransactions()
-        if (pageState.itemManagement.items?.length == 0) getAllItems()
+        fetchAllItemsAndTransactions()
     }, [])
 
     const handleModalInsert = () => {
-      dispatch(pageSlice.actions.configureTransactionManagement({
-        ...pageState.transactionManagement,
-        currentModal: "insertModal",
-        isShowModal: true
-      }))
+        dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+            ...pageState.transactionHistoryManagement,
+            currentModal: "insertModal",
+            currentTransaction: undefined,
+            currentTransactionItemMaps: [],
+            isShowModal: true
+        }))
     }
 
     const handleModalView = (transaction: Transaction) => {
-      dispatch(pageSlice.actions.configureTransactionManagement({
-        ...pageState.transactionManagement,
-        transaction: transaction,
-        currentModal: "viewModal",
-        isShowModal: true
-      }))
+        dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+            ...pageState.transactionHistoryManagement,
+            currentTransaction: transaction,
+            currentTransactionItemMaps: transactionItemMaps!.filter((tim) => tim.transactionId === transaction.id),
+            currentModal: "viewModal",
+            isShowModal: true
+        }))
     }
 
     const convertDate = (dateTime: string) => {
@@ -133,50 +131,41 @@ export default function ItemTransactionHistory() {
                 </div>
 
                 <div className="body">
-                    {transactions && transactions.length <= 0 ? (
+                    {transactions!.length <= 0 ? (
                         <div className="empty-data">
                             <div className="text">
-                                Your product transactions is empty, try to insert one!
+                                Your transactions history is empty, try to insert one!
                             </div>
                         </div>
                     ) : null}
-                    {transactions && transactions.map((val, idx) => (
-                        <div key={val.id} className="card">
+                    {transactions!.map((value, index) => (
+                        <div key={value.id} className="card">
                             <div className="image">
                                 <Image
                                     src={ProductCardImage}
-                                    onError={(e) => {
-                                        e.target.src = ProductCardImage;
-                                    }}
                                     alt="product"
                                 />
                             </div>
                             <div className="content">
                                 <div className="left">
                                     <div className="id">
-                                        <div className="text">Code: {val.id}</div>
+                                        <div className="text">ID: {value.id}</div>
                                     </div>
                                     <div className="date">
-                                        <div className="text">{convertDate(val.timestamp)}</div>
+                                        <div className="text">{convertDate(value.timestamp)}</div>
                                     </div>
                                 </div>
                                 <div className="right">
                                     <div className="total">
-                                        <div className="text">{"Rp." + val.sellPrice}</div>
+                                        <div className="text">{"Rp. " + value.sellPrice}</div>
                                     </div>
                                 </div>
-                                {/* <div className="name">
-                                  <div className="text">Name: {val.product.name}</div>
-                                </div>
-                                <div className="quantity">
-                                  <div className="text">Quantity: {val.quantity}</div>
-                                </div> */}
                             </div>
                             <div className="control">
                                 <button
                                     type="button"
                                     className="btn btn-outline-primary"
-                                    onClick={() => handleModalView(val)}
+                                    onClick={() => handleModalView(value)}
                                 >
                                     Details
                                 </button>

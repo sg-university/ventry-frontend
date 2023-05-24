@@ -16,15 +16,15 @@ export default function MessageModal() {
     }
 
     return (
-        <Modal show={messageModalState.isShow} onHide={handleOnHide}>
-            <Modal.Body className="message-modal-body mt-4 mb-4">
-                <div className="icons pb-4">
+        <Modal className="message-modal" show={messageModalState.isShow} onHide={handleOnHide}>
+            <Modal.Body className="body mt-4 mb-4">
+                <div className="icon pb-4">
                     {messageModalState.type == 'succeed' &&
                         <Check2Circle width="100" height="100" className="message-modal-icon text-success"/>}
                     {messageModalState.type == 'failed' &&
                         <XCircle width="100" height="100" className="message-modal-icon text-danger"/>}
                 </div>
-                <h4>{messageModalState.content}</h4>
+                <h4 className="content">{messageModalState.content}</h4>
                 <Button variant="secondary" className="mt-4" onClick={handleOnHide}>Close</Button>
             </Modal.Body>
         </Modal>

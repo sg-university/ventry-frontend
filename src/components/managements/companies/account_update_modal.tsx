@@ -86,7 +86,7 @@ export default function AccountUpdateModalComponent() {
         }).then((response) => {
             const content: Content<Account> = response.data;
             dispatch(messageModalSlice.actions.configure({
-                content: "Update Account Succeed",
+                content: "Update Account succeed.",
                 type: "succeed",
                 isShow: true
             }))

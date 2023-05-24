@@ -7,94 +7,90 @@ import MessageModal from "@/components/message_modal";
 import AuthenticationService from "@/services/authentication_service";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
-import {useRouter} from "next/router";
 import {useDispatch} from "react-redux";
 import authenticationSlice from "@/slices/authentication_slice";
 import messageModalSlice from "@/slices/message_modal_slice";
-import RegisterRequest from "@/models/value_objects/contracts/requests/authentications/register_request";
 import RegisterResponse from "@/models/value_objects/contracts/response/authentications/register_response";
 import Image from "next/image";
-import Role from "@/models/entities/role";
 import Link from "next/link";
 import {useState} from "react";
 import AccountRegisterRequest from "@/models/value_objects/contracts/requests/authentications/account_register_request";
 import CompanyRegisterRequest from "@/models/value_objects/contracts/requests/authentications/company_register_request";
+import LocationRegisterRequest
+    from "@/models/value_objects/contracts/requests/authentications/location_register_request";
+
+const registerSchemaAccount = Yup.object().shape({
+    name: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().required("Required"),
+    confirmPassword: Yup.string()
+        .required("Required")
+        .oneOf([Yup.ref("password"), ""], "Passwords must match"),
+});
+
+const registerSchemaCompany = Yup.object().shape({
+    name: Yup.string().required("Required"),
+    description: Yup.string().required("Required"),
+    address: Yup.string().required("Required"),
+});
+
+const registerSchemaLocation = Yup.object().shape({
+    name: Yup.string().required("Required"),
+    description: Yup.string().required("Required"),
+    address: Yup.string().required("Required"),
+});
 
 export default function Register() {
 
-    const router = useRouter();
-
-    const [roles, setRoles] = useState<Role[]>([]);
+    const authenticationService = new AuthenticationService();
 
     const dispatch = useDispatch();
 
-    const [page, setPage] = useState(1);
-    const [title, setTitle] = useState('Account Information');
+    const [page, setPage] = useState<number>(1);
+    const [title, setTitle] = useState<string>('Account Information');
 
     const [accountRequest, setAccountRequest] = useState<AccountRegisterRequest>();
     const [companyRequest, setCompanyRequest] = useState<CompanyRegisterRequest>();
-
-    const registerSchemaAccount = Yup.object().shape({
-        name: Yup.string().required("Required"),
-        email: Yup.string().email("Invalid email").required("Required"),
-        password: Yup.string().required("Required"),
-        confirmPassword: Yup.string()
-            .required("Required")
-            .oneOf([Yup.ref("password"), ""], "Passwords must match"),
-    });
-
-    const registerSchemaCompany = Yup.object().shape({
-        companyName: Yup.string().required("Required"),
-        companyDescription: Yup.string().required("Required"),
-        companyAddress: Yup.string().required("Required"),
-    });
-
-    const registerSchemaLocation = Yup.object().shape({
-        locationName: Yup.string().required("Required"),
-        locationDescription: Yup.string().required("Required"),
-        locationAddress: Yup.string().required("Required"),
-    });
+    const [locationRequest, setLocationRequest] = useState<LocationRegisterRequest>();
 
     const handleSubmitAccount = (values: any, actions: any) => {
-        const accountData: AccountRegisterRequest = {
+        setAccountRequest({
             name: values.name,
             email: values.email,
             password: values.password
-        }
-        setAccountRequest(accountData);
+        });
         setTitle('Company Information');
         setPage(2);
     }
 
     const handleSubmitCompany = (values: any, actions: any) => {
-        const companyData: CompanyRegisterRequest = {
-            name: values.companyName,
-            description: values.companyDescription,
-            address: values.companyAddress
-        }
-        setCompanyRequest(companyData);
+        setCompanyRequest({
+            name: values.name,
+            description: values.description,
+            address: values.address
+        });
         setTitle('Location Information');
         setPage(3);
     }
 
-    const handleSubmitLocation = (values: any, actions: any) => {
-        const authenticationService = new AuthenticationService();
-        const request: RegisterRequest = {
+    const handleSubmitLocation = async (values: any, actions: any) => {
+        const locationRequest: LocationRegisterRequest = {
+            name: values.name,
+            description: values.description,
+            address: values.address
+        }
+
+        setLocationRequest(locationRequest)
+
+        authenticationService.register({
             account: accountRequest,
             company: companyRequest,
-            location: {
-                name: values.locationName,
-                description: values.locationDescription,
-                address: values.locationAddress
-            }
-
-        }
-        authenticationService.register(request)
+            location: locationRequest
+        })
             .then((result: AxiosResponse<Content<RegisterResponse>>) => {
                 const content = result.data;
                 if (!content.data) {
                     dispatch(messageModalSlice.actions.configure({
-                        title: "Status",
                         type: "failed",
                         content: content.message,
                         isShow: true
@@ -102,12 +98,10 @@ export default function Register() {
                 } else {
                     dispatch(authenticationSlice.actions.register(content.data.entity));
                     dispatch(messageModalSlice.actions.configure({
-                        title: "Status",
                         type: "succeed",
-                        content: "Register Succeed",
+                        content: "Register succeed.",
                         isShow: true
                     }))
-                    router.push('/authentications/login')
                 }
             })
             .catch((error) => {
@@ -123,6 +117,15 @@ export default function Register() {
             });
     }
 
+    const handleClickPreviousFromCompany = () => {
+        setTitle('Account Information');
+        setPage(1);
+    }
+
+    const handleClickPreviousFromLocation = () => {
+        setPage(2);
+        setTitle('Company Information');
+    }
 
     return (
         <div className="page register-auth">
@@ -151,7 +154,6 @@ export default function Register() {
                             email: "",
                             password: "",
                             confirmPassword: ""
-                            // roleId: ""
                         }}
                         onSubmit={handleSubmitAccount}
                         enableReinitialize
@@ -194,9 +196,9 @@ export default function Register() {
                     <Formik
                         validationSchema={registerSchemaCompany}
                         initialValues={{
-                            companyName: "",
-                            companyDescription: "",
-                            companyAddress: ""
+                            name: "",
+                            description: "",
+                            address: ""
                         }}
                         onSubmit={handleSubmitCompany}
                         enableReinitialize
@@ -204,27 +206,24 @@ export default function Register() {
                         {(props) => (
                             <Form>
                                 <fieldset className="form-group">
-                                    <label htmlFor="companyName">Company Name</label>
-                                    <Field type="text" name="companyName" className="form-control"/>
-                                    <ErrorMessage name="companyName" component="div" className="text-danger"/>
+                                    <label htmlFor="name">Company Name</label>
+                                    <Field type="text" name="name" className="form-control"/>
+                                    <ErrorMessage name="name" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
-                                    <label htmlFor="companyDescription">Company Description</label>
-                                    <Field type="text" name="companyDescription" className="form-control"
+                                    <label htmlFor="description">Company Description</label>
+                                    <Field type="text" name="description" className="form-control"
                                            component="textarea" rows="4"/>
-                                    <ErrorMessage name="companyDescription" component="div" className="text-danger"/>
+                                    <ErrorMessage name="description" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
-                                    <label htmlFor="companyAddress">Company Address</label>
-                                    <Field type="text" name="companyAddress" className="form-control"
+                                    <label htmlFor="address">Company Address</label>
+                                    <Field type="text" name="address" className="form-control"
                                            component="textarea" rows="4"/>
-                                    <ErrorMessage name="companyAddress" component="div" className="text-danger"/>
+                                    <ErrorMessage name="address" component="div" className="text-danger"/>
                                 </fieldset>
                                 <div className="secondPageButtons">
-                                    <button onClick={() => {
-                                        setPage(1);
-                                        setTitle('Account Information');
-                                    }} type="button"
+                                    <button onClick={() => handleClickPreviousFromCompany()} type="button"
                                             className="btn btn-primary">Previous
                                     </button>
                                     <button type="submit" className="btn btn-primary">
@@ -240,9 +239,9 @@ export default function Register() {
                     <Formik
                         validationSchema={registerSchemaLocation}
                         initialValues={{
-                            locationName: "",
-                            locationDescription: "",
-                            locationAddress: ""
+                            name: "",
+                            description: "",
+                            address: ""
                         }}
                         onSubmit={handleSubmitLocation}
                         enableReinitialize
@@ -250,27 +249,24 @@ export default function Register() {
                         {(props) => (
                             <Form>
                                 <fieldset className="form-group">
-                                    <label htmlFor="locationName">Location Name</label>
-                                    <Field type="text" name="locationName" className="form-control"/>
-                                    <ErrorMessage name="locationName" component="div" className="text-danger"/>
+                                    <label htmlFor="name">Location Name</label>
+                                    <Field type="text" name="name" className="form-control"/>
+                                    <ErrorMessage name="name" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
-                                    <label htmlFor="locationDescription">Location Description</label>
-                                    <Field type="text" name="locationDescription" className="form-control"
+                                    <label htmlFor="description">Location Description</label>
+                                    <Field type="text" name="description" className="form-control"
                                            component="textarea" rows="4"/>
-                                    <ErrorMessage name="locationDescription" component="div" className="text-danger"/>
+                                    <ErrorMessage name="description" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
-                                    <label htmlFor="locationAddress">Location Address</label>
-                                    <Field type="text" name="locationAddress" className="form-control"
+                                    <label htmlFor="address">Location Address</label>
+                                    <Field type="text" name="address" className="form-control"
                                            component="textarea" rows="4"/>
-                                    <ErrorMessage name="locationAddress" component="div" className="text-danger"/>
+                                    <ErrorMessage name="address" component="div" className="text-danger"/>
                                 </fieldset>
                                 <div className="secondPageButtons">
-                                    <button onClick={() => {
-                                        setPage(2);
-                                        setTitle('Company Information');
-                                    }} type="button"
+                                    <button onClick={() => handleClickPreviousFromLocation()} type="button"
                                             className="btn btn-primary">Previous
                                     </button>
                                     <button type="submit" className="btn btn-primary">
@@ -284,7 +280,7 @@ export default function Register() {
 
                 <div className="suggest-login">
                     <div className="text">
-                        Already have an account? Login at <Link href="/authentications/login">here</Link>
+                        Already have an account? Login at <Link href="/authentications/login">here</Link>.
                     </div>
                 </div>
             </div>

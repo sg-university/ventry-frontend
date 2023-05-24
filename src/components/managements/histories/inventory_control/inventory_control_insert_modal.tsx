@@ -36,7 +36,7 @@ export default function InventoryControlInsertModalComponent() {
         }))
     }
 
-    const handleInsertSubmit = (values: any, actions: any) => {
+    const handleSubmitInsert = (values: any, actions: any) => {
         inventoryControlService.createOne({
             body: {
                 accountId: currentAccount?.id,
@@ -49,12 +49,13 @@ export default function InventoryControlInsertModalComponent() {
             const content: Content<InventoryControl> = response.data;
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: "Insert Inventory Control Succeed",
+                content: "Insert Inventory Control succeed.",
                 isShow: true
             }))
             dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
                 ...pageState.inventoryControlHistoryManagement,
-                accountInventoryControls: [...(accountInventoryControls!), content.data],
+                accountInventoryControls: [content.data, ...(accountInventoryControls!)],
+                isShowModal: !isShowModal,
             }))
         }).catch((error) => {
             console.log(error)
@@ -102,7 +103,7 @@ export default function InventoryControlInsertModalComponent() {
                                 quantityBefore: currentItem ? currentItem.quantity : 0,
                                 quantityAfter: 0,
                             }}
-                            onSubmit={handleInsertSubmit}
+                            onSubmit={handleSubmitInsert}
                             enableReinitialize
                         >
                             {(props) => (

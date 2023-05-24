@@ -1,16 +1,17 @@
 import ValueObject from "@/models/value_objects/value_object";
 
 class CheckoutTransactionItemMapBody extends ValueObject {
-    itemId: string
-    sellPrice: number
-    quantity: number
+    itemId: string | undefined
+    sellPrice: number | undefined
+    quantity: number | undefined
 
-    constructor(itemId: string, sellPrice: number, quantity: number) {
+    constructor(itemId: string | undefined, sellPrice: number | undefined, quantity: number | undefined) {
         super();
         this.itemId = itemId;
         this.sellPrice = sellPrice;
         this.quantity = quantity;
     }
+
 
 }
 

@@ -12,6 +12,8 @@ import ReadOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/read_one_by_id_request";
 import PatchOneByIdRequest
     from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/patch_one_by_id_request";
+import ReadAllByLocationIdRequest
+    from "@/models/value_objects/contracts/requests/managements/transaction_item_maps/read_all_by_location_id_request";
 
 class TransactionItemMapService extends Service {
 
@@ -35,6 +37,10 @@ class TransactionItemMapService extends Service {
 
     readAll(): Promise<AxiosResponse<Content<TransactionItemMap[]>>> {
         return this.client.instance.get(`${this.path}`);
+    }
+
+    readAllByLocationId(request: ReadAllByLocationIdRequest): Promise<AxiosResponse<Content<TransactionItemMap[]>>> {
+        return this.client.instance.get(`${this.path}?location_id=${request.locationId}`);
     }
 
     readOneById(request: ReadOneByIdRequest): Promise<AxiosResponse<Content<TransactionItemMap>>> {

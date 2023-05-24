@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import LogoImage from "@/assets/images/auth_logo.svg";
@@ -40,7 +40,7 @@ export default function Login() {
 
                 if (!content.data) {
                     dispatch(messageModalSlice.actions.configure({
-                        title: "Status",
+
                         type: "failed",
                         content: content.message,
                         isShow: true
@@ -66,10 +66,6 @@ export default function Login() {
                 actions.setSubmitting(false);
             });
     }
-
-    useEffect(() => {
-        router.prefetch('/managements/items')
-    }, [router])
 
     return (
         <div className="page login-auth">
@@ -120,8 +116,7 @@ export default function Login() {
                 </div>
                 <div className="suggest-login">
                     <div className="text">
-                        Didn&apos;t have an account? Register at{" "}
-                        <Link href="/authentications/register">here</Link>
+                        Didn&apos;t have an account? Register at <Link href="/authentications/register">here</Link>.
                     </div>
                 </div>
             </div>

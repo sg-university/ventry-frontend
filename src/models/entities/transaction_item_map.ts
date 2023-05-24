@@ -1,15 +1,16 @@
-import Entity from "@/models/entities/entity";
+import Entity from "@/models/entities/entity"
+
 
 class TransactionItemMap extends Entity {
-    id: string;
-    transactionId: string;
-    itemId: string;
-    sellPrice: number;
-    quantity: number;
-    createdAt: Date;
-    updatedAt: Date;
+    id: string | undefined;
+    transactionId: string | undefined;
+    itemId: string | undefined;
+    sellPrice: number | undefined;
+    quantity: number | undefined;
+    createdAt: Date | undefined;
+    updatedAt: Date | undefined;
 
-    constructor(id: string, transactionId: string, itemId: string, sellPrice: number, quantity: number, createdAt: Date, updatedAt: Date) {
+    constructor(id: string | undefined, transactionId: string | undefined, itemId: string | undefined, sellPrice: number | undefined, quantity: number | undefined, createdAt: Date | undefined, updatedAt: Date | undefined) {
         super();
         this.id = id;
         this.transactionId = transactionId;

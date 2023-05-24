@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Modal} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -37,13 +37,6 @@ export default function TransactionViewModalComponent() {
         currentTransactionForecast,
     } = pageState.itemTransactionForecastManagement;
 
-    useEffect(() => {
-        dispatch(pageSlice.actions.configureItemTransactionForecastManagement({
-            ...pageState.itemTransactionForecastManagement,
-            currentTransactionForecast: undefined,
-        }))
-    }, [])
-
 
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureItemTransactionForecastManagement({
@@ -69,28 +62,25 @@ export default function TransactionViewModalComponent() {
             }))
         }).catch((error) => {
             dispatch(messageModalSlice.actions.configure({
-                isShowModal: true,
-                title: "Status",
+                isShowModal: !isShowModal,
                 content: error.message,
                 type: "failed",
             }))
         })
     }
 
-    const pastLength = currentTransactionForecast?.prediction?.past?.length || 0
-    const futureLength = currentTransactionForecast?.prediction?.future?.length || 0
-    const lastPast = currentTransactionForecast?.prediction?.past?.slice(pastLength - 1, pastLength)?.pop()
-    const firstFuture = currentTransactionForecast?.prediction?.future?.slice(0, 1)?.pop()
+    const pastLength = currentTransactionForecast!.prediction!.past!.length
+    const lastPast = currentTransactionForecast!.prediction!.past!.slice(pastLength - 1, pastLength)?.pop()
 
     const currentChartData: ChartData<"line"> = {
         labels: [
-            ...(currentTransactionForecast?.prediction?.past!).map(value => value.timestamp),
-            ...(currentTransactionForecast?.prediction?.future!).map(value => value.timestamp)
+            ...currentTransactionForecast!.prediction!.past!.map(value => value.timestamp),
+            ...currentTransactionForecast!.prediction!.future!.map(value => value.timestamp)
         ],
         datasets: [
             {
                 label: "Past",
-                data: (currentTransactionForecast?.prediction?.past!).map(value => {
+                data: currentTransactionForecast!.prediction!.past!.map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),
                         y: value.quantity!
@@ -104,7 +94,7 @@ export default function TransactionViewModalComponent() {
                         timestamp: new Date(lastPast?.timestamp!).getTime(),
                         quantity: lastPast?.quantity!
                     },
-                    ...(currentTransactionForecast?.prediction?.future!)
+                    ...currentTransactionForecast?.prediction?.future!
                 ].map(value => {
                     return {
                         x: new Date(value.timestamp!).getTime(),
