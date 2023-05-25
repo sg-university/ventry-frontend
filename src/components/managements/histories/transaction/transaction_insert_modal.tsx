@@ -215,7 +215,6 @@ export default function TransactionUpdateModalComponent() {
                                                                     type="number"
                                                                     name={getNewTransactionItemMapSellPrice(value, props)}
                                                                     className="form-control"
-                                                                    disabled
                                                                 />
                                                             </td>
                                                         </tr>

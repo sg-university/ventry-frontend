@@ -9,13 +9,13 @@
   justify-content: flex-start;
   align-content: flex-start;
 
-  .current-transaction-item-maps,
-  .new-transaction-item-maps {
-    margin-top: 2%;
-    max-height: 30vh;
-    overflow: auto;
-    .table {
-      width: 75vw;
+  .form {
+    width: 100%;
+    .current-transaction-item-maps,
+    .new-transaction-item-maps {
+      margin-top: 2%;
+      max-height: 30vh;
+      overflow: auto;
     }
   }
 
