@@ -41,7 +41,14 @@ export default function TransactionViewModalComponent() {
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureItemTransactionForecastManagement({
                 ...pageState.itemTransactionForecastManagement,
-                isShowModal: !pageState.itemTransactionForecastManagement.isShowModal,
+                currentTransactionForecast: {
+                    prediction: {
+                        past: [],
+                        future: []
+                    },
+                    metric: undefined
+                },
+                isShowModal: !isShowModal,
             })
         )
     };
@@ -56,13 +63,22 @@ export default function TransactionViewModalComponent() {
             }
         }).then((response) => {
             const content: Content<TransactionForecastResponse> = response.data
-            dispatch(pageSlice.actions.configureItemTransactionForecastManagement({
-                ...pageState.itemTransactionForecastManagement,
-                currentTransactionForecast: content.data,
-            }))
+
+            if (!content.data) {
+                dispatch(messageModalSlice.actions.configure({
+                    isShow: true,
+                    content: content.message,
+                    type: "failed",
+                }))
+            } else {
+                dispatch(pageSlice.actions.configureItemTransactionForecastManagement({
+                    ...pageState.itemTransactionForecastManagement,
+                    currentTransactionForecast: content.data,
+                }))
+            }
         }).catch((error) => {
             dispatch(messageModalSlice.actions.configure({
-                isShowModal: !isShowModal,
+                isShow: true,
                 content: error.message,
                 type: "failed",
             }))
