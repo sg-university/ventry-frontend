@@ -27,10 +27,18 @@ $primary-blue: #007bff;
 
       .bottom-section {
         display: flex;
-        flex: 9;
+        flex: 8;
         flex-flow: row wrap;
-        justify-content: center;
-        align-items: flex-start;
+        width: 100%;
+        padding-left: 2%;
+        height: 100%;
+
+        .empty-data {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
 
         .card {
           display: flex;

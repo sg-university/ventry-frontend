@@ -115,7 +115,7 @@ function MainComponent() {
     return (<div className="main">
         <div className="form">
             <Formik validationSchema={updateMainSchema}
-                    initialValues={{...currentItem!, is_record: false,}}
+                    initialValues={{...currentItem!, is_record: true,}}
                     onSubmit={handleSubmitUpdate}
                     enableReinitialize
             >
