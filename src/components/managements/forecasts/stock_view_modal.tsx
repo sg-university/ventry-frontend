@@ -41,7 +41,14 @@ export default function StockViewModalComponent() {
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureItemStockForecastManagement({
                 ...pageState.itemStockForecastManagement,
-                isShowModal: !pageState.itemStockForecastManagement.isShowModal,
+                currentStockForecast: {
+                    prediction: {
+                        past: [],
+                        future: []
+                    },
+                    metric: undefined
+                },
+                isShowModal: !isShowModal,
             })
         )
     };
@@ -56,14 +63,22 @@ export default function StockViewModalComponent() {
             }
         }).then((response) => {
             const content: Content<StockForecastResponse> = response.data
-            dispatch(pageSlice.actions.configureItemStockForecastManagement({
-                ...pageState.itemStockForecastManagement,
-                currentStockForecast: content.data,
-            }))
+
+            if (!content.data) {
+                dispatch(messageModalSlice.actions.configure({
+                    isShow: true,
+                    content: content.message,
+                    type: "failed",
+                }))
+            } else {
+                dispatch(pageSlice.actions.configureItemStockForecastManagement({
+                    ...pageState.itemStockForecastManagement,
+                    currentStockForecast: content.data,
+                }))
+            }
         }).catch((error) => {
             dispatch(messageModalSlice.actions.configure({
-                isShowModal: !isShowModal,
-
+                isShow: true,
                 content: error.message,
                 type: "failed",
             }))
