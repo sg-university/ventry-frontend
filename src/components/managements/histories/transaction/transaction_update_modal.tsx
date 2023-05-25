@@ -35,31 +35,43 @@ export default function TransactionUpdateModalComponent() {
     const dispatch = useDispatch()
 
     const handleClickDelete = (value: TransactionItemMap) => {
-        transactionItemMapService
-            .deleteOneById({
-                id: value.id
-            })
-            .then((response) => {
-                const content: Content<TransactionItemMap> = response.data
-                dispatch(messageModalSlice.actions.configure({
-                    type: "succeed",
-                    content: "Delete Transaction Item succeed.",
-                    isShow: true
-                }))
-                dispatch(pageSlice.actions.configureTransactionHistoryManagement({
-                    ...pageState.transactionHistoryManagement,
-                    currentTransactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== content.data.id),
-                    transactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== content.data.id),
-                }))
-            })
-            .catch((error) => {
-                console.log(error)
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
-            });
+        Promise.all([
+            transactionService
+                .patchOneById({
+                    id: currentTransaction!.id,
+                    body: {
+                        accountId: currentTransaction!.accountId,
+                        sellPrice: currentTransaction!.sellPrice! - value.sellPrice!,
+                        timestamp: currentTransaction!.timestamp
+                    }
+                }),
+            transactionItemMapService
+                .deleteOneById({
+                    id: value.id
+                }),
+        ]).then((response) => {
+            const transactionContent: Content<Transaction> = response[0].data;
+            const transactionItemMapContent: Content<TransactionItemMap> = response[1].data
+
+            dispatch(messageModalSlice.actions.configure({
+                type: "succeed",
+                content: "Delete Transaction Item succeed.",
+                isShow: true
+            }))
+            dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+                ...pageState.transactionHistoryManagement,
+                transactions: transactions!.map((transaction) => transaction.id === transactionContent.data.id ? transactionContent.data : transaction),
+                currentTransactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== transactionItemMapContent.data.id),
+                transactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== transactionItemMapContent.data.id),
+            }))
+        }).catch((error) => {
+            console.log(error)
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: error.message,
+                isShow: true
+            }))
+        });
     };
 
 
