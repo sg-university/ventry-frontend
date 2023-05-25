@@ -67,7 +67,7 @@ export default function TransactionUpdateModalComponent() {
         const newTransactionItemMaps: TransactionItemMap[] = values.newTransactionItemMaps
         const currentTransactionItemMaps: TransactionItemMap[] = values.currentTransactionItemMaps
         const allTransactionItemMaps: TransactionItemMap[] = [...currentTransactionItemMaps, ...newTransactionItemMaps]
-        const totalSellPrice: number = allTransactionItemMaps!.reduce((total, tim) => total + (tim.sellPrice!transactionview), 0)
+        const totalSellPrice: number = allTransactionItemMaps!.reduce((total, tim) => total + tim.sellPrice!, 0)
 
         transactionService
             .patchOneById({
