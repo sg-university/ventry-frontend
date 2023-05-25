@@ -34,7 +34,6 @@ export default function TransactionUpdateModalComponent() {
     } = pageState.transactionHistoryManagement
     const dispatch = useDispatch()
 
-
     const handleClickDelete = (value: TransactionItemMap) => {
         transactionItemMapService
             .deleteOneById({
@@ -68,7 +67,7 @@ export default function TransactionUpdateModalComponent() {
         const newTransactionItemMaps: TransactionItemMap[] = values.newTransactionItemMaps
         const currentTransactionItemMaps: TransactionItemMap[] = values.currentTransactionItemMaps
         const allTransactionItemMaps: TransactionItemMap[] = [...currentTransactionItemMaps, ...newTransactionItemMaps]
-        const totalSellPrice: number = allTransactionItemMaps!.reduce((total, tim) => total + (tim.sellPrice! * tim.quantity!), 0)
+        const totalSellPrice: number = allTransactionItemMaps!.reduce((total, tim) => total + (tim.sellPrice!transactionview), 0)
 
         transactionService
             .patchOneById({
@@ -283,6 +282,7 @@ export default function TransactionUpdateModalComponent() {
                                                                 type="number"
                                                                 name={`currentTransactionItemMaps[${index}].sellPrice`}
                                                                 className="form-control"
+                                                                disabled
                                                             />
                                                         </td>
                                                         <td>
@@ -333,6 +333,7 @@ export default function TransactionUpdateModalComponent() {
                                                                 type="number"
                                                                 name={getNewTransactionItemMapSellPrice(value, props)}
                                                                 className="form-control"
+                                                                disabled
                                                             />
                                                         </td>
                                                     </tr>
