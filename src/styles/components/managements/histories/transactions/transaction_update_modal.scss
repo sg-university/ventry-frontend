@@ -11,8 +11,12 @@
 
   .current-transaction-item-maps,
   .new-transaction-item-maps {
-    max-height: 40vh;
+    margin-top: 2%;
+    max-height: 30vh;
     overflow: auto;
+    .table {
+      width: 75vw;
+    }
   }
 
   .button {

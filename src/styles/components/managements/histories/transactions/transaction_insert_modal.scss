@@ -18,8 +18,12 @@
   align-content: flex-start;
 
   .new-transaction-item-maps {
+    margin-top: 2%;
     max-height: 40vh;
     overflow: auto;
+    .table {
+      width: 75vw;
+    }
   }
 
   .button {
