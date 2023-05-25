@@ -13,6 +13,10 @@ import CreateOneItemBundleRequest
 import "@/styles/components/managements/items/item_insert_modal.scss";
 import {AuthenticationState} from "@/slices/authentication_slice";
 import Item from "@/models/entities/item";
+import CreateOneRequest
+    from "@/models/value_objects/contracts/requests/managements/inventory_controls/create_one_request";
+import inventory_control_service from "@/services/inventory_control_service";
+import InventoryControlService from "@/services/inventory_control_service";
 
 const insertMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -41,6 +45,7 @@ const insertItemSchema = Yup.object().shape({
 });
 
 function MainComponent() {
+    const inventoryControlService = new InventoryControlService();
     const pageState: PageState = useSelector((state: any) => state.page);
     const itemService = new ItemService()
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
@@ -48,6 +53,26 @@ function MainComponent() {
     const {items, isShowModal} = pageState.itemManagement
     const dispatch = useDispatch();
 
+    const recordChanges = (currentItem: Item) => {
+        const date = new Date()
+        const request: CreateOneRequest = {
+            body: {
+                accountId: currentAccount?.id,
+                itemId: currentItem?.id,
+                quantityBefore: 0,
+                quantityAfter: currentItem?.quantity,
+                timestamp: date.toISOString()
+            }
+        }
+        inventoryControlService.createOne(request).catch((error) => {
+            console.log(error)
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: error.message,
+                isShow: true
+            }))
+        })
+    }
 
     const handleSubmitInsert = (values: any, actions: any) => {
         itemService
@@ -64,6 +89,7 @@ function MainComponent() {
                     items: [content.data, ...items!],
                     isShowModal: !isShowModal,
                 }))
+                recordChanges(content.data)
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
                     content: "Insert Item succeed.",
@@ -106,6 +132,7 @@ function MainComponent() {
                     unitSellPrice: 0,
                     description: "",
                     image_url: "",
+                    is_record: true,
                 }}
                 onSubmit={handleSubmitInsert}
                 enableReinitialize
@@ -222,6 +249,17 @@ function MainComponent() {
                                 />
                             </fieldset>
                         </div>
+
+                        <div className="row">
+                            <div className="is_record">
+                                <Field
+                                    type="checkbox" id="is_record" name="is_record" className="form-check-input "/>
+                                <label htmlFor="is_record" className="is_record_label">
+                                    Is record to Inventory Control History?
+                                </label>
+                            </div>
+                        </div>
+
                         <hr/>
                         <div className="button">
                             <button

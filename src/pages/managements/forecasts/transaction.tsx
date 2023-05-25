@@ -13,7 +13,7 @@ import Authenticated from "@/layouts/authenticated";
 import MessageModal from "@/components/message_modal";
 import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
-import "@/styles/pages/managements/forecasts/stock.scss"
+import "@/styles/pages/managements/forecasts/transaction.scss"
 import Image from "next/image";
 import TransactionViewModalComponent from "@/components/managements/forecasts/transaction_view_modal";
 
@@ -60,7 +60,7 @@ export default function Transaction() {
 
     return (
         <Authenticated>
-            <div className="page stock-forecast">
+            <div className="page transaction-forecast">
                 <MessageModal/>
                 {currentModal == "viewModal" && <TransactionViewModalComponent/>}
                 <div className="header">
