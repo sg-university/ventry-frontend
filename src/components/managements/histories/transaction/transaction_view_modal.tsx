@@ -71,6 +71,7 @@ export default function TransactionViewModalComponent() {
 
     return (
         <Modal
+            size="lg"
             show={isShowModal}
             onHide={handleShowModal}
             centered

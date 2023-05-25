@@ -122,7 +122,7 @@ export default function PointOfSale() {
                     transactionId: undefined,
                     itemId: item.id,
                     sellPrice: item.unitSellPrice,
-                    quantity: 0,
+                    quantity: 1,
                     createdAt: undefined,
                     updatedAt: undefined,
                 }

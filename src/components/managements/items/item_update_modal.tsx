@@ -51,13 +51,6 @@ function MainComponent() {
     const {currentAccount} = authenticationState
     const dispatch = useDispatch();
 
-    const handleShow = () => {
-        dispatch(pageSlice.actions.configureItemManagement({
-            ...pageState.itemManagement,
-            isShowModal: !isShowModal,
-        }))
-    }
-
     const recordChanges = (quantityBefore: number, quantityAfter: number) => {
         const date = new Date()
         const request: CreateOneRequest = {
@@ -95,6 +88,7 @@ function MainComponent() {
                     return item
                 }),
                 currentItem: content.data,
+                isShowModal: !isShowModal,
             }))
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",

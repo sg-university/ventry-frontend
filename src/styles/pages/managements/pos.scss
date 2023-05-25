@@ -19,10 +19,11 @@ $primary-blue: #007bff;
       .top-section {
         display: flex;
         flex: 1;
+        width: 100%;
         flex-flow: row wrap;
-        justify-content: center;
+        justify-content: space-between;
         align-items: flex-start;
-        margin: 2vh 0 2vh 0;
+        padding: 2vh 0vw 2vh 2vw;
       }
 
       .bottom-section {
@@ -77,6 +78,7 @@ $primary-blue: #007bff;
 
         .order {
           margin: 0 0 2vh 0;
+          overflow: hidden;
 
           .pad {
             background-color: #efefef;
@@ -84,8 +86,12 @@ $primary-blue: #007bff;
             width: 30vw;
             padding: 2vh 2vw 2vh 2vw;
             border-radius: 4%;
-            overflow: scroll;
+            overflow-y: scroll;
             margin: 0 0 4vh 0;
+          }
+
+          ::-webkit-scrollbar {
+            display: none;
           }
 
           .transaction-item-map {
@@ -148,7 +154,6 @@ $primary-blue: #007bff;
             width: 30vw;
             padding: 2vh 2vw 2vh 2vw;
             border-radius: 4%;
-            overflow: scroll;
             margin: 0 0 4vh 0;
 
             .total {
