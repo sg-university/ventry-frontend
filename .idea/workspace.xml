@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/pos/checkout_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/pos/checkout_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/pos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/pos.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,6 +150,7 @@
       <workItem from="1684664181276" duration="14936000" />
       <workItem from="1684825670786" duration="32651000" />
       <workItem from="1685003352409" duration="983000" />
+      <workItem from="1685172101275" duration="3527000" />
     </task>
     <servers />
   </component>

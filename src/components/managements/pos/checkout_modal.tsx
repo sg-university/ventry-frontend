@@ -15,7 +15,7 @@ import Content from "@/models/value_objects/contracts/content";
 import CheckoutResponse from "@/models/value_objects/contracts/response/managements/transactions/checkout_response";
 
 const checkoutSchema = Yup.object().shape({
-    totalPrice: Yup.number().required("Required"),
+    sellPrice: Yup.number().required("Required"),
     paymentMethod: Yup.string().required("Required"),
     isRecord: Yup.boolean().required("Required"),
 });
@@ -39,11 +39,13 @@ export default function CheckoutModalComponent() {
     }
 
     const handleSubmitCheckout = (values: any) => {
+        console.log(values)
+        console.log(currentTransaction)
         transactionService.checkout({
             body: {
                 transaction: {
-                    accountId: currentTransaction?.accountId,
-                    sellPrice: currentTransaction?.sellPrice!,
+                    accountId: currentTransaction!.accountId,
+                    sellPrice: values.sellPrice,
                     timestamp: new Date().toISOString()
                 },
                 transactionItemMaps: transactionItemMaps!.map((tim) => {
@@ -69,7 +71,7 @@ export default function CheckoutModalComponent() {
                 }),
                 currentTransaction: {
                     id: undefined,
-                    accountId: currentAccount?.id,
+                    accountId: currentAccount!.id,
                     sellPrice: 0,
                     timestamp: undefined,
                     createdAt: undefined,
@@ -106,7 +108,7 @@ export default function CheckoutModalComponent() {
                     <Formik
                         validationSchema={checkoutSchema}
                         initialValues={{
-                            "totalPrice": 0,
+                            "sellPrice": currentTransaction!.sellPrice,
                             "paymentMethod": "cash",
                             "isRecord": true
                         }}
@@ -117,14 +119,19 @@ export default function CheckoutModalComponent() {
                             (props) => (
                                 <Form>
                                     <div className="row">
-                                        <fieldset className="form-group">
+                                        <fieldset className="form-group sellPrice">
+                                            <label htmlFor="sellPrice">Total Sell Price</label>
+                                            <Field type="number" name="sellPrice" className="form-control"/>
+                                            <ErrorMessage name="sellPrice" component="div" className="text-danger"/>
+                                        </fieldset>
+                                    </div>
+                                    <div className="row">
+                                        <fieldset className="form-group paymentMethod">
                                             <label htmlFor="paymentMethod">Payment Method</label>
-                                            <Field as="select" name="paymentMethod" className="form-control"
-                                                   disabled>
+                                            <Field as="select" name="paymentMethod" className="form-control" disabled>
                                                 <option selected value="cash">Cash</option>
                                             </Field>
-                                            <ErrorMessage name="paymentMethod" component="div"
-                                                          className="text-danger"/>
+                                            <ErrorMessage name="paymentMethod" component="div" className="text-danger"/>
                                         </fieldset>
                                     </div>
                                     <div className="row">
