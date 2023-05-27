@@ -36,7 +36,7 @@ export default function TransactionUpdateModalComponent() {
 
     const handleSubmitInsert = (values: FormikInitialValues) => {
         const newTransactionItemMaps: TransactionItemMap[] = values.newTransactionItemMaps
-        const totalSellPrice: number = newTransactionItemMaps!.reduce((total, tim) => total + (tim.sellPrice! * tim.quantity!), 0)
+        const totalSellPrice: number = newTransactionItemMaps!.reduce((total, tim) => total + (tim.sellPrice!), 0)
 
         transactionService
             .createOne({

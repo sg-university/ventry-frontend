@@ -145,8 +145,6 @@
   }
 
   .page.inventory-control-history .card .content .right {
-    padding-right: 5vw;
-    font-weight: bold;
     margin-top: 5%;
 
     .total {
@@ -162,12 +160,14 @@
     display: flex;
     flex-flow: row;
     flex-direction: column;
+    flex-wrap: wrap;
     margin: 5%;
     .control{
       margin: 3%;
       display: flex;
       justify-content: center;
     }
+    width: 250px;
   }
 
 }

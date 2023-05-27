@@ -34,33 +34,44 @@ export default function TransactionUpdateModalComponent() {
     } = pageState.transactionHistoryManagement
     const dispatch = useDispatch()
 
-
     const handleClickDelete = (value: TransactionItemMap) => {
-        transactionItemMapService
-            .deleteOneById({
-                id: value.id
-            })
-            .then((response) => {
-                const content: Content<TransactionItemMap> = response.data
-                dispatch(messageModalSlice.actions.configure({
-                    type: "succeed",
-                    content: "Delete Transaction Item succeed.",
-                    isShow: true
-                }))
-                dispatch(pageSlice.actions.configureTransactionHistoryManagement({
-                    ...pageState.transactionHistoryManagement,
-                    currentTransactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== content.data.id),
-                    transactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== content.data.id),
-                }))
-            })
-            .catch((error) => {
-                console.log(error)
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
-            });
+        Promise.all([
+            transactionService
+                .patchOneById({
+                    id: currentTransaction!.id,
+                    body: {
+                        accountId: currentTransaction!.accountId,
+                        sellPrice: currentTransaction!.sellPrice! - value.sellPrice!,
+                        timestamp: currentTransaction!.timestamp
+                    }
+                }),
+            transactionItemMapService
+                .deleteOneById({
+                    id: value.id
+                }),
+        ]).then((response) => {
+            const transactionContent: Content<Transaction> = response[0].data;
+            const transactionItemMapContent: Content<TransactionItemMap> = response[1].data
+
+            dispatch(messageModalSlice.actions.configure({
+                type: "succeed",
+                content: "Delete Transaction Item succeed.",
+                isShow: true
+            }))
+            dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+                ...pageState.transactionHistoryManagement,
+                transactions: transactions!.map((transaction) => transaction.id === transactionContent.data.id ? transactionContent.data : transaction),
+                currentTransactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== transactionItemMapContent.data.id),
+                transactionItemMaps: currentTransactionItemMaps!.filter((tim) => tim.id !== transactionItemMapContent.data.id),
+            }))
+        }).catch((error) => {
+            console.log(error)
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: error.message,
+                isShow: true
+            }))
+        });
     };
 
 
@@ -68,7 +79,7 @@ export default function TransactionUpdateModalComponent() {
         const newTransactionItemMaps: TransactionItemMap[] = values.newTransactionItemMaps
         const currentTransactionItemMaps: TransactionItemMap[] = values.currentTransactionItemMaps
         const allTransactionItemMaps: TransactionItemMap[] = [...currentTransactionItemMaps, ...newTransactionItemMaps]
-        const totalSellPrice: number = allTransactionItemMaps!.reduce((total, tim) => total + (tim.sellPrice! * tim.quantity!), 0)
+        const totalSellPrice: number = allTransactionItemMaps!.reduce((total, tim) => total + tim.sellPrice!, 0)
 
         transactionService
             .patchOneById({

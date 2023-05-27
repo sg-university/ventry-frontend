@@ -71,6 +71,7 @@ export default function TransactionViewModalComponent() {
 
     return (
         <Modal
+            size="lg"
             show={isShowModal}
             onHide={handleShowModal}
             centered
@@ -91,7 +92,7 @@ export default function TransactionViewModalComponent() {
                     <div className="text">{`Total Price: Rp. ${currentTransaction!.sellPrice}`}</div>
                 </div>
                 <div className="transaction-item">
-                    <div className="text">Transaction Item:</div>
+                    <div className="text">Transaction Items:</div>
                     <table className="table">
                         <thead>
                         <tr>
@@ -99,6 +100,7 @@ export default function TransactionViewModalComponent() {
                             <th>Name</th>
                             <th>Price</th>
                             <th>Quantity</th>
+                            <th>Total Price</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -107,8 +109,9 @@ export default function TransactionViewModalComponent() {
                                 <tr key={value.id}>
                                     <td>{items!.find(item => item.id == value.itemId)!.code}</td>
                                     <td>{items!.find(item => item.id == value.itemId)!.name}</td>
-                                    <td>Rp. {value.sellPrice}</td>
+                                    <td>Rp. {value!.sellPrice!/value!.quantity!}</td>
                                     <td>{value.quantity}</td>
+                                    <td>Rp. {value.sellPrice}</td>
                                 </tr>
                             );
                         })}

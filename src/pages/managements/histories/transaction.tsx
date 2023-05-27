@@ -30,7 +30,6 @@ export default function ItemTransactionHistory() {
     const {currentAccount} = authenticationState;
     const dispatch = useDispatch();
 
-
     const fetchAllItemsAndTransactions = () => {
         Promise.all([
             itemService

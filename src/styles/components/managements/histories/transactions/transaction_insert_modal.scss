@@ -16,12 +16,15 @@
   flex-flow: column wrap;
   justify-content: flex-start;
   align-content: flex-start;
-
-  .new-transaction-item-maps {
-    max-height: 40vh;
-    overflow: auto;
+  .main{
+    width: 100%;
+    .new-transaction-item-maps {
+      margin-top: 2%;
+      max-height: 40vh;
+      overflow: auto;
+    }
   }
-
+  
   .button {
     display: flex;
     justify-content: flex-end;
