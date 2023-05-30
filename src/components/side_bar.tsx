@@ -174,14 +174,14 @@ export default function SideBar() {
                             <ListItemIcon>
                                 <History
                                     className={router.pathname == "/managements/histories/transaction" ||
-                                    router.pathname == "/managements/histories/stock" ? "link active" : "link"
+                                    router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"
                                     }
                                 />
                             </ListItemIcon>
                             <ListItemText>
                                 <Link href="/managements/histories/transaction"
                                       className={router.pathname == "/managements/histories/transaction" ||
-                                      router.pathname == "/managements/histories/stock" ? "link active" : "link"
+                                      router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"
                                       }
                                 >
                                     History
@@ -199,7 +199,7 @@ export default function SideBar() {
                                 </ListItemButton>
                             </Link>
                             <Link href="/managements/histories/inventory_control"
-                                  className={router.pathname == "/managements/histories/stock" ? "link active" : "link"}>
+                                  className={router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"}>
                                 <ListItemButton>
                                     <ListItemText>Inventory Control History</ListItemText>
                                 </ListItemButton>
