@@ -1,16 +1,40 @@
 $primary-blue: #007bff;
 
+.locations {
+  width: 75%;
+  height: 100%;
+  padding: 4vh 0 0 0;
+
+  .upper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3vh;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1vw 0 1vw 0;
+    height: 6vh;
+    padding: 0 2vw 0 2vw;
+
+
+    .icon {
+      cursor: pointer;
+      margin: 0 0.8vw 0 0.8vw;
+    }
+  }
+}
+
 @media (min-width: 768px) {
   .page.company-information {
     display: flex;
     flex: 1;
     flex-flow: column;
     min-height: 92vh;
-  }
-
-  .page.company-information .active {
-    color: white;
-    background-color: $primary-blue;
   }
 
   .page.company-information .header {
@@ -27,34 +51,6 @@ $primary-blue: #007bff;
     width: 93%;
     height: 100%;
     padding: 2vw 5vw 2vw 5vw;
-
-    .locations {
-      width: 65%;
-      height: 100%;
-      padding: 4vh 0 0 0;
-
-      .upper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .card {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin: 1vw 0 1vw 0;
-        height: 10vh;
-        padding: 0 2vw 0 2vw;
-
-
-        .icon {
-          cursor: pointer;
-          margin: 0 0.8vw 0 0.8vw;
-        }
-      }
-    }
   }
 
   .page.company-information .body .form form {
@@ -75,6 +71,15 @@ $primary-blue: #007bff;
   .page.company-information .body .form form {
     width: 100%;
   }
+
+  .locations {
+    width: 100%;
+  }
+}
+
+.page.company-information .active {
+  color: white;
+  background-color: $primary-blue;
 }
 
 .page.company-information .header .left-section .description {
