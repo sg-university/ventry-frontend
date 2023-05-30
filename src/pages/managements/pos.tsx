@@ -45,34 +45,20 @@ export default function PointOfSale() {
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {currentModal, items, transactionItemMaps} = pageState.pointOfSaleManagement;
+    const {currentModal, items, transactionItemMaps, currentTransaction} = pageState.pointOfSaleManagement;
 
     const totalPrice = transactionItemMaps?.reduce((previous, current) => {
         return previous + (items!.find(item => item.id == current.itemId)!.unitSellPrice! * current.quantity!)
     }, 0)
 
     useEffect(() => {
-        prepareTransaction()
         fetchItems()
     }, [])
 
-    const prepareTransaction = () => {
-        dispatch(pageSlice.actions.configurePointOfSaleManagement({
-            ...pageState.pointOfSaleManagement,
-            currentTransaction: {
-                id: undefined,
-                accountId: currentAccount?.id,
-                sellPrice: totalPrice,
-                timestamp: undefined,
-                createdAt: undefined,
-                updatedAt: undefined,
-            }
-        }))
-    }
 
     const fetchItems = () => {
         itemService.readAllByLocationId({
-            locationId: currentAccount?.locationId
+            locationId: currentAccount!.locationId
         }).then((response) => {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configurePointOfSaleManagement({
@@ -87,7 +73,7 @@ export default function PointOfSale() {
 
     const handleSubmitSearch = (values: any) => {
         itemService.readAllByLocationId({
-            locationId: currentAccount?.locationId
+            locationId: currentAccount!.locationId
         }).then((response) => {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configurePointOfSaleManagement({
@@ -133,7 +119,7 @@ export default function PointOfSale() {
     const handleClickRemove = (item: Item) => {
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
-            transactionItemMaps: transactionItemMaps?.filter((value) => {
+            transactionItemMaps: transactionItemMaps!.filter((value) => {
                 return value.itemId != item.id
             })
         }))
@@ -155,7 +141,7 @@ export default function PointOfSale() {
 
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
-            transactionItemMaps: transactionItemMaps?.map((value) => {
+            transactionItemMaps: transactionItemMaps!.map((value) => {
                 if (value.itemId == transactionItemMap.itemId) {
                     return {
                         ...value,
@@ -169,10 +155,10 @@ export default function PointOfSale() {
 
 
     const handleClickDecrement = (transactionItemMap: TransactionItemMap) => {
-        if (transactionItemMap.quantity! - 1 < 0) {
+        if (transactionItemMap.quantity! - 1 < 1) {
             dispatch(messageModalSlice.actions.configure({
                 type: "failed",
-                content: `Item code "${items!.find((item) => item.id === transactionItemMap.itemId)!.code}" must be greater than or equal to 0.`,
+                content: `Item code "${items!.find((item) => item.id === transactionItemMap.itemId)!.code}" must be greater than or equal to 1.`,
                 isShow: true
             }))
             return true
@@ -180,7 +166,7 @@ export default function PointOfSale() {
 
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
-            transactionItemMaps: transactionItemMaps?.map((value) => {
+            transactionItemMaps: transactionItemMaps!.map((value) => {
                 if (value.itemId == transactionItemMap.itemId) {
                     return {
                         ...value,
@@ -193,7 +179,7 @@ export default function PointOfSale() {
     }
 
     const handleClickCheckout = () => {
-        if (transactionItemMaps == undefined || transactionItemMaps?.length == 0) {
+        if (transactionItemMaps == undefined || transactionItemMaps!.length == 0) {
             dispatch(messageModalSlice.actions.configure({
                 type: "failed",
                 isShow: true,
@@ -216,8 +202,12 @@ export default function PointOfSale() {
             currentModal: 'checkoutModal',
             isShowModal: true,
             currentTransaction: {
-                ...pageState.pointOfSaleManagement.currentTransaction,
+                id: undefined,
+                accountId: currentAccount!.id,
                 sellPrice: totalPrice,
+                timestamp: undefined,
+                createdAt: undefined,
+                updatedAt: undefined,
             }
         }))
     }
