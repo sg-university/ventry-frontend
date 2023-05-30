@@ -80,7 +80,7 @@ export default function LocationUpdateModalComponent() {
             className="component location-update-modal"
         >
             <Modal.Header closeButton className="header">
-                <Modal.Title>Location Update</Modal.Title>
+                <Modal.Title>Update Location</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="body">

@@ -85,7 +85,7 @@ export default function InventoryControlUpdateModalComponent() {
             className="component item-update-modal"
         >
             <Modal.Header closeButton className="header">
-                <Modal.Title>Inventory Control Update</Modal.Title>
+                <Modal.Title>Update Inventory Control</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="body">
