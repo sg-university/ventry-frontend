@@ -78,7 +78,9 @@ function MainComponent() {
             body: {...values, locationId: currentLocation?.id}
         }).then((response) => {
             const content: Content<Item> = response.data;
-            recordChanges(quantityBefore!, values.quantity)
+            if(values.is_record && quantityBefore != values.quantity) {
+              recordChanges(quantityBefore!, values.quantity)
+            }
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
                 items: items!.map((item) => {
@@ -289,6 +291,7 @@ function ItemBundleForm(props: any) {
     const {items, currentItem, currentAction, currentItemBundle, isShowModal} = pageState.itemManagement
     const dispatch = useDispatch();
     const isInsert = currentAction == 'insert'
+
     const fetchCurrentItemBundleMaps = () => {
         itemBundleService.readAllBySuperItemId({superItemId: currentItem?.id}).then((response) => {
             const content: Content<ItemBundleMap[]> = response.data;
@@ -301,6 +304,7 @@ function ItemBundleForm(props: any) {
             console.log(error)
         })
     }
+
     const handleSubmitUpdate = (values: any, actions: any) => {
         const request: PatchOneItemBundleByIdRequest = {
             id: currentItemBundle?.id,
@@ -325,6 +329,7 @@ function ItemBundleForm(props: any) {
             actions.setSubmitting(false);
         });
     }
+
     const handleSubmitInsert = (values: any, actions: any) => {
         const itemBundleService = new ItemBundleService()
         const request: CreateOneItemBundleRequest = {
@@ -353,6 +358,7 @@ function ItemBundleForm(props: any) {
             actions.setSubmitting(false);
         });
     }
+    
     const handleSubmit = (values: any, actions: any) => {
         switch (currentAction) {
             case "insert":
@@ -443,7 +449,7 @@ export default function ItemUpdateModalComponent() {
     return (
         <Modal show={isShowModal} onHide={() => handleShow()} centered className="component item-update-modal">
             <Modal.Header closeButton className="header">
-                <Modal.Title>Item Update</Modal.Title>
+                <Modal.Title>Update Item</Modal.Title>
             </Modal.Header>
             <Nav variant="tabs" onSelect={(eventKey) => handleSelectModalMenu(eventKey)}>
                 <Nav.Item>

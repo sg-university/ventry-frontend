@@ -89,7 +89,9 @@ function MainComponent() {
                     items: [content.data, ...items!],
                     isShowModal: !isShowModal,
                 }))
-                recordChanges(content.data)
+                if(values.is_record) {
+                  recordChanges(content.data)
+                }
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
                     content: "Insert Item succeed.",
