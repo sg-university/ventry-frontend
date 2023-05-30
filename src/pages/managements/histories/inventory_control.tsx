@@ -38,8 +38,8 @@ export default function ItemTransactionHistory() {
     const fetchAccountItemsAndInventoryControls = () => {
         Promise.all([
             itemService
-                .readAllByAccountId({
-                    accountId: currentAccount?.id
+                .readAllByLocationId({
+                    locationId: currentAccount?.locationId
                 }),
             inventoryControlService.readAll()
         ])
