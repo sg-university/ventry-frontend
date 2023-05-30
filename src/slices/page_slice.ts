@@ -189,7 +189,7 @@ export default createSlice({
             currentCompany: undefined,
             currentLocation: undefined,
             currentLocations: [],
-            currentModalMenu: undefined,
+            currentModalMenu: "information",
             currentModal: undefined,
             isShowModal: false,
         },
