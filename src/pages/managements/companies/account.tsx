@@ -123,7 +123,7 @@ export default function CompanyAccount() {
                                 onClick={() => handleInsertModal()}
                             >
                                 <Image src={ButtonPlusImage} alt="plus"/>
-                                Add
+                                Insert
                             </button>
                         </div>
                     </div>

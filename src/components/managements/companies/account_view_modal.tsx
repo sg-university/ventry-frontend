@@ -77,7 +77,7 @@ export default function AccountViewModalComponent() {
             className="component account-view-modal"
         >
             <Modal.Header closeButton className="header">
-                <Modal.Title>Account Details</Modal.Title>
+                <Modal.Title>Company Account Details</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="body">

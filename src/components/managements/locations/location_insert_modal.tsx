@@ -76,7 +76,7 @@ export default function LocationInsertModalComponent() {
             className="component location-insert-modal"
         >
             <Modal.Header closeButton className="header">
-                <Modal.Title>Insert Location</Modal.Title>
+                <Modal.Title>Insert Company Location</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="body">

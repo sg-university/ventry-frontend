@@ -226,13 +226,13 @@ function LocationComponent() {
             {currentModal == 'insertModal' && <LocationInsertModalComponent/>}
             {currentModal == 'updateModal' && <LocationUpdateModalComponent/>}
             <div className="upper">
-                Location List
+                Company Location List
                 <button
                     type="button"
                     className="btn btn-primary"
                     onClick={handleClickModalInsert}
                 >
-                    Add
+                    Insert
                 </button>
             </div>
             <div className="lower">
@@ -253,14 +253,10 @@ function LocationComponent() {
 }
 
 export default function Information() {
-    const locationService = new LocationService();
-    const companyService = new CompanyService();
     const pageState: PageState = useSelector((state: any) => state.page);
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
-    const {currentAccount} = authenticationState
     const {isShowModal, currentModalMenu, currentCompany} = pageState.companyInformationManagement
     const dispatch = useDispatch();
-
 
     const handleSelectMenu = (eventKey: any) => {
         dispatch(pageSlice.actions.configureCompanyInformationManagement({

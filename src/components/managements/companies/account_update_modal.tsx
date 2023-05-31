@@ -119,7 +119,7 @@ export default function AccountUpdateModalComponent() {
             className="component account-update-modal"
         >
             <Modal.Header closeButton className="header">
-                <Modal.Title>Update Account</Modal.Title>
+                <Modal.Title>Update Company Account</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="body">

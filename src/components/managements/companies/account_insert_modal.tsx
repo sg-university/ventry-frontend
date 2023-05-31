@@ -113,7 +113,7 @@ export default function AccountInsertModalComponent() {
             className="component account-insert-modal"
         >
             <Modal.Header closeButton className="header">
-                <Modal.Title>Insert Account</Modal.Title>
+                <Modal.Title>Insert Company Account</Modal.Title>
             </Modal.Header>
 
             <Modal.Body className="body">
