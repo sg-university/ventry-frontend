@@ -21,6 +21,7 @@ import PatchOneByIdRequest
 import {AuthenticationState} from "@/slices/authentication_slice";
 import LocationInsertModalComponent from "@/components/managements/locations/location_insert_modal";
 import LocationUpdateModalComponent from "@/components/managements/locations/location_update_modal";
+import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 
 const updateSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
@@ -177,30 +178,38 @@ function LocationComponent() {
 
 
     const handleClickDeleteLocation = (location: Location) => {
-        locationService
-            .deleteOneById({
-                id: location.id
-            })
-            .then((response) => {
-                const content: Content<Location> = response.data;
-                dispatch(pageSlice.actions.configureCompanyInformationManagement({
-                    ...pageState.companyInformationManagement,
-                    currentLocations: currentLocations?.filter((item) => item.id != location.id)
-                }))
-                dispatch(messageModalSlice.actions.configure({
-                    type: "succeed",
-                    content: "Delete Location succeed.",
-                    isShow: true
-                }))
-            })
-            .catch((error) => {
-                console.log(error)
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
-            });
+        const callback = () => {
+            locationService
+                .deleteOneById({
+                    id: location.id
+                })
+                .then((response) => {
+                    const content: Content<Location> = response.data;
+                    dispatch(pageSlice.actions.configureCompanyInformationManagement({
+                        ...pageState.companyInformationManagement,
+                        currentLocations: currentLocations?.filter((item) => item.id != location.id)
+                    }))
+                    dispatch(messageModalSlice.actions.configure({
+                        type: "succeed",
+                        content: "Delete Location succeed.",
+                        isShow: true
+                    }))
+                })
+                .catch((error) => {
+                    console.log(error)
+                    dispatch(messageModalSlice.actions.configure({
+                        type: "failed",
+                        content: error.message,
+                        isShow: true
+                    }))
+                });
+        }
+
+        dispatch(confirmationModalSlice.actions.configure({
+            isShow: true,
+            content: "Are you sure want to delete this location?",
+            callback: callback
+        }))
     }
 
     const handleClickModalUpdate = (location: Location) => {

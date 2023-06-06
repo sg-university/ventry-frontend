@@ -155,16 +155,19 @@
     flex-direction: column;
     flex-wrap: wrap;
     margin: 5%;
-    .content{
+
+    .content {
       display: flex;
       flex-direction: column;
       text-align: center;
     }
-    .control{
+
+    .control {
       margin: 3%;
       display: flex;
       justify-content: center;
     }
+
     width: 250px;
   }
 }

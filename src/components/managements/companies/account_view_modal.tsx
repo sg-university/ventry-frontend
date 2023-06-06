@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import pageSlice, {PageState} from "@/slices/page_slice";
 import "@/styles/components/managements/companies/account_view_modal.scss";
-import message_modal_slice from "@/slices/message_modal_slice";
+import messageModalSlice from "@/slices/message_modal_slice";
 import AccountService from "@/services/account_service";
 import Content from "@/models/value_objects/contracts/content";
 import Account from "@/models/entities/account";
@@ -39,33 +39,41 @@ export default function AccountViewModalComponent() {
     }
 
     const handleModalDelete = () => {
-        accountService
-            .deleteOneById({
-                id: currentAccount?.id
-            })
-            .then((response) => {
-                const content: Content<Account> = response.data
-                dispatch(message_modal_slice.actions.configure({
-                    content: content.message,
-                    isShow: true
-                }))
-                dispatch(pageSlice.actions.configureCompanyAccountManagement({
-                        ...pageState.companyAccountManagement,
-                        isShowModal: !isShowModal,
-                        currentModal: "",
-                        currentAccount: null,
-                        companyAccounts: companyAccounts?.filter((account) => account.id !== currentAccount?.id)
-                    })
-                )
-            })
-            .catch((error) => {
-                console.log(error)
-                dispatch(message_modal_slice.actions.configure({
-                    content: error.message,
-                    type: "failed",
-                    isShow: true
-                }))
-            });
+        const callback = () => {
+            accountService
+                .deleteOneById({
+                    id: currentAccount?.id
+                })
+                .then((response) => {
+                    const content: Content<Account> = response.data
+                    dispatch(messageModalSlice.actions.configure({
+                        content: content.message,
+                        isShow: true
+                    }))
+                    dispatch(pageSlice.actions.configureCompanyAccountManagement({
+                            ...pageState.companyAccountManagement,
+                            isShowModal: !isShowModal,
+                            currentModal: "",
+                            currentAccount: null,
+                            companyAccounts: companyAccounts?.filter((account) => account.id !== currentAccount?.id)
+                        })
+                    )
+                })
+                .catch((error) => {
+                    console.log(error)
+                    dispatch(messageModalSlice.actions.configure({
+                        content: error.message,
+                        type: "failed",
+                        isShow: true
+                    }))
+                });
+        }
+
+        dispatch(messageModalSlice.actions.configure({
+            content: "Are you sure want to delete this account?",
+            isShow: true,
+            callback: callback
+        }))
     }
 
 

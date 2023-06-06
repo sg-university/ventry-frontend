@@ -7,11 +7,13 @@ import {configureStore} from "@reduxjs/toolkit";
 import authenticationSlice from "@/slices/authentication_slice";
 import messageModalSlice from "@/slices/message_modal_slice";
 import pageSlice from "@/slices/page_slice";
+import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 
 
 const rootReducer = combineReducers({
     [authenticationSlice.name]: authenticationSlice.reducer,
     [messageModalSlice.name]: messageModalSlice.reducer,
+    [confirmationModalSlice.name]: confirmationModalSlice.reducer,
     [pageSlice.name]: pageSlice.reducer,
 });
 

@@ -1,32 +1,33 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {HYDRATE} from "next-redux-wrapper";
 
-export interface MessageModalState {
+export interface ConfirmationModalState {
     isShow: boolean | undefined;
-    type: string | undefined;
     content: string | undefined;
+    callback: () => void | undefined;
 }
 
 
 export default createSlice({
-    name: 'messageModal',
-    initialState: <MessageModalState>{
+    name: 'confirmationModal',
+    initialState: <ConfirmationModalState>{
         isShow: false,
-        type: undefined,
         content: undefined,
+        callback: () => {
+        },
     },
     reducers: {
         configure: (state, action) => {
             state.content = action.payload.content;
-            state.type = action.payload.type;
             state.isShow = action.payload.isShow;
+            state.callback = action.payload.callback;
         },
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
             return {
                 ...state,
-                ...action.payload.messageModal,
+                ...action.payload.confirmationModal,
             }
         },
     }

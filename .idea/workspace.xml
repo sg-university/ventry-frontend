@@ -6,8 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/pos/checkout_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/pos/checkout_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/managements/pos.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/pos.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/inventory_control/inventory_control_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/histories/transaction/transaction_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_update_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_update_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/items/item_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/items/item_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/managements/companies/information.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/managements/companies/information.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/message_modal_slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/message_modal_slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/slices/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/slices/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +58,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Data/Apps/ventry-frontend/src/models/value_objects/contracts/requests/managements/transaction_item_maps&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Data/Apps/ventry-frontend/src/slices&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;Sass&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -65,11 +74,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Data\Apps\ventry-frontend\src\slices" />
+      <recent name="C:\Data\Apps\ventry-frontend\src\components" />
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\transaction_item_maps" />
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\response\managements\transactions" />
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\contracts\requests\managements\transactions" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\styles\pages\managements" />
-      <recent name="C:\Data\Apps\ventry-frontend\src\styles\components\managements\pos" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Data\Apps\ventry-frontend\src\models\value_objects\forecasts" />
@@ -150,7 +159,14 @@
       <workItem from="1684664181276" duration="14936000" />
       <workItem from="1684825670786" duration="32651000" />
       <workItem from="1685003352409" duration="983000" />
-      <workItem from="1685172101275" duration="3527000" />
+      <workItem from="1685172101275" duration="4082000" />
+      <workItem from="1685437257763" duration="1848000" />
+      <workItem from="1685524127534" duration="644000" />
+      <workItem from="1685536006690" duration="49000" />
+      <workItem from="1685536064939" duration="2102000" />
+      <workItem from="1685541573578" duration="641000" />
+      <workItem from="1685552050325" duration="818000" />
+      <workItem from="1686056786381" duration="2835000" />
     </task>
     <servers />
   </component>
