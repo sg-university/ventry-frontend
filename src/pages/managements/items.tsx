@@ -106,13 +106,13 @@ export default function Items() {
                 </div>
 
                 <div className="body">
-                    {items ? undefined : (
+                    {items?.length == 0 ? (
                         <div className="empty-data">
                             <div className="text">
                                 Your items is empty, try to insert one!
-                            </div>
+                          </div>
                         </div>
-                    )}
+                    ) : undefined}
                     {items && items.map((value, idx) => (
                         <div key={value.id} className="card">
                             <div className="image">
