@@ -275,7 +275,7 @@ function MainComponent() {
                                 className="btn btn-secondary"
                                 onClick={() => handleShowModal()}
                             >
-                                Close
+                                Cancel
                             </button>
                         </div>
                     </Form>
@@ -391,7 +391,7 @@ function ItemsComponent(props: any) {
                                 className="btn btn-secondary"
                                 onClick={() => handleShowModal()}
                             >
-                                Close
+                                Cancel
                             </button>
                         </div>
                     </Form>

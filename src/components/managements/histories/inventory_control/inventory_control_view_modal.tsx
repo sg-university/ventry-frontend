@@ -98,7 +98,7 @@ export default function InventoryControlViewModalComponent() {
                         <div className="text">{`Quantity After: ${currentInventoryControl?.quantityAfter}`}</div>
                     </div>
                     <div className="timestamp">
-                        <div className="text">{`Timestamp: ${convertDate(currentInventoryControl?.timestamp!)}`}</div>
+                        <div className="text">{`Date: ${convertDate(currentInventoryControl?.timestamp!)}`}</div>
                     </div>
                 </div>
             </Modal.Body>

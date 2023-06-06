@@ -51,6 +51,13 @@ function MainComponent() {
     const {currentAccount} = authenticationState
     const dispatch = useDispatch();
 
+    const handleShow = () => {
+        dispatch(pageSlice.actions.configureItemManagement({
+            ...pageState.itemManagement,
+            currentModal: 'viewModal'
+        }));
+    }
+
     const recordChanges = (quantityBefore: number, quantityAfter: number) => {
         const date = new Date()
         const request: CreateOneRequest = {
@@ -179,6 +186,7 @@ function MainComponent() {
                         <hr/>
                         <div className="button">
                             <button type="submit" className="btn btn-primary">Update</button>
+                            <button type="button" className="btn btn-secondary" onClick={handleShow}>Cancel</button>
                         </div>
                     </Form>
                 )
@@ -280,7 +288,7 @@ function ItemBundleComponent() {
         <div className="button">
             <button type="button" className="btn btn-primary" onClick={() => handleInsertItemBundle()}> Insert Item
             </button>
-            <button type="button" className="btn btn-secondary" onClick={() => handleShow()}> Close</button>
+            <button type="button" className="btn btn-secondary" onClick={() => handleShow()}> Cancel</button>
         </div>
     </div>);
 }
@@ -423,7 +431,7 @@ function ItemBundleForm(props: any) {
                                     {isInsert ? "Insert Item" : "Update Item"}
                                 </button>
                                 <button type="button" className="btn btn-secondary" onClick={() => handleShow()}>
-                                    Close
+                                    Cancel
                                 </button>
                             </div>
                         </Form>
