@@ -15,7 +15,6 @@ import {AuthenticationState} from "@/slices/authentication_slice";
 import Item from "@/models/entities/item";
 import CreateOneRequest
     from "@/models/value_objects/contracts/requests/managements/inventory_controls/create_one_request";
-import inventory_control_service from "@/services/inventory_control_service";
 import InventoryControlService from "@/services/inventory_control_service";
 
 const insertMainSchema = Yup.object().shape({
@@ -89,8 +88,8 @@ function MainComponent() {
                     items: [content.data, ...items!],
                     isShowModal: !isShowModal,
                 }))
-                if(values.is_record) {
-                  recordChanges(content.data)
+                if (values.is_record) {
+                    recordChanges(content.data)
                 }
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",

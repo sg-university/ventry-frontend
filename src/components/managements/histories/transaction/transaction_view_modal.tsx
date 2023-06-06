@@ -8,6 +8,7 @@ import pageSlice, {PageState} from "@/slices/page_slice";
 import "@/styles/components/managements/histories/transactions/transaction_view_modal.scss"
 import Content from "@/models/value_objects/contracts/content";
 import Transaction from "@/models/entities/transaction";
+import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 
 export default function TransactionViewModalComponent() {
     const transactionService = new TransactionService()
@@ -37,30 +38,38 @@ export default function TransactionViewModalComponent() {
     }
 
     const handleModalDelete = () => {
-        transactionService
-            .deleteOneById({
-                id: currentTransaction!.id
-            })
-            .then((response) => {
-                const content: Content<Transaction> = response.data
-                dispatch(messageModalSlice.actions.configure({
-                    type: "succeed",
-                    content: "Delete Transaction succeed.",
-                    isShow: true
-                }))
-                dispatch(pageSlice.actions.configureTransactionHistoryManagement({
-                    ...pageState.transactionHistoryManagement,
-                    transactions: transactions!.filter((transaction) => transaction.id !== content.data.id),
-                    isShowModal: !isShowModal,
-                }))
-            })
-            .catch((error) => {
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
-            })
+        const callback = () => {
+            transactionService
+                .deleteOneById({
+                    id: currentTransaction!.id
+                })
+                .then((response) => {
+                    const content: Content<Transaction> = response.data
+                    dispatch(messageModalSlice.actions.configure({
+                        type: "succeed",
+                        content: "Delete Transaction succeed.",
+                        isShow: true
+                    }))
+                    dispatch(pageSlice.actions.configureTransactionHistoryManagement({
+                        ...pageState.transactionHistoryManagement,
+                        transactions: transactions!.filter((transaction) => transaction.id !== content.data.id),
+                        isShowModal: !isShowModal,
+                    }))
+                })
+                .catch((error) => {
+                    dispatch(messageModalSlice.actions.configure({
+                        type: "failed",
+                        content: error.message,
+                        isShow: true
+                    }))
+                })
+        }
+
+        dispatch(confirmationModalSlice.actions.configure({
+            isShow: true,
+            content: "Are you sure want to delete this transaction?",
+            callback: callback
+        }))
     }
 
     const convertDate = (dateTime: string) => {
@@ -109,7 +118,7 @@ export default function TransactionViewModalComponent() {
                                 <tr key={value.id}>
                                     <td>{items!.find(item => item.id == value.itemId)!.code}</td>
                                     <td>{items!.find(item => item.id == value.itemId)!.name}</td>
-                                    <td>Rp. {value!.sellPrice!/value!.quantity!}</td>
+                                    <td>Rp. {value!.sellPrice! / value!.quantity!}</td>
                                     <td>{value.quantity}</td>
                                     <td>Rp. {value.sellPrice}</td>
                                 </tr>

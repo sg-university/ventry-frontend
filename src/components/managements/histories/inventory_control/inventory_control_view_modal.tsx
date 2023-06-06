@@ -9,6 +9,7 @@ import InventoryControlService from "@/services/inventory_control_service";
 import messageModalSlice from "@/slices/message_modal_slice";
 import Content from "@/models/value_objects/contracts/content";
 import InventoryControl from "@/models/entities/inventory_control";
+import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 
 
 export default function InventoryControlViewModalComponent() {
@@ -38,27 +39,35 @@ export default function InventoryControlViewModalComponent() {
     }
 
     const handleModalDelete = () => {
-        inventoryControlService.deleteOneById({
-            id: currentInventoryControl?.id
-        }).then((response) => {
-            const content: Content<InventoryControl> = response.data
-            dispatch(messageModalSlice.actions.configure({
-                type: "succeed",
-                content: "Delete Inventory Control succeed.",
-                isShow: true
-            }))
-            dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
-                ...pageState.inventoryControlHistoryManagement,
-                isShowModal: !isShowModal,
-                accountInventoryControls: accountInventoryControls?.filter((item) => item.id !== currentInventoryControl?.id),
-            }))
-        }).catch((error) => {
-            dispatch(messageModalSlice.actions.configure({
-                type: "failed",
-                content: error.message,
-                isShow: true
-            }))
-        })
+        const callback = () => {
+            inventoryControlService.deleteOneById({
+                id: currentInventoryControl?.id
+            }).then((response) => {
+                const content: Content<InventoryControl> = response.data
+                dispatch(messageModalSlice.actions.configure({
+                    type: "succeed",
+                    content: "Delete Inventory Control succeed.",
+                    isShow: true
+                }))
+                dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
+                    ...pageState.inventoryControlHistoryManagement,
+                    isShowModal: !isShowModal,
+                    accountInventoryControls: accountInventoryControls?.filter((item) => item.id !== currentInventoryControl?.id),
+                }))
+            }).catch((error) => {
+                dispatch(messageModalSlice.actions.configure({
+                    type: "failed",
+                    content: error.message,
+                    isShow: true
+                }))
+            })
+        }
+
+        dispatch(confirmationModalSlice.actions.configure({
+            isShow: true,
+            content: "Are you sure want to delete this Inventory Control?",
+            callback: callback
+        }))
     }
     const convertDate = (dateTime: string) => {
         const date = new Date(dateTime).toDateString()

@@ -6,15 +6,13 @@ import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import ItemBundleService from "@/services/item_bundle_map_service";
 import ItemBundleMapService from "@/services/item_bundle_map_service";
-import messageModalSlice from "@/slices/message_modal_slice";
+import con from "@/slices/message_modal_slice";
 import Image from "next/image";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
 import ItemService from "@/services/item_service";
 import PatchOneItemBundleByIdRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/patch_one_by_id_request";
 import {PencilFill, Trash3Fill} from "react-bootstrap-icons";
-import DeleteOneByIdRequest
-    from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/delete_one_by_id_request";
 import CreateOneItemBundleRequest
     from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/create_one_request";
 import Content from "@/models/value_objects/contracts/content";
@@ -25,6 +23,7 @@ import CreateOneRequest
 import ItemBundleMap from "@/models/entities/item_bundle_map";
 import "@/styles/components/managements/items/item_update_modal.scss"
 import {AuthenticationState} from "@/slices/authentication_slice";
+import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 
 const updateMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -64,7 +63,7 @@ function MainComponent() {
         }
         inventoryControlService.createOne(request).catch((error) => {
             console.log(error)
-            dispatch(messageModalSlice.actions.configure({
+            dispatch(con.actions.configure({
                 type: "failed",
                 content: error.message,
                 isShow: true
@@ -78,8 +77,8 @@ function MainComponent() {
             body: {...values, locationId: currentLocation?.id}
         }).then((response) => {
             const content: Content<Item> = response.data;
-            if(values.is_record && quantityBefore != values.quantity) {
-              recordChanges(quantityBefore!, values.quantity)
+            if (values.is_record && quantityBefore != values.quantity) {
+                recordChanges(quantityBefore!, values.quantity)
             }
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
@@ -92,14 +91,14 @@ function MainComponent() {
                 currentItem: content.data,
                 isShowModal: !isShowModal,
             }))
-            dispatch(messageModalSlice.actions.configure({
+            dispatch(con.actions.configure({
                 type: "succeed",
                 content: "Update Item succeed.",
                 isShow: true
             }))
         }).catch((error) => {
             console.log(error)
-            dispatch(messageModalSlice.actions.configure({
+            dispatch(con.actions.configure({
                 type: "failed",
                 content: error.message,
                 isShow: true
@@ -232,23 +231,32 @@ function ItemBundleComponent() {
             currentAction: "update"
         }))
     }
-    const handleDeleteClick = (itemBundle: ItemBundleMap) => {
-        const request: DeleteOneByIdRequest = {id: itemBundle.id}
-        itemBundleMapService.deleteOneById(request).then(() => {
-            fetchCurrentItemBundleMaps()
-            dispatch(messageModalSlice.actions.configure({
-                type: "succeed",
-                content: "Delete Sub-Item succeed.",
-                isShow: true
-            }))
-        }).catch((error) => {
-            console.log(error)
-            dispatch(messageModalSlice.actions.configure({
-                type: "failed",
-                content: error.message,
-                isShow: true
-            }))
-        })
+    const handleClickDelete = (itemBundle: ItemBundleMap) => {
+        const callback = () => {
+            itemBundleMapService.deleteOneById({
+                id: itemBundle.id
+            }).then(() => {
+                fetchCurrentItemBundleMaps()
+                dispatch(con.actions.configure({
+                    type: "succeed",
+                    content: "Delete Sub-Item succeed.",
+                    isShow: true
+                }))
+            }).catch((error) => {
+                console.log(error)
+                dispatch(con.actions.configure({
+                    type: "failed",
+                    content: error.message,
+                    isShow: true
+                }))
+            })
+        }
+
+        dispatch(confirmationModalSlice.actions.configure({
+            isShow: true,
+            content: "Are you sure want to delete this Sub-Item?",
+            callback: callback
+        }))
     }
     return (<div className="items form">
         <div className="table-ic">
@@ -269,7 +277,7 @@ function ItemBundleComponent() {
                             <td>{value.quantity}</td>
                             <td className="action">
                                 <PencilFill className="icon" onClick={() => handleUpdateClick(value)}/>
-                                <Trash3Fill className="icon" onClick={() => handleDeleteClick(value)}/>
+                                <Trash3Fill className="icon" onClick={() => handleClickDelete(value)}/>
                             </td>
                         </tr>
                     );
@@ -312,14 +320,14 @@ function ItemBundleForm(props: any) {
         }
         itemBundleService.patchOneById(request).then((result) => {
             fetchCurrentItemBundleMaps()
-            dispatch(messageModalSlice.actions.configure({
+            dispatch(con.actions.configure({
                 type: "succeed",
                 content: "Update Sub-Item succeed.",
                 isShow: true
             }))
         }).catch((error) => {
             console.log(error)
-            dispatch(messageModalSlice.actions.configure({
+            dispatch(con.actions.configure({
 
                 type: "failed",
                 content: error.message,
@@ -342,14 +350,14 @@ function ItemBundleForm(props: any) {
         itemBundleService.createOne(request).then((response) => {
             const content: Content<ItemBundleMap> = response.data;
             fetchCurrentItemBundleMaps()
-            dispatch(messageModalSlice.actions.configure({
+            dispatch(con.actions.configure({
                 type: "succeed",
                 content: "Insert Sub-Item succeed.",
                 isShow: true
             }))
         }).catch((error) => {
             console.log(error)
-            dispatch(messageModalSlice.actions.configure({
+            dispatch(con.actions.configure({
                 type: "failed",
                 content: error.message,
                 isShow: true
@@ -358,7 +366,7 @@ function ItemBundleForm(props: any) {
             actions.setSubmitting(false);
         });
     }
-    
+
     const handleSubmit = (values: any, actions: any) => {
         switch (currentAction) {
             case "insert":

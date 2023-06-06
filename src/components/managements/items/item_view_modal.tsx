@@ -14,6 +14,7 @@ import ItemBundleMapService from "@/services/item_bundle_map_service";
 import LocationService from "@/services/location_service";
 import Location from "@/models/entities/location";
 import {AuthenticationState} from "@/slices/authentication_slice";
+import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 
 function MainComponent() {
     const locationService: LocationService = new LocationService();
@@ -60,21 +61,29 @@ function MainComponent() {
         }))
     }
     const handleModalDelete = () => {
-        itemService.deleteOneById({id: currentItem?.id}).then(() => {
-            fetchItemsByLocation()
-            dispatch(message_modal_slice.actions.configure({
-                type: "succeed",
-                content: "Delete Item succeed.",
-                isShow: true
-            }))
-        }).catch((error) => {
-            console.log(error)
-            dispatch(message_modal_slice.actions.configure({
-                type: "failed",
-                content: error.message,
-                isShow: true
-            }))
-        });
+        const callback = () => {
+            itemService.deleteOneById({id: currentItem?.id}).then(() => {
+                fetchItemsByLocation()
+                dispatch(message_modal_slice.actions.configure({
+                    type: "succeed",
+                    content: "Delete Item succeed.",
+                    isShow: true
+                }))
+            }).catch((error) => {
+                console.log(error)
+                dispatch(message_modal_slice.actions.configure({
+                    type: "failed",
+                    content: error.message,
+                    isShow: true
+                }))
+            });
+        }
+
+        dispatch(confirmationModalSlice.actions.configure({
+            content: "Are you sure want to delete this item?",
+            isShow: true,
+            callback: callback
+        }))
     }
     return (<div className="main">
         <div className="id">

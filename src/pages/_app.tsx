@@ -6,6 +6,7 @@ import {PersistGate} from "redux-persist/integration/react";
 import {wrapper} from "@/slices/store";
 import {Chart as ChartJS, registerables} from 'chart.js';
 import 'chartjs-adapter-moment';
+import ConfirmationModal from "@/components/confirmation_modal";
 
 ChartJS.register(...registerables);
 
@@ -14,10 +15,10 @@ function App({Component, pageProps}: AppProps) {
     const store: any = useStore();
     return (
         <PersistGate persistor={store.__persist}>
+            <ConfirmationModal/>
             <Component {...pageProps} />
         </PersistGate>
     );
 }
 
-2
 export default wrapper.withRedux(App);
