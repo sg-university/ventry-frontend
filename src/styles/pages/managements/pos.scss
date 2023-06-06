@@ -49,6 +49,12 @@ $primary-blue: #007bff;
           align-items: center;
           margin: 1.25%;
           max-width: 22%;
+        
+          .action {
+            .add, .remove {
+              width: 6vw;
+            }
+          }
         }
       }
     }
@@ -107,6 +113,9 @@ $primary-blue: #007bff;
               flex-flow: column wrap;
               justify-content: center;
               align-items: flex-start;
+              .price {
+                margin-left: 0.5vw;
+              }
             }
 
             .right-section {
@@ -155,31 +164,10 @@ $primary-blue: #007bff;
             padding: 2vh 2vw 2vh 2vw;
             border-radius: 4%;
             margin: 0 0 4vh 0;
-
-            .total {
+            
+            .subtotal, .service, .total {
               display: flex;
-              flex: 1;
-              flex-flow: column wrap;
-              justify-content: center;
-              align-items: flex-start;
-
-              .top-section {
-                display: flex;
-                flex: 1;
-                flex-flow: row wrap;
-                justify-content: center;
-                align-items: flex-start;
-                font-weight: bold;
-              }
-
-              .bottom-section {
-                display: flex;
-                flex: 1;
-                flex-flow: row wrap;
-                justify-content: center;
-                align-items: flex-start;
-                margin: 2vh 0 0 0;
-              }
+              justify-content: space-between;
             }
           }
         }
@@ -206,8 +194,80 @@ $primary-blue: #007bff;
 
 }
 
-@media (min-width: 0px) and (max-width: 768px) {
+@media (min-width: 426px) and (max-width: 768px) {
+  .page.pos-management {
+    .left-section{
+      .bottom-section{
+        display: flex;
+        flex-wrap: wrap;
+        .card{
+          min-width: 200px;
+          .action {
+            .add, .remove {
+              width: 12vw;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
+@media (min-width: 0px) and (max-width: 425px) {
+  .page.pos-management {
+    .left-section{
+      display: flex;
+      flex-direction: column;
+      .top-section {
+        margin: 5%;
+      }
+      .bottom-section{
+        margin: 0 5% 5% 5%;
+        .card {
+          margin: 5% 2% 5% 2%;
+        }
+      }
+    }
+    .right-section {
+      margin: 5%;
+      .top-section{
+        text-align: center;
+      }
+      .bottom-section{
+        .order{
+          .transaction-item-map{
+            display:flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            .right-section{
+              display: flex;
+              .quantity{
+                width: 20vw;
+                text-align: center;
+              }
+            }
+          }
+        }
+        .summary{
+          .subtotal, .service, .total{
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+        .checkout{
+          .btn{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .text{
+              margin-left: 4%;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .empty-data {
@@ -250,10 +310,6 @@ $primary-blue: #007bff;
 
     .quantity {
       color: $primary-blue;
-    }
-
-    .control {
-      margin: 2vh 0 0 0;
     }
   }
 }

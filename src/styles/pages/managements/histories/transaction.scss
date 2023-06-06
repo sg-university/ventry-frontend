@@ -45,6 +45,7 @@
   .page.item-transaction-history .card .content {
     display: flex;
     flex: 5;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 2vh 2vh 2vh 2vh;
