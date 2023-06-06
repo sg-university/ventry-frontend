@@ -217,13 +217,14 @@ export default function SideBar() {
                         >
                             <ListItemIcon>
                                 <Chart
-                                    className={router.pathname == "/managements/forecasting/transaction" ? "link active" : "link"}/>
+                                    className={router.pathname == "/managements/forecasts/transaction" ||
+                                    router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}
+                                />
                             </ListItemIcon>
                             <ListItemText>
                                 <Link href="/managements/forecasts/transaction"
-                                      className={router.pathname == "/managements/forecasting/transaction" ||
-                                      router.pathname == "/managements/forecasting/stock" ? "link active" : "link"
-                                      }
+                                      className={router.pathname == "/managements/forecasts/transaction" ||
+                                      router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}
                                 >
                                     Forecasting
                                 </Link>
@@ -234,13 +235,13 @@ export default function SideBar() {
                     <Collapse in={openForecasting} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding sx={{pl: 4}}>
                             <Link href="/managements/forecasts/transaction"
-                                  className={router.pathname == "/managements/forecasting/transaction" ? "link active" : "link"}>
+                                  className={router.pathname == "/managements/forecasts/transaction" ? "link active" : "link"}>
                                 <ListItemButton>
                                     <ListItemText>Item Transaction</ListItemText>
                                 </ListItemButton>
                             </Link>
                             <Link href="/managements/forecasts/stock"
-                                  className={router.pathname == "/managements/forecasting/stock" ? "link active" : "link"}>
+                                  className={router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}>
                                 <ListItemButton>
                                     <ListItemText>Item Stock</ListItemText>
                                 </ListItemButton>
