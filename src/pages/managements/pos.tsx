@@ -47,7 +47,7 @@ export default function PointOfSale() {
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, items, transactionItemMaps, currentTransaction} = pageState.pointOfSaleManagement;
 
-    const totalPrice = transactionItemMaps?.reduce((previous, current) => {
+    const subtotal = transactionItemMaps?.reduce((previous, current) => {
         return previous + (items!.find(item => item.id == current.itemId)!.unitSellPrice! * current.quantity!)
     }, 0)
 
@@ -188,7 +188,7 @@ export default function PointOfSale() {
             return
         }
 
-        if (totalPrice == 0) {
+        if (subtotal == 0) {
             dispatch(messageModalSlice.actions.configure({
                 type: "failed",
                 isShow: true,
@@ -211,6 +211,10 @@ export default function PointOfSale() {
             }
         }))
     }
+
+    const serviceCharge = (10/100*subtotal)
+
+    const totalPrice = subtotal + serviceCharge
 
     return (
         <Authenticated>
@@ -275,7 +279,7 @@ export default function PointOfSale() {
                                             transactionItemMaps?.find((item) => item.itemId == value.id) ?
                                                 <button
                                                     type="button"
-                                                    className="btn btn-outline-primary remove"
+                                                    className="btn btn-outline-primary remove mt-3"
                                                     onClick={() => handleClickRemove(value)}
                                                 >
                                                     Remove
@@ -283,7 +287,7 @@ export default function PointOfSale() {
                                                 :
                                                 <button
                                                     type="button"
-                                                    className="btn btn-outline-primary add"
+                                                    className="btn btn-outline-primary add mt-3"
                                                     onClick={() => handleClickAdd(value)}
                                                 >
                                                     Add
@@ -338,12 +342,18 @@ export default function PointOfSale() {
                         </div>
                         <div className="summary">
                             <div className="pad">
-                                <div className="total">
-                                    <div className="top-section">Total</div>
-                                    <hr className="border border-dark opacity-100 w-100 p-0 m-0"/>
-                                    <div className="bottom-section">
-                                        Rp. {totalPrice}
-                                    </div>
+                                <div className="subtotal">
+                                    <div className="title"><h5>Subtotal</h5></div>
+                                    <div className="number">Rp. {subtotal}</div>
+                                </div>
+                                <div className="service">
+                                    <div className="title">Service Charge (10%)</div>
+                                    <div className="number">Rp. {serviceCharge}</div>
+                                </div>
+                                <hr className="border border-dark opacity-100 w-100 p-0 m-0 mt-3"/>
+                                <div className="total mt-4">
+                                    <div className="title"><h4>Total</h4></div>
+                                    <div className="number">Rp. {totalPrice}</div>
                                 </div>
                             </div>
                         </div>
