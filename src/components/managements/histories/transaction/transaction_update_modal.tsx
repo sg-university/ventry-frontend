@@ -175,6 +175,7 @@ export default function TransactionUpdateModalComponent() {
         dispatch(pageSlice.actions.configureTransactionHistoryManagement({
             ...pageState.transactionHistoryManagement,
             isShowModal: !isShowModal,
+            currentModal: "noModal"
         }))
     }
 

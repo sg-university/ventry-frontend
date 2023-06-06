@@ -26,6 +26,7 @@ export default function TransactionViewModalComponent() {
         dispatch(pageSlice.actions.configureTransactionHistoryManagement({
             ...pageState.transactionHistoryManagement,
             isShowModal: !isShowModal,
+            currentModal: "noModal"
         }))
     }
 
@@ -54,6 +55,7 @@ export default function TransactionViewModalComponent() {
                         ...pageState.transactionHistoryManagement,
                         transactions: transactions!.filter((transaction) => transaction.id !== content.data.id),
                         isShowModal: !isShowModal,
+                        currentModal: "noModal"
                     }))
                 })
                 .catch((error) => {

@@ -49,6 +49,7 @@ export default function TransactionViewModalComponent() {
                     metric: undefined
                 },
                 isShowModal: !isShowModal,
+                currentModal: "noModal"
             })
         )
     };

@@ -97,6 +97,7 @@ function MainComponent() {
                 }),
                 currentItem: content.data,
                 isShowModal: !isShowModal,
+                currentModal: "noModal"
             }))
             dispatch(con.actions.configure({
                 type: "succeed",
@@ -219,7 +220,8 @@ function ItemBundleComponent() {
     const handleShow = () => {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
-            isShowModal: !isShowModal
+            isShowModal: !isShowModal,
+            currentModal: "noModal"
         }))
     }
 
@@ -391,7 +393,8 @@ function ItemBundleForm(props: any) {
     const handleShow = () => {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
-            isShowModal: !isShowModal
+            isShowModal: !isShowModal,
+            currentModal: "noModal"
         }))
     }
 
@@ -457,6 +460,7 @@ export default function ItemUpdateModalComponent() {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
             isShowModal: !isShowModal,
+            currentModal: "noModal"
         }));
     }
     const handleSelectModalMenu = (eventKey: string | null) => {

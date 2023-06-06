@@ -37,10 +37,9 @@ export default function AccountInsertModalComponent() {
         companyAccounts,
         companyLocations,
         currentCompany,
-        currentRole,
-        currentLocation,
         isShowModal,
     } = pageState.companyAccountManagement;
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -71,6 +70,7 @@ export default function AccountInsertModalComponent() {
         dispatch(pageSlice.actions.configureCompanyAccountManagement({
                 ...pageState.companyAccountManagement,
                 isShowModal: !pageState.companyAccountManagement.isShowModal,
+                currentModal: "noModal"
             })
         )
     };
@@ -95,6 +95,7 @@ export default function AccountInsertModalComponent() {
                 ...pageState.companyAccountManagement,
                 companyAccounts: [content.data, ...companyAccounts!],
                 isShowModal: !isShowModal,
+                currentModal: "noModal"
             }))
         }).catch((error) => {
             dispatch(messageModalSlice.actions.configure({
@@ -123,7 +124,7 @@ export default function AccountInsertModalComponent() {
                         initialValues={{
                             name: "",
                             roleId: roles![0].id || "",
-                            locationId: companyLocations![0].id || "",
+                            locationId: companyLocations?.length > 0 ? companyLocations![0].id : "",
                             email: "",
                             password: "",
                             confirmPassword: ""

@@ -69,6 +69,7 @@ export default function AccountUpdateModalComponent() {
         dispatch(pageSlice.actions.configureCompanyAccountManagement({
                 ...pageState.companyAccountManagement,
                 isShowModal: !pageState.companyAccountManagement.isShowModal,
+                currentModal: "noModal"
             })
         )
     };
@@ -98,7 +99,9 @@ export default function AccountUpdateModalComponent() {
                             return content.data
                         }
                         return account
-                    })
+                    }),
+                    isShowModal: !pageState.companyAccountManagement.isShowModal,
+                    currentModal: "noModal"
                 })
             )
         }).catch((error) => {

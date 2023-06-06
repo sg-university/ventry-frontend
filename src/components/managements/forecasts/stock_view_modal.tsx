@@ -49,6 +49,7 @@ export default function StockViewModalComponent() {
                     metric: undefined
                 },
                 isShowModal: !isShowModal,
+                currentModal: "noModal"
             })
         )
     };

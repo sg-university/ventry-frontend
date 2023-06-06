@@ -47,7 +47,8 @@ function MainComponent() {
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
                 items: content.data,
-                isShowModal: !isShowModal
+                isShowModal: !isShowModal,
+                currentModal: "noModal"
             }))
         }).catch((error) => {
             console.log(error);
@@ -180,6 +181,7 @@ export default function ItemViewModalComponent() {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
             isShowModal: !isShowModal,
+            currentModal: "noModal"
         }))
     };
     useEffect(() => {

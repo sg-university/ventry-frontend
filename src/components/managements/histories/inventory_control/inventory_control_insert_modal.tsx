@@ -33,6 +33,7 @@ export default function InventoryControlInsertModalComponent() {
         dispatch(pageSlice.actions.configureInventoryControlHistoryManagement({
             ...pageState.inventoryControlHistoryManagement,
             isShowModal: !isShowModal,
+            currentModal: "noModal"
         }))
     }
 
@@ -56,6 +57,7 @@ export default function InventoryControlInsertModalComponent() {
                 ...pageState.inventoryControlHistoryManagement,
                 accountInventoryControls: [content.data, ...(accountInventoryControls!)],
                 isShowModal: !isShowModal,
+                currentModal: "noModal"
             }))
         }).catch((error) => {
             console.log(error)

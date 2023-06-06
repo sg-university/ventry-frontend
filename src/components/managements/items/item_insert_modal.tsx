@@ -87,6 +87,7 @@ function MainComponent() {
                     ...pageState.itemManagement,
                     items: [content.data, ...items!],
                     isShowModal: !isShowModal,
+                    currentModal: "noModal"
                 }))
                 if (values.is_record) {
                     recordChanges(content.data)
@@ -115,6 +116,7 @@ function MainComponent() {
         dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
                 isShowModal: !isShowModal,
+                currentModal: "noModal"
             })
         )
     }
@@ -284,121 +286,121 @@ function MainComponent() {
     )
 }
 
-function ItemsComponent(props: any) {
-    const {fetchItemsByLocation, handleShowModal} = props
-    const pageState: PageState = useSelector((state: any) => state.page);
-    const {items} = pageState.itemManagement
+// function ItemsComponent(props: any) {
+//     const {fetchItemsByLocation, handleShowModal} = props
+//     const pageState: PageState = useSelector((state: any) => state.page);
+//     const {items} = pageState.itemManagement
 
-    const dispatch = useDispatch();
+//     const dispatch = useDispatch();
 
-    const handleSubmitInsert = (values: any, actions: any) => {
-        const itemBundleService = new ItemBundleService()
-        const request: CreateOneItemBundleRequest = {
-            body: {
-                superItemId: values.superItem,
-                subItemId: values.subItem,
-                quantity: values.bundle_quantity
-            }
-        }
-        itemBundleService
-            .createOne(request)
-            .then(() => {
-                dispatch(messageModalSlice.actions.configure({
-                    type: "succeed",
-                    content: "Insert Sub-Item succeed.",
-                    isShow: true
-                }))
-                fetchItemsByLocation()
-            })
-            .catch((error) => {
-                console.log(error)
-                dispatch(messageModalSlice.actions.configure({
-                    type: "failed",
-                    content: error.message,
-                    isShow: true
-                }))
-            })
-            .finally(() => {
-                actions.setSubmitting(false);
-                handleShowModal()
-            });
-    }
+//     const handleSubmitInsert = (values: any, actions: any) => {
+//         const itemBundleService = new ItemBundleService()
+//         const request: CreateOneItemBundleRequest = {
+//             body: {
+//                 superItemId: values.superItem,
+//                 subItemId: values.subItem,
+//                 quantity: values.bundle_quantity
+//             }
+//         }
+//         itemBundleService
+//             .createOne(request)
+//             .then(() => {
+//                 dispatch(messageModalSlice.actions.configure({
+//                     type: "succeed",
+//                     content: "Insert Sub-Item succeed.",
+//                     isShow: true
+//                 }))
+//                 fetchItemsByLocation()
+//             })
+//             .catch((error) => {
+//                 console.log(error)
+//                 dispatch(messageModalSlice.actions.configure({
+//                     type: "failed",
+//                     content: error.message,
+//                     isShow: true
+//                 }))
+//             })
+//             .finally(() => {
+//                 actions.setSubmitting(false);
+//                 handleShowModal()
+//             });
+//     }
 
-    return (
-        <div className="items form">
-            <Formik
-                validationSchema={insertItemSchema}
-                initialValues={{
-                    superItem: items ? items[0].id : "",
-                    subItem: items ? items[1].id : "",
-                    bundle_quantity: 0
-                }}
-                onSubmit={handleSubmitInsert}
-                enableReinitialize
-            >
-                {(props) => (
-                    <Form className="items-form">
-                        <div className="row">
-                            <fieldset className="form-group pb-2">
-                                <label htmlFor="superItem" className="pb-1">Select Items</label>
-                                <Field as="select" name="superItem" className="form-control select-item">
-                                    {items?.map((val, idx) => (
-                                        <option key={val.id} value={val.id}>{val.name}</option>
-                                    ))}
-                                </Field>
-                                <ErrorMessage
-                                    name="superItem"
-                                    component="div"
-                                    className="text-danger"
-                                />
-                            </fieldset>
-                        </div>
-                        <div className="row">
-                            <fieldset className="form-group pb-2">
-                                <label htmlFor="subItem" className="pb-1">Select Sub-Items</label>
-                                <Field as="select" name="subItem" className="form-control select-item">
-                                    {items?.map((val, idx) => (
-                                        <option key={val.id} value={val.id}>{val.name}</option>
-                                    ))}
-                                </Field>
-                                <ErrorMessage
-                                    name="subItem"
-                                    component="div"
-                                    className="text-danger"
-                                />
-                            </fieldset>
-                            <fieldset className="form-group pb-2 quantity">
-                                <label htmlFor="bundle_quantity" className="pb-1">Quantity</label>
-                                <Field type="number" name="bundle_quantity" className="form-control"/>
-                                <ErrorMessage
-                                    name="bundle_quantity"
-                                    component="div"
-                                    className="text-danger"
-                                />
-                            </fieldset>
-                        </div>
-                        <hr/>
-                        <div className="button">
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                            >
-                                Insert
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={() => handleShowModal()}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </Form>
-                )}
-            </Formik>
-        </div>
-    )
-}
+//     return (
+//         <div className="items form">
+//             <Formik
+//                 validationSchema={insertItemSchema}
+//                 initialValues={{
+//                     superItem: items ? items[0].id : "",
+//                     subItem: items ? items[1].id : "",
+//                     bundle_quantity: 0
+//                 }}
+//                 onSubmit={handleSubmitInsert}
+//                 enableReinitialize
+//             >
+//                 {(props) => (
+//                     <Form className="items-form">
+//                         <div className="row">
+//                             <fieldset className="form-group pb-2">
+//                                 <label htmlFor="superItem" className="pb-1">Select Items</label>
+//                                 <Field as="select" name="superItem" className="form-control select-item">
+//                                     {items?.map((val, idx) => (
+//                                         <option key={val.id} value={val.id}>{val.name}</option>
+//                                     ))}
+//                                 </Field>
+//                                 <ErrorMessage
+//                                     name="superItem"
+//                                     component="div"
+//                                     className="text-danger"
+//                                 />
+//                             </fieldset>
+//                         </div>
+//                         <div className="row">
+//                             <fieldset className="form-group pb-2">
+//                                 <label htmlFor="subItem" className="pb-1">Select Sub-Items</label>
+//                                 <Field as="select" name="subItem" className="form-control select-item">
+//                                     {items?.map((val, idx) => (
+//                                         <option key={val.id} value={val.id}>{val.name}</option>
+//                                     ))}
+//                                 </Field>
+//                                 <ErrorMessage
+//                                     name="subItem"
+//                                     component="div"
+//                                     className="text-danger"
+//                                 />
+//                             </fieldset>
+//                             <fieldset className="form-group pb-2 quantity">
+//                                 <label htmlFor="bundle_quantity" className="pb-1">Quantity</label>
+//                                 <Field type="number" name="bundle_quantity" className="form-control"/>
+//                                 <ErrorMessage
+//                                     name="bundle_quantity"
+//                                     component="div"
+//                                     className="text-danger"
+//                                 />
+//                             </fieldset>
+//                         </div>
+//                         <hr/>
+//                         <div className="button">
+//                             <button
+//                                 type="submit"
+//                                 className="btn btn-primary"
+//                             >
+//                                 Insert
+//                             </button>
+//                             <button
+//                                 type="button"
+//                                 className="btn btn-secondary"
+//                                 onClick={() => handleShowModal()}
+//                             >
+//                                 Cancel
+//                             </button>
+//                         </div>
+//                     </Form>
+//                 )}
+//             </Formik>
+//         </div>
+//     )
+// }
 
 export default function ItemInsertModalComponent() {
     const pageState: PageState = useSelector((state: any) => state.page);
@@ -407,14 +409,13 @@ export default function ItemInsertModalComponent() {
         isShowModal,
         currentModalMenu
     } = pageState.itemManagement
-    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
-    const {currentAccount} = authenticationState
     const dispatch = useDispatch();
 
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
                 isShowModal: !isShowModal,
+                currentModal: "noModal"
             })
         )
     }
