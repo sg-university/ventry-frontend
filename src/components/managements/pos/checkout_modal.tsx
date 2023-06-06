@@ -35,6 +35,7 @@ export default function CheckoutModalComponent() {
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
             isShowModal: !isShowModal,
+            currentModal: "noModal"
         }));
     }
 
@@ -79,6 +80,7 @@ export default function CheckoutModalComponent() {
                 },
                 transactionItemMaps: [],
                 isShowModal: !isShowModal,
+                currentModal: "noModal"
             }))
 
             dispatch(messageModalSlice.actions.configure({

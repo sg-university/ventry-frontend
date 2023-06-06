@@ -30,30 +30,37 @@ export default function CompanyAccount() {
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState;
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {currentModal, companyAccounts} = pageState.companyAccountManagement;
+    const {currentModal, companyAccounts, roles} = pageState.companyAccountManagement;
+    const accounts = companyAccounts!.map(acc => ({ role: roles!.find(role => role.id === acc.roleId), ...acc}))
     const dispatch = useDispatch();
-
+    
     const fetchCompanyAccountsAndCurrentCompany = () => {
         companyService.readAllByAccountId({
             accountId: currentAccount?.id
         }).then((result) => {
             const companyContent: Content<Company[]> = result.data;
 
-            accountService.readAllByCompanyId({
-                companyId: companyContent.data[0].id
-            }).then((response) => {
-                const accountContent: Content<Account[]> = response.data;
+            Promise.all([
+              roleService
+                  .readAll(),
+              accountService
+                  .readAllByCompanyId({
+                      companyId: companyContent.data[0].id
+                   })
+            ]).then((response) => {
+                const roles: Content<Role[]> = response[0].data;
+                const accountContent: Content<Account[]> = response[1].data;
                 dispatch(pageSlice.actions.configureCompanyAccountManagement({
-                    ...pageState.companyAccountManagement,
-                    currentCompany: companyContent.data[0],
-                    companyAccounts: accountContent.data.sort((a, b) => {
-                        return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
-                    }),
-                }))
+                  ...pageState.companyAccountManagement,
+                  currentCompany: companyContent.data[0],
+                  companyAccounts: accountContent.data.sort((a, b) => {
+                      return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                  }),
+                  roles: roles.data
+              }))
             }).catch((error) => {
                 console.log(error);
             })
-
         }).catch((error) => {
             console.log(error);
         })
@@ -130,14 +137,14 @@ export default function CompanyAccount() {
                 </div>
 
                 <div className="body">
-                    {(companyAccounts!)?.length <= 0 ? (
+                    {(accounts!)?.length <= 0 ? (
                         <div className="empty-data">
                             <div className="text">
                                 Your company account is empty, try to insert one!
                             </div>
                         </div>
                     ) : null}
-                    {companyAccounts?.map((value, index) => (
+                    {accounts?.map((value, index) => (
                         <div key={value.id} className="card">
                             <div className="image">
                                 <Image
@@ -151,7 +158,7 @@ export default function CompanyAccount() {
                                     <div className="text">{value.name}</div>
                                 </div>
                                 <div className="role">
-                                    <div className="text">{value.roleId}</div>
+                                    <div className="text">{value.role!.name}</div>
                                 </div>
                             </div>
                             <div className="control">
