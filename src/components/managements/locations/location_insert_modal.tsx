@@ -28,7 +28,8 @@ export default function LocationInsertModalComponent() {
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureCompanyInformationManagement({
             ...pageState.companyInformationManagement,
-            isShowModal: !isShowModal
+            isShowModal: !isShowModal,
+            currentModal: "noModal"
         }))
     };
 
@@ -48,7 +49,12 @@ export default function LocationInsertModalComponent() {
                     ...pageState.companyInformationManagement,
                     currentLocations: [content.data, ...currentLocations!],
                     isShowModal: !isShowModal,
+                    currentModal: "noModal"
                 }))
+                dispatch(pageSlice.actions.configureCompanyAccountManagement({
+                  ...pageState.companyAccountManagement,
+                  currentLocations: [content.data, ...currentLocations!],
+              }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
                     content: "Insert Location succeed.",

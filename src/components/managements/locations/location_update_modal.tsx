@@ -68,7 +68,8 @@ export default function LocationUpdateModalComponent() {
     const handleShowModal = () => {
         dispatch(pageSlice.actions.configureCompanyInformationManagement({
             ...pageState.companyInformationManagement,
-            isShowModal: !isShowModal
+            isShowModal: !isShowModal,
+            currentModal: "noModal"
         }))
     };
 
