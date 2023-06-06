@@ -83,7 +83,7 @@ export default function CheckoutModalComponent() {
 
             dispatch(messageModalSlice.actions.configure({
                 type: "succeed",
-                content: content.message,
+                content: "Payment succeed.",
                 isShow: true
             }))
 
@@ -121,14 +121,14 @@ export default function CheckoutModalComponent() {
                                     <div className="row">
                                         <fieldset className="form-group sellPrice">
                                             <label htmlFor="sellPrice">Total Sell Price</label>
-                                            <Field type="number" name="sellPrice" className="form-control"/>
+                                            <Field type="number" name="sellPrice" className="form-control mt-2"/>
                                             <ErrorMessage name="sellPrice" component="div" className="text-danger"/>
                                         </fieldset>
                                     </div>
                                     <div className="row">
                                         <fieldset className="form-group paymentMethod">
                                             <label htmlFor="paymentMethod">Payment Method</label>
-                                            <Field as="select" name="paymentMethod" className="form-control" disabled>
+                                            <Field as="select" name="paymentMethod" className="form-control mt-2" disabled>
                                                 <option selected value="cash">Cash</option>
                                             </Field>
                                             <ErrorMessage name="paymentMethod" component="div" className="text-danger"/>

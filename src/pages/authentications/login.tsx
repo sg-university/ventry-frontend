@@ -99,12 +99,12 @@ export default function Login() {
                             <Form>
                                 <fieldset className="form-group pb-2">
                                     <label htmlFor="email">Email</label>
-                                    <Field type="email" name="email" className="form-control"/>
+                                    <Field type="email" name="email" className="form-control mt-2"/>
                                     <ErrorMessage name="email" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group pb-2">
                                     <label htmlFor="password">Password</label>
-                                    <Field type="password" name="password" className="form-control"/>
+                                    <Field type="password" name="password" className="form-control mt-2"/>
                                     <ErrorMessage name="password" component="div" className="text-danger"/>
                                 </fieldset>
                                 <button type="submit" className="btn btn-primary">

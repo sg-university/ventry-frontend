@@ -8,6 +8,7 @@ import AuthenticationService from "@/services/authentication_service";
 import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import {useDispatch} from "react-redux";
+import {useRouter} from "next/router";
 import authenticationSlice from "@/slices/authentication_slice";
 import messageModalSlice from "@/slices/message_modal_slice";
 import RegisterResponse from "@/models/value_objects/contracts/response/authentications/register_response";
@@ -41,8 +42,8 @@ const registerSchemaLocation = Yup.object().shape({
 });
 
 export default function Register() {
-
     const authenticationService = new AuthenticationService();
+    const router = useRouter();
 
     const dispatch = useDispatch();
 
@@ -102,6 +103,7 @@ export default function Register() {
                         content: "Register succeed.",
                         isShow: true
                     }))
+                    router.push(`/authentications/login`)
                 }
             })
             .catch((error) => {
@@ -142,7 +144,7 @@ export default function Register() {
             </div>
             <MessageModal/>
             <div className="right-section">
-                <div className="title">
+                <div className="title mb-3">
                     <h1>Sign-up</h1>
                     <h6>{title}</h6>
                 </div>
@@ -163,22 +165,22 @@ export default function Register() {
                                 <div className="firstPageForm">
                                     <fieldset className="form-group">
                                         <label htmlFor="name">Name</label>
-                                        <Field type="text" name="name" className="form-control"/>
+                                        <Field type="text" name="name" className="form-control mt-2"/>
                                         <ErrorMessage name="name" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label htmlFor="email">Email</label>
-                                        <Field type="email" name="email" className="form-control"/>
+                                        <Field type="email" name="email" className="form-control mt-2"/>
                                         <ErrorMessage name="email" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label htmlFor="password">Password</label>
-                                        <Field type="password" name="password" className="form-control"/>
+                                        <Field type="password" name="password" className="form-control mt-2"/>
                                         <ErrorMessage name="password" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label htmlFor="confirmPassword">Confirm password</label>
-                                        <Field type="password" name="confirmPassword" className="form-control"/>
+                                        <Field type="password" name="confirmPassword" className="form-control mt-2"/>
                                         <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
                                     </fieldset>
 
@@ -207,18 +209,18 @@ export default function Register() {
                             <Form>
                                 <fieldset className="form-group">
                                     <label htmlFor="name">Company Name</label>
-                                    <Field type="text" name="name" className="form-control"/>
+                                    <Field type="text" name="name" className="form-control mt-2"/>
                                     <ErrorMessage name="name" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
                                     <label htmlFor="description">Company Description</label>
-                                    <Field type="text" name="description" className="form-control"
+                                    <Field type="text" name="description" className="form-control mt-2"
                                            component="textarea" rows="4"/>
                                     <ErrorMessage name="description" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
                                     <label htmlFor="address">Company Address</label>
-                                    <Field type="text" name="address" className="form-control"
+                                    <Field type="text" name="address" className="form-control mt-2"
                                            component="textarea" rows="4"/>
                                     <ErrorMessage name="address" component="div" className="text-danger"/>
                                 </fieldset>
@@ -250,18 +252,18 @@ export default function Register() {
                             <Form>
                                 <fieldset className="form-group">
                                     <label htmlFor="name">Location Name</label>
-                                    <Field type="text" name="name" className="form-control"/>
+                                    <Field type="text" name="name" className="form-control mt-2"/>
                                     <ErrorMessage name="name" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
                                     <label htmlFor="description">Location Description</label>
-                                    <Field type="text" name="description" className="form-control"
+                                    <Field type="text" name="description" className="form-control mt-2"
                                            component="textarea" rows="4"/>
                                     <ErrorMessage name="description" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group">
                                     <label htmlFor="address">Location Address</label>
-                                    <Field type="text" name="address" className="form-control"
+                                    <Field type="text" name="address" className="form-control mt-2"
                                            component="textarea" rows="4"/>
                                     <ErrorMessage name="address" component="div" className="text-danger"/>
                                 </fieldset>
