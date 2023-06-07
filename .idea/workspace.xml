@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/flyio.Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/external.Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fly.toml" beforeDir="false" afterPath="$PROJECT_DIR$/fly.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +157,7 @@
       <workItem from="1685552050325" duration="818000" />
       <workItem from="1686056786381" duration="4682000" />
       <workItem from="1686146442134" duration="13000" />
-      <workItem from="1686156090681" duration="3126000" />
+      <workItem from="1686156090681" duration="3445000" />
     </task>
     <servers />
   </component>

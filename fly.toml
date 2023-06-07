@@ -7,7 +7,7 @@ app = "ventry-frontend-1"
 primary_region = "sin"
 
 [build]
-  dockerfile = "flyio.Dockerfile"
+  dockerfile = "external.Dockerfile"
 
 [http_service]
   internal_port = 8080
