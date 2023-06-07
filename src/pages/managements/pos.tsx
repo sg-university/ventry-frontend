@@ -23,7 +23,7 @@ import {PlusLg} from "react-bootstrap-icons";
 import messageModalSlice from "@/slices/message_modal_slice";
 
 
-const AutoSearchFormikMiddleware = () => {
+const AutoSearchFormikMiddleware = (): any => {
     const formik = useFormikContext();
     const [initialValueSearch, setInitialValueSearch] = useState({searchValue: ""})
 
@@ -212,7 +212,7 @@ export default function PointOfSale() {
         }))
     }
 
-    const serviceCharge = (10/100*subtotal)
+    const serviceCharge = (10 / 100 * subtotal)
 
     const totalPrice = subtotal + serviceCharge
 

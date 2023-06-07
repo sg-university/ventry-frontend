@@ -7,9 +7,6 @@ import pageSlice, {PageState} from "@/slices/page_slice";
 import {useDispatch, useSelector} from "react-redux";
 import Content from "@/models/value_objects/contracts/content";
 import messageModalSlice from "@/slices/message_modal_slice";
-import ItemBundleService from "@/services/item_bundle_map_service";
-import CreateOneItemBundleRequest
-    from "@/models/value_objects/contracts/requests/managements/item_bundle_maps/create_one_request";
 import "@/styles/components/managements/items/item_insert_modal.scss";
 import {AuthenticationState} from "@/slices/authentication_slice";
 import Item from "@/models/entities/item";

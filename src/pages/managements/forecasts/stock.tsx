@@ -85,11 +85,11 @@ export default function Stock() {
                 </div>
 
                 <div className="body">
-                  {items?.length == 0 ? (
+                    {items?.length == 0 ? (
                         <div className="empty-data">
                             <div className="text">
                                 Your items is empty, try to insert one!
-                          </div>
+                            </div>
                         </div>
                     ) : undefined}
                     {items && items.map((value, index) => (

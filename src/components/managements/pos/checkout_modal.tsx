@@ -130,7 +130,8 @@ export default function CheckoutModalComponent() {
                                     <div className="row">
                                         <fieldset className="form-group paymentMethod">
                                             <label htmlFor="paymentMethod">Payment Method</label>
-                                            <Field as="select" name="paymentMethod" className="form-control mt-2" disabled>
+                                            <Field as="select" name="paymentMethod" className="form-control mt-2"
+                                                   disabled>
                                                 <option selected value="cash">Cash</option>
                                             </Field>
                                             <ErrorMessage name="paymentMethod" component="div" className="text-danger"/>

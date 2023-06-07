@@ -31,9 +31,9 @@ export default function CompanyAccount() {
     const {currentAccount} = authenticationState;
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, companyAccounts, roles} = pageState.companyAccountManagement;
-    const accounts = companyAccounts!.map(acc => ({ role: roles!.find(role => role.id === acc.roleId), ...acc}))
+    const accounts = companyAccounts!.map(acc => ({role: roles!.find(role => role.id === acc.roleId), ...acc}))
     const dispatch = useDispatch();
-    
+
     const fetchCompanyAccountsAndCurrentCompany = () => {
         companyService.readAllByAccountId({
             accountId: currentAccount?.id
@@ -41,23 +41,23 @@ export default function CompanyAccount() {
             const companyContent: Content<Company[]> = result.data;
 
             Promise.all([
-              roleService
-                  .readAll(),
-              accountService
-                  .readAllByCompanyId({
-                      companyId: companyContent.data[0].id
-                   })
+                roleService
+                    .readAll(),
+                accountService
+                    .readAllByCompanyId({
+                        companyId: companyContent.data[0].id
+                    })
             ]).then((response) => {
                 const roles: Content<Role[]> = response[0].data;
                 const accountContent: Content<Account[]> = response[1].data;
                 dispatch(pageSlice.actions.configureCompanyAccountManagement({
-                  ...pageState.companyAccountManagement,
-                  currentCompany: companyContent.data[0],
-                  companyAccounts: accountContent.data.sort((a, b) => {
-                      return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
-                  }),
-                  roles: roles.data
-              }))
+                    ...pageState.companyAccountManagement,
+                    currentCompany: companyContent.data[0],
+                    companyAccounts: accountContent.data.sort((a, b) => {
+                        return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                    }),
+                    roles: roles.data
+                }))
             }).catch((error) => {
                 console.log(error);
             })

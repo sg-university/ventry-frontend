@@ -1,5 +1,7 @@
-FROM node:18
-ENTRYPOINT [ "/bin/sh", "-c"]
+FROM node:latest
+ENTRYPOINT [ "/bin/bash", "-c"]
+
 WORKDIR /app
 COPY . .
+
 RUN yarn install

@@ -52,9 +52,9 @@ export default function LocationInsertModalComponent() {
                     currentModal: "noModal"
                 }))
                 dispatch(pageSlice.actions.configureCompanyAccountManagement({
-                  ...pageState.companyAccountManagement,
-                  currentLocations: [content.data, ...currentLocations!],
-              }))
+                    ...pageState.companyAccountManagement,
+                    currentLocations: [content.data, ...currentLocations!],
+                }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
                     content: "Insert Location succeed.",

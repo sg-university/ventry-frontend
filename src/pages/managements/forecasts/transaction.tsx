@@ -89,7 +89,7 @@ export default function Transaction() {
                         <div className="empty-data">
                             <div className="text">
                                 Your items is empty, try to insert one!
-                          </div>
+                            </div>
                         </div>
                     ) : undefined}
                     {items && items.map((value, index) => (
