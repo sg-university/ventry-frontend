@@ -8,10 +8,17 @@ import messageModalSlice from "@/slices/message_modal_slice";
 import AccountService from "@/services/account_service";
 import Content from "@/models/value_objects/contracts/content";
 import Account from "@/models/entities/account";
+import {AuthenticationState} from "@/slices/authentication_slice";
+import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 
 
 export default function AccountViewModalComponent() {
     const accountService = new AccountService()
+
+    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
+
+    const {currentAccount: authenticationCurrentAccount} = authenticationState;
+
     const pageState: PageState = useSelector((state: any) => state.page);
     const {
         companyAccounts,
@@ -70,7 +77,7 @@ export default function AccountViewModalComponent() {
                 });
         }
 
-        dispatch(messageModalSlice.actions.configure({
+        dispatch(confirmationModalSlice.actions.configure({
             content: "Are you sure want to delete this account?",
             isShow: true,
             callback: callback
@@ -120,13 +127,16 @@ export default function AccountViewModalComponent() {
                 >
                     Update
                 </button>
-                <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => handleModalDelete()}
-                >
-                    Delete
-                </button>
+                {
+                    authenticationCurrentAccount?.id !== currentAccount?.id &&
+                    <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => handleModalDelete()}
+                    >
+                        Delete
+                    </button>
+                }
             </Modal.Footer>
         </Modal>
     );
