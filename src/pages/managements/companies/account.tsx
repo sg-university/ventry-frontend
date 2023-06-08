@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
 import Authenticated from "@/layouts/authenticated";
 import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
-import ItemCardImage from "@/assets/images/item_management_card.svg";
+import ItemCardImage from "@/assets/images/profile-account.svg";
 import "@/styles/pages/managements/companies/account.scss"
 import MessageModal from "@/components/message_modal";
 import AccountViewModalComponent from "@/components/managements/companies/account_view_modal";
