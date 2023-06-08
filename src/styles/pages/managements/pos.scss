@@ -160,13 +160,16 @@ $primary-blue: #007bff;
 
         .pad {
           background-color: #efefef;
-          height: 25vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          height: 10vh;
           width: 30vw;
           padding: 2vh 2vw 2vh 2vw;
           border-radius: 4%;
           margin: 0 0 4vh 0;
 
-          .subtotal, .service, .total {
+          .total {
             display: flex;
             justify-content: space-between;
           }
@@ -219,10 +222,10 @@ $primary-blue: #007bff;
       .bottom-section {
         .summary {
           .pad {
-            min-height: 35vh;
+            min-height: 20vh;
           }
 
-          .subtotal, .service, .total {
+          .total {
             flex-direction: column;
           }
         }

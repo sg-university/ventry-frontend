@@ -47,7 +47,7 @@ export default function PointOfSale() {
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, items, transactionItemMaps, currentTransaction} = pageState.pointOfSaleManagement;
 
-    const subtotal = transactionItemMaps?.reduce((previous, current) => {
+    const totalPrice = transactionItemMaps?.reduce((previous, current) => {
         return previous + (items!.find(item => item.id == current.itemId)!.unitSellPrice! * current.quantity!)
     }, 0)
 
@@ -188,7 +188,7 @@ export default function PointOfSale() {
             return
         }
 
-        if (subtotal == 0) {
+        if (totalPrice == 0) {
             dispatch(messageModalSlice.actions.configure({
                 type: "failed",
                 isShow: true,
@@ -211,10 +211,6 @@ export default function PointOfSale() {
             }
         }))
     }
-
-    const serviceCharge = (10 / 100 * subtotal)
-
-    const totalPrice = subtotal + serviceCharge
 
     return (
         <Authenticated>
@@ -342,18 +338,9 @@ export default function PointOfSale() {
                         </div>
                         <div className="summary">
                             <div className="pad">
-                                <div className="subtotal">
-                                    <div className="title"><h5>Subtotal</h5></div>
-                                    <div className="number">Rp. {subtotal}</div>
-                                </div>
-                                <div className="service">
-                                    <div className="title">Service Charge (10%)</div>
-                                    <div className="number">Rp. {serviceCharge}</div>
-                                </div>
-                                <hr className="border border-dark opacity-100 w-100 p-0 m-0 mt-3"/>
-                                <div className="total mt-4">
+                                <div className="total">
                                     <div className="title"><h4>Total</h4></div>
-                                    <div className="number">Rp. {totalPrice}</div>
+                                    <div className="number"><h5>Rp. {totalPrice}</h5></div>
                                 </div>
                             </div>
                         </div>
