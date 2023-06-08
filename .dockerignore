@@ -35,4 +35,9 @@ build
 # typescript
 **/*.tsbuildinfo
 **/next-env.d.ts
+
+# fly configuration file
 fly.toml
+
+# env file
+.env
