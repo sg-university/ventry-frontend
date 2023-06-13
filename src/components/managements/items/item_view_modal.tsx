@@ -19,6 +19,7 @@ import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 function MainComponent() {
     const locationService: LocationService = new LocationService();
     const itemService: ItemService = new ItemService()
+    const itemBundleMapService: ItemBundleMapService = new ItemBundleMapService()
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentLocation, currentItem, isShowModal} = pageState.itemManagement
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
@@ -29,14 +30,24 @@ function MainComponent() {
         fetchCurrentLocation()
     }, [])
 
+    const fetchCurrentItemBundleMaps = (location: Location) => {
+      itemBundleMapService.readAllBySuperItemId({superItemId: currentItem?.id}).then((response) => {
+          const content: Content<ItemBundleMap[]> = response.data;
+          dispatch(pageSlice.actions.configureItemManagement({
+              ...pageState.itemManagement,
+              currentItemBundleMaps: content.data,
+              currentLocation: location
+          }))
+      }).catch((error) => {
+          console.log(error)
+      })
+  }
+
     const fetchCurrentLocation = () => {
         locationService.readAllByItemId({itemId: currentItem?.id})
             .then((response) => {
                 const content: Content<Location[]> = response.data;
-                dispatch(pageSlice.actions.configureItemManagement({
-                    ...pageState.itemManagement,
-                    currentLocation: content.data[0]
-                }))
+                fetchCurrentItemBundleMaps(content.data[0])
             }).catch((error) => {
             console.log(error)
         })
