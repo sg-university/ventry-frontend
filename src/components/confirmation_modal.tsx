@@ -33,9 +33,9 @@ export default function ConfirmationModal() {
                 </div>
                 <h4 className="content">{confirmationModalState.content}</h4>
 
-                <div className="d-flex flex-row">
-                    <button onClick={handleClickedYes} className="btn btn-success mx-3">Yes</button>
-                    <button onClick={handleClickedNo} className="btn btn-danger mx-3">No</button>
+                <div className="d-flex flex-row mt-3">
+                    <button onClick={handleClickedYes} className="btn btn-success mx-3 px-4">Yes</button>
+                    <button onClick={handleClickedNo} className="btn btn-danger mx-3 px-4">No</button>
                 </div>
             </Modal.Body>
         </Modal>
