@@ -7,16 +7,13 @@ import "@/styles/pages/authentications/login.scss";
 import MessageModal from "@/components/message_modal";
 import Image from "next/image";
 import AuthenticationService from "@/services/authentication_service";
-import LoginRequest from "@/models/value_objects/contracts/requests/authentications/login_request";
-import {AxiosResponse} from "axios";
-import LoginResponse from "@/models/value_objects/contracts/response/authentications/login_response";
-import Content from "@/models/value_objects/contracts/content";
 import {useRouter} from "next/router";
 import {useDispatch, useSelector} from "react-redux";
-import pageSlice, {PageState} from "@/slices/page_slice";
+import {PageState} from "@/slices/page_slice";
 import authenticationSlice from "@/slices/authentication_slice";
 import messageModalSlice from "@/slices/message_modal_slice";
 import Link from "next/link";
+import RoleService from "@/services/role_service";
 
 const loginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -28,30 +25,48 @@ export default function Login() {
     const dispatch = useDispatch();
     const pageState: PageState = useSelector((state: any) => state.page);
 
+
+    const authenticationService = new AuthenticationService();
+    const roleService = new RoleService();
+
     const handleSubmit = (values: any, actions: any) => {
-        const authenticationService = new AuthenticationService();
-        const request: LoginRequest = {
-            email: values.email,
-            password: values.password
-        }
-        authenticationService.login(request)
-            .then((result: AxiosResponse<Content<LoginResponse>>) => {
-                const content = result.data;
 
-                if (!content.data) {
+        Promise.all([
+            authenticationService.login({
+                email: values.email,
+                password: values.password
+            }),
+            roleService.readAll()
+        ])
+            .then((response) => {
+                const authenticationContent = response[0].data;
+                const roleContent = response[1].data;
+
+                if (!authenticationContent.data) {
                     dispatch(messageModalSlice.actions.configure({
-
                         type: "failed",
-                        content: content.message,
+                        content: authenticationContent.message,
                         isShow: true
                     }))
                 } else {
-                    router.push(`/managements/items`)
-                    dispatch(authenticationSlice.actions.login(content.data.entity));
-                    dispatch(pageSlice.actions.configureAccountManagement({
-                        ...pageState.accountManagement,
-                        currentAccount: content.data.entity,
-                    }))
+                    const currentRole = roleContent.data.find((role) => role.id === authenticationContent.data.entity.roleId);
+
+                    dispatch(authenticationSlice.actions.login({
+                        currentAccount: authenticationContent.data.entity,
+                        currentRole: currentRole,
+                    }));
+
+                    if (currentRole.name === "admin") {
+                        router.push(`/managements/items`)
+                    } else if (currentRole.name === "cashier") {
+                        router.push(`/managements/pos`)
+                    } else {
+                        dispatch(messageModalSlice.actions.configure({
+                            type: "failed",
+                            content: "Your account role name is not recognized.",
+                            isShow: true
+                        }))
+                    }
                 }
             })
             .catch((error) => {

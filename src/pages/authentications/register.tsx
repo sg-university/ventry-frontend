@@ -9,7 +9,6 @@ import {AxiosResponse} from "axios";
 import Content from "@/models/value_objects/contracts/content";
 import {useDispatch} from "react-redux";
 import {useRouter} from "next/router";
-import authenticationSlice from "@/slices/authentication_slice";
 import messageModalSlice from "@/slices/message_modal_slice";
 import RegisterResponse from "@/models/value_objects/contracts/response/authentications/register_response";
 import Image from "next/image";
@@ -97,7 +96,6 @@ export default function Register() {
                         isShow: true
                     }))
                 } else {
-                    dispatch(authenticationSlice.actions.register(content.data.entity));
                     dispatch(messageModalSlice.actions.configure({
                         type: "succeed",
                         content: "Register succeed.",

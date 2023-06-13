@@ -23,6 +23,8 @@ import Image from "next/image";
 import Link from "next/link";
 import LogoImage from "@/assets/images/logo_nav.svg";
 import "@/styles/components/side_bar.scss";
+import {AuthenticationState} from "@/slices/authentication_slice";
+import {useSelector} from "react-redux";
 
 const drawerWidth = 320;
 
@@ -74,11 +76,19 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== "open"})
 );
 
 export default function SideBar() {
+    const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
+
+    const {
+        currentAccount,
+        currentRole
+    } = authenticationState;
+
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
     const [openCompany, setOpenCompany] = React.useState(false);
     const [openForecasting, setOpenForecasting] = React.useState(false);
     const [openHistory, setOpenHistory] = React.useState(false);
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -144,173 +154,177 @@ export default function SideBar() {
                             </ListItemButton>
                         </ListItem>
                     </Link>
-                    {/* Item Management */}
-                    <Link href="/managements/items"
-                          className={router.pathname == "/managements/items" ? "link active" : "link"}>
-                        <ListItem>
-                            <ListItemButton
-                                sx={{
-                                    justifyContent: "center",
-                                    px: open ? 2 : 4,
-                                }}
-                            >
-                                <ListItemIcon>
-                                    <Inventory
-                                        className={router.pathname == "/managements/items" ? "link active" : "link"}/>
-                                </ListItemIcon>
-                                <ListItemText>Item Management</ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>
-                    {/* History */}
-                    <ListItem>
-                        <ListItemButton
-                            sx={{
-                                justifyContent: "center",
-                                px: open ? 2 : 5.5,
-                            }}
-                            onClick={handleHistroyClick}
-                        >
-                            <ListItemIcon>
-                                <History
-                                    className={router.pathname == "/managements/histories/transaction" ||
-                                    router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"
-                                    }
-                                />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <Link href="/managements/histories/transaction"
-                                      className={router.pathname == "/managements/histories/transaction" ||
-                                      router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"
-                                      }
+                    {currentRole.name === "admin" &&
+                        <>
+                            {/* Item Management */}
+                            <Link href="/managements/items"
+                                  className={router.pathname == "/managements/items" ? "link active" : "link"}>
+                                <ListItem>
+                                    <ListItemButton
+                                        sx={{
+                                            justifyContent: "center",
+                                            px: open ? 2 : 4,
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <Inventory
+                                                className={router.pathname == "/managements/items" ? "link active" : "link"}/>
+                                        </ListItemIcon>
+                                        <ListItemText>Item Management</ListItemText>
+                                    </ListItemButton>
+                                </ListItem>
+                            </Link>
+                            {/* History */}
+                            <ListItem>
+                                <ListItemButton
+                                    sx={{
+                                        justifyContent: "center",
+                                        px: open ? 2 : 5.5,
+                                    }}
+                                    onClick={handleHistroyClick}
                                 >
-                                    History
-                                </Link>
-                            </ListItemText>
-                            {openHistory ? <ExpandLess/> : <ExpandMore/>}
-                        </ListItemButton>
-                    </ListItem>
-                    <Collapse in={openHistory} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding sx={{pl: 4}}>
-                            <Link href="/managements/histories/transaction"
-                                  className={router.pathname == "/managements/histories/transaction" ? "link active" : "link"}>
-                                <ListItemButton>
-                                    <ListItemText>Item Transaction History</ListItemText>
+                                    <ListItemIcon>
+                                        <History
+                                            className={router.pathname == "/managements/histories/transaction" ||
+                                            router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"
+                                            }
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText>
+                                        <Link href="/managements/histories/transaction"
+                                              className={router.pathname == "/managements/histories/transaction" ||
+                                              router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"
+                                              }
+                                        >
+                                            History
+                                        </Link>
+                                    </ListItemText>
+                                    {openHistory ? <ExpandLess/> : <ExpandMore/>}
                                 </ListItemButton>
-                            </Link>
-                            <Link href="/managements/histories/inventory_control"
-                                  className={router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"}>
-                                <ListItemButton>
-                                    <ListItemText>Inventory Control History</ListItemText>
-                                </ListItemButton>
-                            </Link>
-                        </List>
-                    </Collapse>
-                    {/* Forecasting */}
-                    <ListItem>
-                        <ListItemButton
-                            sx={{
-                                justifyContent: "center",
-                                px: open ? 2 : 5.5,
-                            }}
-                            onClick={handleForecastingClick}
-                        >
-                            <ListItemIcon>
-                                <Chart
-                                    className={router.pathname == "/managements/forecasts/transaction" ||
-                                    router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}
-                                />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <Link href="/managements/forecasts/transaction"
-                                      className={router.pathname == "/managements/forecasts/transaction" ||
-                                      router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}
+                            </ListItem>
+                            <Collapse in={openHistory} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding sx={{pl: 4}}>
+                                    <Link href="/managements/histories/transaction"
+                                          className={router.pathname == "/managements/histories/transaction" ? "link active" : "link"}>
+                                        <ListItemButton>
+                                            <ListItemText>Item Transaction History</ListItemText>
+                                        </ListItemButton>
+                                    </Link>
+                                    <Link href="/managements/histories/inventory_control"
+                                          className={router.pathname == "/managements/histories/inventory_control" ? "link active" : "link"}>
+                                        <ListItemButton>
+                                            <ListItemText>Inventory Control History</ListItemText>
+                                        </ListItemButton>
+                                    </Link>
+                                </List>
+                            </Collapse>
+                            {/* Forecasting */}
+                            <ListItem>
+                                <ListItemButton
+                                    sx={{
+                                        justifyContent: "center",
+                                        px: open ? 2 : 5.5,
+                                    }}
+                                    onClick={handleForecastingClick}
                                 >
-                                    Forecasting
-                                </Link>
-                            </ListItemText>
-                            {openForecasting ? <ExpandLess/> : <ExpandMore/>}
-                        </ListItemButton>
-                    </ListItem>
-                    <Collapse in={openForecasting} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding sx={{pl: 4}}>
-                            <Link href="/managements/forecasts/transaction"
-                                  className={router.pathname == "/managements/forecasts/transaction" ? "link active" : "link"}>
-                                <ListItemButton>
-                                    <ListItemText>Item Transaction</ListItemText>
+                                    <ListItemIcon>
+                                        <Chart
+                                            className={router.pathname == "/managements/forecasts/transaction" ||
+                                            router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText>
+                                        <Link href="/managements/forecasts/transaction"
+                                              className={router.pathname == "/managements/forecasts/transaction" ||
+                                              router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}
+                                        >
+                                            Forecasting
+                                        </Link>
+                                    </ListItemText>
+                                    {openForecasting ? <ExpandLess/> : <ExpandMore/>}
                                 </ListItemButton>
-                            </Link>
-                            <Link href="/managements/forecasts/stock"
-                                  className={router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}>
-                                <ListItemButton>
-                                    <ListItemText>Item Stock</ListItemText>
-                                </ListItemButton>
-                            </Link>
-                        </List>
-                    </Collapse>
-                    {/* Account Management */}
-                    <Link href="/managements/account"
-                          className={router.pathname == "/managements/account" ? "link active" : "link"}>
-                        <ListItem>
-                            <ListItemButton
-                                sx={{
-                                    justifyContent: "center",
-                                    px: open ? 2 : 4,
-                                }}
-                            >
+                            </ListItem>
+                            <Collapse in={openForecasting} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding sx={{pl: 4}}>
+                                    <Link href="/managements/forecasts/transaction"
+                                          className={router.pathname == "/managements/forecasts/transaction" ? "link active" : "link"}>
+                                        <ListItemButton>
+                                            <ListItemText>Item Transaction</ListItemText>
+                                        </ListItemButton>
+                                    </Link>
+                                    <Link href="/managements/forecasts/stock"
+                                          className={router.pathname == "/managements/forecasts/stock" ? "link active" : "link"}>
+                                        <ListItemButton>
+                                            <ListItemText>Item Stock</ListItemText>
+                                        </ListItemButton>
+                                    </Link>
+                                </List>
+                            </Collapse>
+                            {/* Account Management */}
+                            <Link href="/managements/account"
+                                  className={router.pathname == "/managements/account" ? "link active" : "link"}>
+                                <ListItem>
+                                    <ListItemButton
+                                        sx={{
+                                            justifyContent: "center",
+                                            px: open ? 2 : 4,
+                                        }}
+                                    >
 
-                                <ListItemIcon>
-                                    <Account
-                                        className={router.pathname == "/managements/account" ? "link active" : "link"}/>
-                                </ListItemIcon>
-                                <ListItemText>Account Management</ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    </Link>
-                    {/* Company Management */}
-                    <ListItem>
-                        <ListItemButton
-                            sx={{
-                                justifyContent: "center",
-                                px: open ? 2 : 5.5,
-                            }}
-                            onClick={handleCompanyClick}
-                        >
-                            <ListItemIcon>
-                                <Store
-                                    className={router.pathname == "/managements/companies/information" ||
-                                    router.pathname == "/managements/companies/account" ? "link active" : "link"
-                                    }
-                                />
-                            </ListItemIcon>
-                            <ListItemText>
-                                <Link href="/managements/companies/information"
-                                      className={router.pathname == "/managements/companies/information" ||
-                                      router.pathname == "/managements/companies/account" ? "link active" : "link"
-                                      }
+                                        <ListItemIcon>
+                                            <Account
+                                                className={router.pathname == "/managements/account" ? "link active" : "link"}/>
+                                        </ListItemIcon>
+                                        <ListItemText>Account Management</ListItemText>
+                                    </ListItemButton>
+                                </ListItem>
+                            </Link>
+                            {/* Company Management */}
+                            <ListItem>
+                                <ListItemButton
+                                    sx={{
+                                        justifyContent: "center",
+                                        px: open ? 2 : 5.5,
+                                    }}
+                                    onClick={handleCompanyClick}
                                 >
-                                    Company Management
-                                </Link>
-                            </ListItemText>
-                            {openCompany ? <ExpandLess/> : <ExpandMore/>}
-                        </ListItemButton>
-                    </ListItem>
-                    <Collapse in={openCompany} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding sx={{pl: 4}}>
-                            <Link href="/managements/companies/information"
-                                  className={router.pathname == "/managements/companies/information" ? "link active" : "link"}>
-                                <ListItemButton>
-                                    <ListItemText>Company Information</ListItemText>
+                                    <ListItemIcon>
+                                        <Store
+                                            className={router.pathname == "/managements/companies/information" ||
+                                            router.pathname == "/managements/companies/account" ? "link active" : "link"
+                                            }
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText>
+                                        <Link href="/managements/companies/information"
+                                              className={router.pathname == "/managements/companies/information" ||
+                                              router.pathname == "/managements/companies/account" ? "link active" : "link"
+                                              }
+                                        >
+                                            Company Management
+                                        </Link>
+                                    </ListItemText>
+                                    {openCompany ? <ExpandLess/> : <ExpandMore/>}
                                 </ListItemButton>
-                            </Link>
-                            <Link href="/managements/companies/account"
-                                  className={router.pathname == "/managements/companies/account" ? "link active" : "link"}>
-                                <ListItemButton>
-                                    <ListItemText>Company Account</ListItemText>
-                                </ListItemButton>
-                            </Link>
-                        </List>
-                    </Collapse>
+                            </ListItem>
+                            <Collapse in={openCompany} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding sx={{pl: 4}}>
+                                    <Link href="/managements/companies/information"
+                                          className={router.pathname == "/managements/companies/information" ? "link active" : "link"}>
+                                        <ListItemButton>
+                                            <ListItemText>Company Information</ListItemText>
+                                        </ListItemButton>
+                                    </Link>
+                                    <Link href="/managements/companies/account"
+                                          className={router.pathname == "/managements/companies/account" ? "link active" : "link"}>
+                                        <ListItemButton>
+                                            <ListItemText>Company Account</ListItemText>
+                                        </ListItemButton>
+                                    </Link>
+                                </List>
+                            </Collapse>
+                        </>
+                    }
                 </List>
             </Drawer>
         </div>

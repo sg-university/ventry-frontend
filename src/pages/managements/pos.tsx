@@ -58,7 +58,7 @@ export default function PointOfSale() {
 
     const fetchItems = () => {
         itemService.readAllByLocationId({
-            locationId: currentAccount!.locationId
+            locationId: currentAccount?.locationId
         }).then((response) => {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configurePointOfSaleManagement({
@@ -73,7 +73,7 @@ export default function PointOfSale() {
 
     const handleSubmitSearch = (values: any) => {
         itemService.readAllByLocationId({
-            locationId: currentAccount!.locationId
+            locationId: currentAccount?.locationId
         }).then((response) => {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configurePointOfSaleManagement({
@@ -203,7 +203,7 @@ export default function PointOfSale() {
             isShowModal: true,
             currentTransaction: {
                 id: undefined,
-                accountId: currentAccount!.id,
+                accountId: currentAccount?.id,
                 sellPrice: totalPrice,
                 timestamp: undefined,
                 createdAt: undefined,
