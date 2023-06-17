@@ -24,6 +24,7 @@ import ItemBundleMap from "@/models/entities/item_bundle_map";
 import "@/styles/components/managements/items/item_update_modal.scss"
 import {AuthenticationState} from "@/slices/authentication_slice";
 import confirmationModalSlice from "@/slices/confirmation_modal_slice";
+import ImageUtility from "@/utilities/image_utility";
 
 const updateMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -42,6 +43,7 @@ const updateItemSchema = Yup.object().shape({
 });
 
 function MainComponent() {
+    const imageUtility: ImageUtility = new ImageUtility()
     const itemService: ItemService = new ItemService()
     const inventoryControlService = new InventoryControlService()
     const pageState: PageState = useSelector((state: any) => state.page);
@@ -58,7 +60,7 @@ function MainComponent() {
     }
 
     const recordChanges = (quantityBefore: number, quantityAfter: number) => {
-      if(quantityBefore == quantityAfter) return
+        if (quantityBefore == quantityAfter) return
         const date = new Date()
         const request: CreateOneRequest = {
             body: {
@@ -80,45 +82,45 @@ function MainComponent() {
     }
 
     const reduceSubItemQuantity = async (additionalQuantity: number) => {
-      if(additionalQuantity <= 0) return
-      currentItemBundleMaps.forEach((itemBundle, idx, arr) => {
-        itemService.readOneById({id: itemBundle.subItemId}).then((response) => {
-          const itemData = response.data
-          const quantityBefore = itemData.data?.quantity
-          const quantityAfter = itemData.data.quantity - (itemBundle.quantity*additionalQuantity)
-          itemService.patchOneById({
-            id: itemData.data.id,
-            body: {
-              ...itemData.data,
-              quantity: quantityAfter
-            }
-          }).then(async (response) => {
-            const item = response.data
-            recordChanges(quantityBefore, quantityAfter)
-            console.log("Updating", itemData.data.name)
-            if (idx === arr.length -1) fetchItemsByAccountLocation()
-          })
+        if (additionalQuantity <= 0) return
+        currentItemBundleMaps.forEach((itemBundle, idx, arr) => {
+            itemService.readOneById({id: itemBundle.subItemId}).then((response) => {
+                const itemData = response.data
+                const quantityBefore = itemData.data?.quantity
+                const quantityAfter = itemData.data.quantity - (itemBundle.quantity * additionalQuantity)
+                itemService.patchOneById({
+                    id: itemData.data.id,
+                    body: {
+                        ...itemData.data,
+                        quantity: quantityAfter
+                    }
+                }).then(async (response) => {
+                    const item = response.data
+                    recordChanges(quantityBefore, quantityAfter)
+                    console.log("Updating", itemData.data.name)
+                    if (idx === arr.length - 1) fetchItemsByAccountLocation()
+                })
+            })
         })
-      })
     }
 
     const fetchItemsByAccountLocation = async () => {
-      console.log('Fetch Items')
-      itemService.readAllByLocationId({
-          locationId: currentAccount?.locationId
-      }).then((response) => {
-          const content: Content<Item[]> = response.data;
-          dispatch(pageSlice.actions.configureItemManagement({
-              ...pageState.itemManagement,
-              items: content.data.sort((a, b) => {
-                  return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
-              }),
-              isShowModal: !isShowModal,
-              currentModal: "noModal"
-          }))
-      }).catch((error) => {
-          console.log(error);
-      })
+        console.log('Fetch Items')
+        itemService.readAllByLocationId({
+            locationId: currentAccount?.locationId
+        }).then((response) => {
+            const content: Content<Item[]> = response.data;
+            dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                items: content.data.sort((a, b) => {
+                    return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                }),
+                isShowModal: !isShowModal,
+                currentModal: "noModal"
+            }))
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
     const handleSubmitUpdate = (values: any, actions: any) => {
@@ -128,13 +130,13 @@ function MainComponent() {
             body: {...values, locationId: currentLocation?.id}
         }).then((response) => {
             const content: Content<Item> = response.data;
-            if(quantityBefore != values.quantity) {
+            if (quantityBefore != values.quantity) {
                 if (values.is_record) {
                     recordChanges(quantityBefore!, values.quantity)
                 }
-                reduceSubItemQuantity(values.quantity-quantityBefore)
-            }else {
-              fetchItemsByAccountLocation()
+                reduceSubItemQuantity(values.quantity - quantityBefore)
+            } else {
+                fetchItemsByAccountLocation()
             }
             dispatch(con.actions.configure({
                 type: "succeed",
@@ -189,32 +191,54 @@ function MainComponent() {
                         </div>
                         <div className="row">
                             <fieldset className="form-group"><label htmlFor="unitCostPrice">Cost</label>
-                                <Field
-                                    type="number" name="unitCostPrice" className="form-control"/>
+                                <Field type="number" name="unitCostPrice" className="form-control"/>
                                 <ErrorMessage name="unitCostPrice" component="div" className="text-danger"/>
                             </fieldset>
                             <fieldset className="form-group"><label htmlFor="unitSellPrice">Price</label>
-                                <Field
-                                    type="number" name="unitSellPrice" className="form-control"/>
+                                <Field type="number" name="unitSellPrice" className="form-control"/>
                                 <ErrorMessage name="unitSellPrice" component="div" className="text-danger"/>
                             </fieldset>
                         </div>
                         <div className="row">
                             <fieldset className="form-group"><label htmlFor="description">Description</label>
-                                <Field
-                                    as="textarea" type="text" name="description" className="form-control"/>
+                                <Field as="textarea" type="text" name="description" className="form-control"/>
                                 <ErrorMessage name="description" component="div" className="text-danger"/>
                             </fieldset>
                         </div>
                         <div className="row">
                             <fieldset className="form-group">
-                                <div className="image"> Image:{" "} <Image src={ItemCardImage} alt="item"/></div>
+                                Image:
+                                <div className="image mb-3">
+                                    <Image
+                                        src={props.values.image ? imageUtility.blobToBase64AsData(props.values.image) : ItemCardImage}
+                                        width={298}
+                                        height={160}
+                                        alt="item"
+                                    />
+                                </div>
+                                <label htmlFor="image">Upload Image</label>
+                                <input name="image" type="file" className="form-control" accept="image/*"
+                                       onChange={
+                                           (event: any) => {
+                                               const file = event.target.files[0];
+                                               imageUtility
+                                                   .resizeFile(file)
+                                                   .then((resizedFile) => {
+                                                       props.setFieldValue("image", resizedFile);
+                                                   })
+                                                   .catch((err) => {
+                                                       console.log(err);
+                                                   });
+                                           }
+                                       }
+                                       onBlur={props.handleBlur}
+                                />
+                                <ErrorMessage name="image" component="div" className="text-danger"/>
                             </fieldset>
                         </div>
                         <div className="row">
                             <div className="is_record">
-                                <Field
-                                    type="checkbox" id="is_record" name="is_record" className="form-check-input "/>
+                                <Field type="checkbox" id="is_record" name="is_record" className="form-check-input "/>
                                 <label htmlFor="is_record" className="is_record_label">
                                     Is record to Inventory Control History?
                                 </label>
@@ -354,36 +378,36 @@ function ItemBundleForm(props: any) {
     const isInsert = currentAction == 'insert'
 
     const recordChanges = (quantityBefore: number, quantityAfter: number) => {
-      const date = new Date()
-      const request: CreateOneRequest = {
-          body: {
-              accountId: currentAccount?.id,
-              itemId: currentItem?.id,
-              quantityBefore: quantityBefore,
-              quantityAfter: quantityAfter,
-              timestamp: date.toISOString()
-          }
-      }
-      inventoryControlService.createOne(request).catch((error) => {
-          console.log(error)
-          dispatch(con.actions.configure({
-              type: "failed",
-              content: error.message,
-              isShow: true
-          }))
-      })
+        const date = new Date()
+        const request: CreateOneRequest = {
+            body: {
+                accountId: currentAccount?.id,
+                itemId: currentItem?.id,
+                quantityBefore: quantityBefore,
+                quantityAfter: quantityAfter,
+                timestamp: date.toISOString()
+            }
+        }
+        inventoryControlService.createOne(request).catch((error) => {
+            console.log(error)
+            dispatch(con.actions.configure({
+                type: "failed",
+                content: error.message,
+                isShow: true
+            }))
+        })
     }
 
     const setItems = (newItem: Item) => {
-      dispatch(pageSlice.actions.configureItemManagement({
-        ...pageState.itemManagement,
-        items: items!.map((item) => {
-            if (item.id === newItem.id) {
-                return newItem
-            }
-            return item
-        })
-      }))
+        dispatch(pageSlice.actions.configureItemManagement({
+            ...pageState.itemManagement,
+            items: items!.map((item) => {
+                if (item.id === newItem.id) {
+                    return newItem
+                }
+                return item
+            })
+        }))
     }
 
     const fetchCurrentItemBundleMaps = async () => {
@@ -425,20 +449,20 @@ function ItemBundleForm(props: any) {
     }
 
     const updateItemForItemBundle = (subItem: Item, bundle_quantity: number) => {
-      const quantityBefore = subItem?.quantity
-      const quantityAfter = subItem.quantity - (currentItem.quantity*bundle_quantity)
-      itemService.patchOneById({
-        id: subItem?.id,
-        body: {
-          ...subItem,
-          quantity: quantityAfter
-        }
-      }).then(async (response) => {
-        const item = response.data
-        await fetchCurrentItemBundleMaps()
-        setItems(item.data)
-        recordChanges(quantityBefore!, quantityAfter)
-      })
+        const quantityBefore = subItem?.quantity
+        const quantityAfter = subItem.quantity - (currentItem.quantity * bundle_quantity)
+        itemService.patchOneById({
+            id: subItem?.id,
+            body: {
+                ...subItem,
+                quantity: quantityAfter
+            }
+        }).then(async (response) => {
+            const item = response.data
+            await fetchCurrentItemBundleMaps()
+            setItems(item.data)
+            recordChanges(quantityBefore!, quantityAfter)
+        })
     }
 
     const handleSubmitInsert = (values: any, actions: any) => {
@@ -451,7 +475,7 @@ function ItemBundleForm(props: any) {
         }
         itemService.readOneById({id: values.subItem}).then((response) => {
             const subItemData = response.data
-            if(subItemData.data.quantity < (currentItem.quantity*values.bundle_quantity)) {
+            if (subItemData.data.quantity < (currentItem.quantity * values.bundle_quantity)) {
                 dispatch(con.actions.configure({
                     type: "failed",
                     content: "Sub-Item Quantity is not enough.",

@@ -11,10 +11,11 @@ class Item extends Entity {
     unitName: string;
     unitSellPrice: number;
     unitCostPrice: number;
+    image: Blob;
     createdAt: Date;
     updatedAt: Date;
 
-    constructor(id: string, locationId: string, code: string, name: string, type: string, description: string, quantity: number, unitName: string, unitSellPrice: number, unitCostPrice: number, createdAt: Date, updatedAt: Date) {
+    constructor(id: string, locationId: string, code: string, name: string, type: string, description: string, quantity: number, unitName: string, unitSellPrice: number, unitCostPrice: number, image: Blob, createdAt: Date, updatedAt: Date) {
         super();
         this.id = id;
         this.locationId = locationId;
@@ -26,6 +27,7 @@ class Item extends Entity {
         this.unitName = unitName;
         this.unitSellPrice = unitSellPrice;
         this.unitCostPrice = unitCostPrice;
+        this.image = image;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

@@ -21,6 +21,7 @@ import {Field, Form, Formik, useFormikContext} from "formik";
 import TransactionItemMap from "@/models/entities/transaction_item_map";
 import {PlusLg} from "react-bootstrap-icons";
 import messageModalSlice from "@/slices/message_modal_slice";
+import ImageUtility from "@/utilities/image_utility";
 
 
 const AutoSearchFormikMiddleware = (): any => {
@@ -37,6 +38,7 @@ const AutoSearchFormikMiddleware = (): any => {
 }
 export default function PointOfSale() {
     const dispatch = useDispatch();
+    const imageUtility: ImageUtility = new ImageUtility()
     const accountService: AccountService = new AccountService();
     const companyService: CompanyService = new CompanyService();
     const itemService: ItemService = new ItemService();
@@ -256,7 +258,9 @@ export default function PointOfSale() {
                             <div key={value.id} className="card">
                                 <div className="image">
                                     <Image
-                                        src={ItemCardImage}
+                                        src={value.image ? imageUtility.blobToBase64AsData(value.image) : ItemCardImage}
+                                        width={298}
+                                        height={160}
                                         alt="item"
                                     />
                                 </div>

@@ -15,8 +15,10 @@ import LocationService from "@/services/location_service";
 import Location from "@/models/entities/location";
 import {AuthenticationState} from "@/slices/authentication_slice";
 import confirmationModalSlice from "@/slices/confirmation_modal_slice";
+import ImageUtility from "@/utilities/image_utility";
 
 function MainComponent() {
+    const imageUtility: ImageUtility = new ImageUtility()
     const locationService: LocationService = new LocationService();
     const itemService: ItemService = new ItemService()
     const itemBundleMapService: ItemBundleMapService = new ItemBundleMapService()
@@ -31,17 +33,17 @@ function MainComponent() {
     }, [])
 
     const fetchCurrentItemBundleMaps = (location: Location) => {
-      itemBundleMapService.readAllBySuperItemId({superItemId: currentItem?.id}).then((response) => {
-          const content: Content<ItemBundleMap[]> = response.data;
-          dispatch(pageSlice.actions.configureItemManagement({
-              ...pageState.itemManagement,
-              currentItemBundleMaps: content.data,
-              currentLocation: location
-          }))
-      }).catch((error) => {
-          console.log(error)
-      })
-  }
+        itemBundleMapService.readAllBySuperItemId({superItemId: currentItem?.id}).then((response) => {
+            const content: Content<ItemBundleMap[]> = response.data;
+            dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                currentItemBundleMaps: content.data,
+                currentLocation: location
+            }))
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
 
     const fetchCurrentLocation = () => {
         locationService.readAllByItemId({itemId: currentItem?.id})
@@ -125,7 +127,14 @@ function MainComponent() {
         <div className="description">
             <div className="text">{`Description: ${currentItem?.description}`}</div>
         </div>
-        <div className="image"> Image:{" "} <Image src={ItemCardImage} alt="item"/></div>
+        <div className="image"> Image:
+            <Image
+                src={currentItem?.image ? imageUtility.blobToBase64AsData(currentItem?.image) : ItemCardImage}
+                width={298}
+                height={160}
+                alt="item"
+            />
+        </div>
         <hr/>
         <div className="button">
             <button type="button" className="btn btn-primary" onClick={() => handleModalUpdate()}>Update</button>

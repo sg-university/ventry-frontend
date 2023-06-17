@@ -5,7 +5,7 @@ import ItemCardImage from "@/assets/images/item_management_card.svg";
 import Image from "next/image";
 import {useDispatch, useSelector} from "react-redux";
 import pageSlice, {PageState} from "@/slices/page_slice";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import ItemService from "@/services/item_service";
 import Content from "@/models/value_objects/contracts/content";
 import Item from "@/models/entities/item";
@@ -19,9 +19,11 @@ import AccountService from "@/services/account_service";
 import CompanyService from "@/services/company_service";
 import RoleService from "@/services/role_service";
 import {AuthenticationState} from "@/slices/authentication_slice";
+import ImageUtility from "@/utilities/image_utility";
 
 export default function Items() {
     const dispatch = useDispatch();
+    const imageUtility: ImageUtility = new ImageUtility()
     const accountService: AccountService = new AccountService();
     const companyService: CompanyService = new CompanyService();
     const itemService: ItemService = new ItemService();
@@ -117,7 +119,9 @@ export default function Items() {
                         <div key={value.id} className="card">
                             <div className="image">
                                 <Image
-                                    src={ItemCardImage}
+                                    src={value.image ? imageUtility.blobToBase64AsData(value.image) : ItemCardImage}
+                                    width={298}
+                                    height={160}
                                     alt="item"
                                 />
                             </div>
