@@ -133,6 +133,7 @@ function MainComponent() {
                 width={298}
                 height={160}
                 alt="item"
+                className={"rounded-1"}
             />
         </div>
         <hr/>
