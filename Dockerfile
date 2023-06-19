@@ -1,5 +1,5 @@
-FROM node:latest
-ENTRYPOINT [ "/bin/bash", "-c"]
+FROM node:18-alpine
+ENTRYPOINT [ "/bin/sh", "-c"]
 
 WORKDIR /app
 COPY . .
