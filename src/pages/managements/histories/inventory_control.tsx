@@ -36,7 +36,7 @@ export default function ItemTransactionHistory() {
         isShowModal
     } = pageState.inventoryControlHistoryManagement
     const items = accountInventoryControls!.map(ic => ({ item: accountItems!.find( item => item.id == ic.itemId), ...ic}))
-    console.log(items)
+
     const dispatch = useDispatch();
 
     const fetchAccountItemsAndInventoryControls = () => {
@@ -94,7 +94,8 @@ export default function ItemTransactionHistory() {
     }
 
     const calculateQuantity = (before: number, after: number) => {
-        return after - before
+      if(after-before > 0) return "+" + (after-before)
+      return after - before
     }
 
     return (
