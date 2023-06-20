@@ -40,8 +40,6 @@ export default function CheckoutModalComponent() {
     }
 
     const handleSubmitCheckout = (values: any) => {
-        console.log(values)
-        console.log(currentTransaction)
         transactionService.checkout({
             body: {
                 transaction: {
