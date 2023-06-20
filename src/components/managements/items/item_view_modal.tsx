@@ -59,7 +59,9 @@ function MainComponent() {
             const content: Content<Item[]> = response.data;
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
-                items: content.data,
+                items: content.data.sort((a, b) => {
+                  return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                }),
                 isShowModal: !isShowModal,
                 currentModal: "noModal"
             }))
