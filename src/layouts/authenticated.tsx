@@ -3,7 +3,7 @@ import UpperBar from "@/components/upper_bar";
 import "@/styles/layouts/authenticated.scss";
 import {AuthenticationState} from "@/slices/authentication_slice";
 import {useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useMemo} from "react";
 import {useRouter} from "next/router";
 
 export default function Authenticated(props: any) {
@@ -12,25 +12,27 @@ export default function Authenticated(props: any) {
 
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
 
-    const {currentAccount} = authenticationState;
+    const {currentAccount, currentRole} = authenticationState;
 
-    useEffect(() => {
+    useMemo(() => {
         if (!currentAccount) {
             router.push("/authentications/login")
+        } else {
+            if (router.pathname !== "/managements/pos") {
+                if (currentRole.name === "cashier") {
+                    router.push(`/managements/pos`)
+                }
+            }
         }
     }, [])
 
     return (
-        <>
-            {currentAccount &&
-                <div className="layout authenticated">
-                    <SideBar/>
-                    <div className="rightPage">
-                        <UpperBar/>
-                        {props.children}
-                    </div>
-                </div>
-            }
-        </>
+        <div className="layout authenticated">
+            <SideBar/>
+            <div className="rightPage">
+                <UpperBar/>
+                {props.children}
+            </div>
+        </div>
     )
 }

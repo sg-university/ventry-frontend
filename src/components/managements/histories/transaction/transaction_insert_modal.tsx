@@ -41,7 +41,7 @@ export default function TransactionUpdateModalComponent() {
         transactionService
             .createOne({
                 body: {
-                    accountId: currentAccount!.id,
+                    accountId: currentAccount?.id,
                     sellPrice: totalSellPrice,
                     timestamp: new Date().toISOString()
                 }

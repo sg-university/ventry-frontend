@@ -6,7 +6,7 @@ import RoleService from "@/services/role_service";
 import LocationService from "@/services/location_service";
 import {AuthenticationState} from "@/slices/authentication_slice";
 import pageSlice, {PageState} from "@/slices/page_slice";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import Content from "@/models/value_objects/contracts/content";
 import Item from "@/models/entities/item";
 import Authenticated from "@/layouts/authenticated";
@@ -16,9 +16,11 @@ import ButtonPlusImage from "@/assets/images/control_button_plus.svg";
 import ItemCardImage from "@/assets/images/item_management_card.svg";
 import "@/styles/pages/managements/forecasts/stock.scss"
 import Image from "next/image";
+import ImageUtility from "@/utilities/image_utility";
 
 export default function Stock() {
     const dispatch = useDispatch();
+    const imageUtility: ImageUtility = new ImageUtility()
     const accountService: AccountService = new AccountService();
     const companyService: CompanyService = new CompanyService();
     const itemService: ItemService = new ItemService();
@@ -96,8 +98,11 @@ export default function Stock() {
                         <div key={value.id} className="card">
                             <div className="image">
                                 <Image
-                                    src={ItemCardImage}
+                                    src={value.image ? imageUtility.blobToBase64AsData(value.image) : ItemCardImage}
+                                    width={298}
+                                    height={160}
                                     alt="item"
+                                    className={"rounded-1"}
                                 />
                             </div>
                             <div className="content">

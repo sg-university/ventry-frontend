@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/authenticated.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/authenticated.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +57,7 @@
     "nodejs_package_manager_path": "yarn",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Data\\Apps\\ventry-frontend\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\M Kharisma Azhari\\AppData\\Local\\JetBrains\\Toolbox\\apps\\IDEA-U\\ch-0\\231.9011.34\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -160,7 +158,12 @@
       <workItem from="1686056786381" duration="4682000" />
       <workItem from="1686146442134" duration="13000" />
       <workItem from="1686156090681" duration="5229000" />
-      <workItem from="1686214153538" duration="2547000" />
+      <workItem from="1686214153538" duration="3306000" />
+      <workItem from="1686640099607" duration="5755000" />
+      <workItem from="1686663171843" duration="6000" />
+      <workItem from="1686900555533" duration="1806000" />
+      <workItem from="1686980840501" duration="5535000" />
+      <workItem from="1687161493369" duration="7443000" />
     </task>
     <servers />
   </component>

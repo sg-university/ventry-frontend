@@ -1,15 +1,15 @@
 import Entity from "@/models/entities/entity";
 
 class Location extends Entity {
-    id: string;
-    companyId: string;
-    name: string;
-    description: string;
-    address: string;
-    createdAt: Date;
-    updatedAt: Date;
+    id: string | undefined;
+    companyId: string | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    address: string | undefined;
+    createdAt: Date | undefined;
+    updatedAt: Date | undefined;
 
-    constructor(id: string, companyId: string, name: string, description: string, address: string, createdAt: Date, updatedAt: Date) {
+    constructor(id: string | undefined, companyId: string | undefined, name: string | undefined, description: string | undefined, address: string | undefined, createdAt: Date | undefined, updatedAt: Date | undefined) {
         super();
         this.id = id;
         this.companyId = companyId;

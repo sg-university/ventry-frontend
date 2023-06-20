@@ -13,6 +13,9 @@ import Item from "@/models/entities/item";
 import CreateOneRequest
     from "@/models/value_objects/contracts/requests/managements/inventory_controls/create_one_request";
 import InventoryControlService from "@/services/inventory_control_service";
+import Image from "next/image";
+import ItemCardImage from "@/assets/images/item_management_card.svg";
+import ImageUtility from "@/utilities/image_utility";
 
 const insertMainSchema = Yup.object().shape({
     code: Yup.string().required("Required"),
@@ -41,6 +44,7 @@ const insertItemSchema = Yup.object().shape({
 });
 
 function MainComponent() {
+    const imageUtility: ImageUtility = new ImageUtility()
     const inventoryControlService = new InventoryControlService();
     const pageState: PageState = useSelector((state: any) => state.page);
     const itemService = new ItemService()
@@ -131,7 +135,7 @@ function MainComponent() {
                     unitCostPrice: 0,
                     unitSellPrice: 0,
                     description: "",
-                    image_url: "",
+                    image: undefined,
                     is_record: true,
                 }}
                 onSubmit={handleSubmitInsert}
@@ -251,6 +255,39 @@ function MainComponent() {
                         </div>
 
                         <div className="row">
+                            <fieldset className="form-group">
+                                Image:
+                                <div className="image mb-3">
+                                    <Image
+                                        src={props.values.image ? imageUtility.blobToBase64AsData(props.values.image) : ItemCardImage}
+                                        width={298}
+                                        height={160}
+                                        alt="item"
+                                        className={"rounded-1"}
+                                    />
+                                </div>
+                                <label htmlFor="image">Upload Image</label>
+                                <input name="image" type="file" className="form-control" accept="image/*"
+                                       onChange={
+                                           (event: any) => {
+                                               const file = event.target.files[0];
+                                               imageUtility
+                                                   .resizeFile(file)
+                                                   .then((resizedFile) => {
+                                                       props.setFieldValue("image", resizedFile);
+                                                   })
+                                                   .catch((err) => {
+                                                       console.log(err);
+                                                   });
+                                           }
+                                       }
+                                       onBlur={props.handleBlur}
+                                />
+                                <ErrorMessage name="image" component="div" className="text-danger"/>
+                            </fieldset>
+                        </div>
+
+                        <div className="row">
                             <div className="is_record">
                                 <Field
                                     type="checkbox" id="is_record" name="is_record" className="form-check-input "/>
@@ -283,121 +320,6 @@ function MainComponent() {
     )
 }
 
-// function ItemsComponent(props: any) {
-//     const {fetchItemsByLocation, handleShowModal} = props
-//     const pageState: PageState = useSelector((state: any) => state.page);
-//     const {items} = pageState.itemManagement
-
-//     const dispatch = useDispatch();
-
-//     const handleSubmitInsert = (values: any, actions: any) => {
-//         const itemBundleService = new ItemBundleService()
-//         const request: CreateOneItemBundleRequest = {
-//             body: {
-//                 superItemId: values.superItem,
-//                 subItemId: values.subItem,
-//                 quantity: values.bundle_quantity
-//             }
-//         }
-//         itemBundleService
-//             .createOne(request)
-//             .then(() => {
-//                 dispatch(messageModalSlice.actions.configure({
-//                     type: "succeed",
-//                     content: "Insert Sub-Item succeed.",
-//                     isShow: true
-//                 }))
-//                 fetchItemsByLocation()
-//             })
-//             .catch((error) => {
-//                 console.log(error)
-//                 dispatch(messageModalSlice.actions.configure({
-//                     type: "failed",
-//                     content: error.message,
-//                     isShow: true
-//                 }))
-//             })
-//             .finally(() => {
-//                 actions.setSubmitting(false);
-//                 handleShowModal()
-//             });
-//     }
-
-//     return (
-//         <div className="items form">
-//             <Formik
-//                 validationSchema={insertItemSchema}
-//                 initialValues={{
-//                     superItem: items ? items[0].id : "",
-//                     subItem: items ? items[1].id : "",
-//                     bundle_quantity: 0
-//                 }}
-//                 onSubmit={handleSubmitInsert}
-//                 enableReinitialize
-//             >
-//                 {(props) => (
-//                     <Form className="items-form">
-//                         <div className="row">
-//                             <fieldset className="form-group pb-2">
-//                                 <label htmlFor="superItem" className="pb-1">Select Items</label>
-//                                 <Field as="select" name="superItem" className="form-control select-item">
-//                                     {items?.map((val, idx) => (
-//                                         <option key={val.id} value={val.id}>{val.name}</option>
-//                                     ))}
-//                                 </Field>
-//                                 <ErrorMessage
-//                                     name="superItem"
-//                                     component="div"
-//                                     className="text-danger"
-//                                 />
-//                             </fieldset>
-//                         </div>
-//                         <div className="row">
-//                             <fieldset className="form-group pb-2">
-//                                 <label htmlFor="subItem" className="pb-1">Select Sub-Items</label>
-//                                 <Field as="select" name="subItem" className="form-control select-item">
-//                                     {items?.map((val, idx) => (
-//                                         <option key={val.id} value={val.id}>{val.name}</option>
-//                                     ))}
-//                                 </Field>
-//                                 <ErrorMessage
-//                                     name="subItem"
-//                                     component="div"
-//                                     className="text-danger"
-//                                 />
-//                             </fieldset>
-//                             <fieldset className="form-group pb-2 quantity">
-//                                 <label htmlFor="bundle_quantity" className="pb-1">Quantity</label>
-//                                 <Field type="number" name="bundle_quantity" className="form-control"/>
-//                                 <ErrorMessage
-//                                     name="bundle_quantity"
-//                                     component="div"
-//                                     className="text-danger"
-//                                 />
-//                             </fieldset>
-//                         </div>
-//                         <hr/>
-//                         <div className="button">
-//                             <button
-//                                 type="submit"
-//                                 className="btn btn-primary"
-//                             >
-//                                 Insert
-//                             </button>
-//                             <button
-//                                 type="button"
-//                                 className="btn btn-secondary"
-//                                 onClick={() => handleShowModal()}
-//                             >
-//                                 Cancel
-//                             </button>
-//                         </div>
-//                     </Form>
-//                 )}
-//             </Formik>
-//         </div>
-//     )
-// }
 
 export default function ItemInsertModalComponent() {
     const pageState: PageState = useSelector((state: any) => state.page);

@@ -1,16 +1,16 @@
 import Entity from "@/models/entities/entity";
 
 class InventoryControl extends Entity {
-    id: string;
-    accountId: string;
-    itemId: string;
-    quantityBefore: number;
-    quantityAfter: number;
-    timestamp: string;
-    createdAt: Date;
-    updatedAt: Date;
+    id: string | undefined;
+    accountId: string | undefined;
+    itemId: string | undefined;
+    quantityBefore: number | undefined;
+    quantityAfter: number | undefined;
+    timestamp: string | undefined;
+    createdAt: Date | undefined;
+    updatedAt: Date | undefined;
 
-    constructor(id: string, accountId: string, itemId: string, quantityBefore: number, quantityAfter: number, timestamp: string, createdAt: Date, updatedAt: Date) {
+    constructor(id: string | undefined, accountId: string | undefined, itemId: string | undefined, quantityBefore: number | undefined, quantityAfter: number | undefined, timestamp: string | undefined, createdAt: Date | undefined, updatedAt: Date | undefined) {
         super();
         this.id = id;
         this.accountId = accountId;

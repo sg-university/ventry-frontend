@@ -34,15 +34,15 @@ export default function ItemTransactionHistory() {
         Promise.all([
             itemService
                 .readAllByLocationId({
-                    locationId: currentAccount!.locationId
+                    locationId: currentAccount?.locationId
                 }),
             transactionService
                 .readAllByLocationId({
-                    locationId: currentAccount!.locationId
+                    locationId: currentAccount?.locationId
                 }),
             transactionItemMapService
                 .readAllByLocationId({
-                    locationId: currentAccount!.locationId
+                    locationId: currentAccount?.locationId
                 })
         ]).then((response) => {
             const itemsContent: Content<Item[]> = response[0].data

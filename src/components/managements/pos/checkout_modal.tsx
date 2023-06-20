@@ -72,7 +72,7 @@ export default function CheckoutModalComponent() {
                 }),
                 currentTransaction: {
                     id: undefined,
-                    accountId: currentAccount!.id,
+                    accountId: currentAccount?.id,
                     sellPrice: 0,
                     timestamp: undefined,
                     createdAt: undefined,
