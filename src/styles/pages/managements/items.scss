@@ -44,7 +44,7 @@ $primary-blue: #007bff;
     justify-content: center;
     align-items: center;
     margin: 1.25%;
-    max-width: 22%;
+    width: 22%;
     max-height: 50%;
   }
 }
@@ -125,7 +125,7 @@ $primary-blue: #007bff;
 
 .page.item-management .card .image img {
   width: 100%;
-  height: 100%;
+  height: 162px;
   object-fit: cover;
 }
 
