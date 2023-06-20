@@ -20,8 +20,10 @@ import InventoryControlUpdateModalComponent
 import InventoryControlInsertModalComponent
     from "@/components/managements/histories/inventory_control/inventory_control_insert_modal";
 import {AuthenticationState} from "@/slices/authentication_slice";
+import ImageUtility from "@/utilities/image_utility";
 
 export default function ItemTransactionHistory() {
+    const imageUtility: ImageUtility = new ImageUtility()
     const itemService = new ItemService();
     const inventoryControlService = new InventoryControlService();
     const pageState: PageState = useSelector((state: any) => state.page);
@@ -33,6 +35,8 @@ export default function ItemTransactionHistory() {
         currentModal,
         isShowModal
     } = pageState.inventoryControlHistoryManagement
+    const items = accountInventoryControls!.map(ic => ({ item: accountItems!.find( item => item.id == ic.itemId), ...ic}))
+    console.log(items)
     const dispatch = useDispatch();
 
     const fetchAccountItemsAndInventoryControls = () => {
@@ -134,18 +138,21 @@ export default function ItemTransactionHistory() {
                             </div>
                         </div>
                     ) : null}
-                    {accountInventoryControls?.map((value, index) => (
+                    {items?.map((value, index) => (
                         <div key={value.id} className="card">
                             <div className="image">
                                 <Image
-                                    src={ItemCardImage}
-                                    alt="product"
+                                    src={value.item.image ? imageUtility.blobToBase64AsData(value.item.image) : ItemCardImage}
+                                    width={298}
+                                    height={160}
+                                    alt="item"
+                                    className={"rounded-1"}
                                 />
                             </div>
                             <div className="content">
                                 <div className="left">
-                                    <div className="id">
-                                        <div className="text">ID: {value.id}</div>
+                                    <div className="itemName">
+                                        <div className="text">{value.item.name}</div>
                                     </div>
                                     <div className="date">
                                         <div className="text">{convertDate(value.timestamp)}</div>
