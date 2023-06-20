@@ -59,13 +59,13 @@ function MainComponent() {
         }));
     }
 
-    const recordChanges = (quantityBefore: number, quantityAfter: number) => {
+    const recordChanges = (itemId: string, quantityBefore: number, quantityAfter: number) => {
         if (quantityBefore == quantityAfter) return
         const date = new Date()
         const request: CreateOneRequest = {
             body: {
                 accountId: currentAccount?.id,
-                itemId: currentItem?.id,
+                itemId: itemId,
                 quantityBefore: quantityBefore,
                 quantityAfter: quantityAfter,
                 timestamp: date.toISOString()
@@ -81,13 +81,18 @@ function MainComponent() {
         })
     }
 
-    const reduceSubItemQuantity = async (additionalQuantity: number) => {
-        if (additionalQuantity <= 0) return
+    const reduceSubItemQuantity = (additionalQuantity: number) => {
+        if (additionalQuantity == 0 || currentItemBundleMaps.length <= 0) {
+          fetchItemsByAccountLocation()
+          return
+        }
         currentItemBundleMaps.forEach((itemBundle, idx, arr) => {
             itemService.readOneById({id: itemBundle.subItemId}).then((response) => {
                 const itemData = response.data
                 const quantityBefore = itemData.data?.quantity
-                const quantityAfter = itemData.data.quantity - (itemBundle.quantity * additionalQuantity)
+                const quantityAfter = additionalQuantity < 0 ? 
+                  quantityBefore + (itemBundle.quantity * additionalQuantity*-1) : 
+                  quantityBefore - (itemBundle.quantity * additionalQuantity)
                 itemService.patchOneById({
                     id: itemData.data.id,
                     body: {
@@ -96,16 +101,21 @@ function MainComponent() {
                     }
                 }).then(async (response) => {
                     const item = response.data
-                    recordChanges(quantityBefore, quantityAfter)
-                    console.log("Updating", itemData.data.name)
+                    recordChanges(item.data.id, quantityBefore, quantityAfter)
                     if (idx === arr.length - 1) fetchItemsByAccountLocation()
+                }).catch((error) => {
+                    console.log(error)
+                    dispatch(con.actions.configure({
+                        type: "failed",
+                        content: error.message,
+                        isShow: true
+                    }))
                 })
             })
         })
     }
 
     const fetchItemsByAccountLocation = async () => {
-        console.log('Fetch Items')
         itemService.readAllByLocationId({
             locationId: currentAccount?.locationId
         }).then((response) => {
@@ -123,21 +133,41 @@ function MainComponent() {
         })
     }
 
-    const handleSubmitUpdate = (values: any, actions: any) => {
+    const checkSubItem = async (additionalQuantity: number) => {
+        let isFailed = false
+        for (const itemBundle of currentItemBundleMaps){
+            isFailed = false
+            await itemService.readOneById({id: itemBundle.subItemId}).then((response) => {
+                const itemData = response.data
+                const quantityAfter = itemData.data.quantity - (itemBundle.quantity * additionalQuantity)
+                console.log(quantityAfter)
+                if(quantityAfter < 0) {
+                  isFailed = true
+                  dispatch(con.actions.configure({
+                    type: "failed",
+                    content: 'Sub-item Quantity is not Enough',
+                    isShow: true
+                  }))
+                  return
+                }
+            })
+        }
+        if(isFailed) return false
+        return true
+    }
+
+    const handleSubmitUpdate = async (values: any, actions: any) => {
         const quantityBefore = currentItem?.quantity
+        const isSubItemAvailable = await checkSubItem(values.quantity - quantityBefore)
+        if(!isSubItemAvailable) return
         itemService.patchOneById({
             id: currentItem?.id,
             body: {...values, locationId: currentLocation?.id}
         }).then((response) => {
-            const content: Content<Item> = response.data;
-            if (quantityBefore != values.quantity) {
-                if (values.is_record) {
-                    recordChanges(quantityBefore!, values.quantity)
-                }
-                reduceSubItemQuantity(values.quantity - quantityBefore)
-            } else {
-                fetchItemsByAccountLocation()
+            if (values.is_record) {
+                recordChanges(currentItem.id, quantityBefore!, values.quantity)
             }
+            reduceSubItemQuantity(values.quantity - quantityBefore)
             dispatch(con.actions.configure({
                 type: "succeed",
                 content: "Update Item succeed.",
@@ -343,19 +373,20 @@ function ItemBundleComponent() {
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
-                <tbody> {currentItemBundleMaps && currentItemBundleMaps.map((value, index) => {
-                    return (
-                        <tr key={value.id}>
-                            <td>{value.subItemId}</td>
-                            <td>{items!.find(item => item.id === value.subItemId)?.name}</td>
-                            <td>{value.quantity}</td>
-                            <td className="action">
-                                <PencilFill className="icon" onClick={() => handleUpdateClick(value)}/>
-                                <Trash3Fill className="icon" onClick={() => handleClickDelete(value)}/>
-                            </td>
-                        </tr>
-                    );
-                })}
+                <tbody>
+                  {currentItemBundleMaps && currentItemBundleMaps.map((value, index) => {
+                      return (
+                          <tr key={value.id}>
+                              <td>{value.subItemId}</td>
+                              <td>{items!.find(item => item.id === value.subItemId)?.name}</td>
+                              <td>{value.quantity}</td>
+                              <td className="action">
+                                  <PencilFill className="icon" onClick={() => handleUpdateClick(value)}/>
+                                  <Trash3Fill className="icon" onClick={() => handleClickDelete(value)}/>
+                              </td>
+                          </tr>
+                      );
+                  })}
                 </tbody>
             </table>
         </div>
@@ -399,18 +430,6 @@ function ItemBundleForm(props: any) {
         })
     }
 
-    const setItems = (newItem: Item) => {
-        dispatch(pageSlice.actions.configureItemManagement({
-            ...pageState.itemManagement,
-            items: items!.map((item) => {
-                if (item.id === newItem.id) {
-                    return newItem
-                }
-                return item
-            })
-        }))
-    }
-
     const fetchCurrentItemBundleMaps = async () => {
         itemBundleService.readAllBySuperItemId({superItemId: currentItem?.id}).then((response) => {
             const content: Content<ItemBundleMap[]> = response.data;
@@ -424,6 +443,27 @@ function ItemBundleForm(props: any) {
         })
     }
 
+    const fetchItemsByLocation = () => {
+        itemService.readAllByLocationId({locationId: currentAccount?.locationId}).then((response) => {
+            const contentItem: Content<Item[]> = response.data;
+            itemBundleService.readAllBySuperItemId({superItemId: currentItem?.id}).then((response) => {
+              const content: Content<ItemBundleMap[]> = response.data;
+              dispatch(pageSlice.actions.configureItemManagement({
+                ...pageState.itemManagement,
+                items: contentItem.data.sort((a, b) => {
+                  return new Date(b.updatedAt!).getTime() - new Date(a.updatedAt!).getTime()
+                }),
+                currentModalMenu: "itemBundle",
+                currentItemBundleMaps: content.data,
+                isShowModal: !isShowModal,
+                currentModal: "noModal"
+            }))
+          })
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+    
     const handleSubmitUpdate = (values: any, actions: any) => {
         const request: PatchOneItemBundleByIdRequest = {
             id: currentItemBundle?.id,
@@ -459,9 +499,7 @@ function ItemBundleForm(props: any) {
                 quantity: quantityAfter
             }
         }).then(async (response) => {
-            const item = response.data
-            await fetchCurrentItemBundleMaps()
-            setItems(item.data)
+            fetchItemsByLocation()
             recordChanges(quantityBefore!, quantityAfter)
         })
     }
