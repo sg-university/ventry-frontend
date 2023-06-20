@@ -10,7 +10,7 @@ function Interested() {
         <div className="interested">
             <ReactBootstrap.Container>
                 <ReactBootstrap.Row className="awan-kiri">
-                    <Image src={CloudTopLeft} alt="Awan Kiri Atas"/>
+                    <Image src={CloudTopLeft} alt="Awan Kiri Atas" className="image"/>
                 </ReactBootstrap.Row>
                 <ReactBootstrap.Row>
                     <ReactBootstrap.Col className="our-product">
@@ -22,7 +22,7 @@ function Interested() {
                     </ReactBootstrap.Col>
                 </ReactBootstrap.Row>
                 <ReactBootstrap.Row className="awan-kanan">
-                    <Image src={CloudBottomRight} alt="Awan Kanan Bawah"/>
+                    <Image src={CloudBottomRight} alt="Awan Kanan Bawah" className="image"/>
                 </ReactBootstrap.Row>
             </ReactBootstrap.Container>
         </div>
