@@ -63,12 +63,18 @@ $primary-mid-blue: #2a91ff;
 .page.landing .awan-kiri {
   position: absolute;
   left: 0;
+  .image {
+    padding: 0;
+  }
 }
 
 .page.landing .awan-kanan {
   position: absolute;
-  right: 0;
+  right: 0.85vw;
   bottom: 0;
+  .image {
+    padding: 0;
+  }
 }
 
 @media (max-width: 992px) {
