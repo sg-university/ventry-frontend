@@ -86,19 +86,21 @@ export default function Login() {
         <div className="page login-auth">
             <div className="left-section">
                 <div className="logo">
-                    <Image src={LogoImage} alt="ventry-logo"/>
+                    <Link href="/" className="text-decoration-none" style={{color: "inherit"}}>
+                        <Image src={LogoImage} alt="ventry-logo"/>
+                    </Link>
                 </div>
                 <div className="splash">
                     <Image src={SplashImage} alt="ventry-logo"/>
                 </div>
                 <div className="description">
-                    <div className="text">Sign-in your account now!</div>
+                    <div className="text">Login your account now!</div>
                 </div>
             </div>
             <MessageModal/>
             <div className="right-section">
                 <div className="title">
-                    <h1>Sign-in</h1>
+                    <h1>Login</h1>
                 </div>
                 <div className="form">
                     <Formik
