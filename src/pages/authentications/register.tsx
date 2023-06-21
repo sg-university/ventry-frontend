@@ -22,10 +22,10 @@ import LocationRegisterRequest
 const registerSchemaAccount = Yup.object().shape({
     name: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string().required("Required"),
+    password: Yup.string().required("Required").min(6),
     confirmPassword: Yup.string()
         .required("Required")
-        .oneOf([Yup.ref("password"), ""], "Passwords must match"),
+        .oneOf([Yup.ref("password"), ""], "Passwords must match")
 });
 
 const registerSchemaCompany = Yup.object().shape({
@@ -131,19 +131,21 @@ export default function Register() {
         <div className="page register-auth">
             <div className="left-section">
                 <div className="logo">
-                    <Image src={LogoImage} alt="ventry-logo"/>
+                    <Link href="/" className="text-decoration-none" style={{color: "inherit"}}>
+                        <Image src={LogoImage} alt="ventry-logo"/>
+                    </Link>
                 </div>
                 <div className="splash">
                     <Image src={SplashImage} alt="ventry-logo"/>
                 </div>
                 <div className="description">
-                    <div className="text">Sign-up your account now!</div>
+                    <div className="text">Register your account now!</div>
                 </div>
             </div>
             <MessageModal/>
             <div className="right-section">
                 <div className="title mb-3">
-                    <h1>Sign-up</h1>
+                    <h1>Register</h1>
                     <h6>{title}</h6>
                 </div>
                 <div className="form" style={{display: page == 1 ? 'block' : 'none'}}>
