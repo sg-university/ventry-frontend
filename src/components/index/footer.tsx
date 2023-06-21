@@ -10,7 +10,7 @@ function Footer() {
                 <ReactBootstrap.Row>
                     <ReactBootstrap.Col>
                         <Image src={Logo} alt="Ventry Logo"/>
-                        <p>&copy; 2023 Ventry, All Right Reserved</p>
+                        <p className="mt-4">&copy; 2023 Ventry, All Right Reserved</p>
                     </ReactBootstrap.Col>
                 </ReactBootstrap.Row>
             </ReactBootstrap.Container>

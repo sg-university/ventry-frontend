@@ -14,7 +14,7 @@ function NavigationBar() {
             sticky="top"
         >
             <ReactBootstrap.Container>
-                <ReactBootstrap.Navbar.Brand href="#">
+                <ReactBootstrap.Navbar.Brand href="#header">
                     <Image src={LogoNavImage} alt="Logo"/>
                 </ReactBootstrap.Navbar.Brand>
                 <ReactBootstrap.Navbar.Toggle aria-controls="responsive-navbar-nav"/>
@@ -23,7 +23,7 @@ function NavigationBar() {
                     className="nav-mobile"
                 >
                     <ReactBootstrap.Nav className="mr-auto hover-biru">
-                        <ReactBootstrap.Nav.Link href="#" className="kiri link">
+                        <ReactBootstrap.Nav.Link href="#header" className="kiri link">
                             Home
                         </ReactBootstrap.Nav.Link>
                         <ReactBootstrap.Nav.Link href="#about-us" className="kiri link">
