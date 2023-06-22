@@ -79,6 +79,9 @@ export default function Accounts() {
                     ...pageState.accountManagement,
                     currentAccount: content.data
                 }))
+                dispatch(authenticationSlice.actions.update({
+                  currentAccount: content.data
+              }))
                 dispatch(messageModalSlice.actions.configure({
                     type: "succeed",
                     content: "Update Account succeed.",

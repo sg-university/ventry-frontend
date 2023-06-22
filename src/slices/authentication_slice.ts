@@ -29,6 +29,10 @@ export default createSlice({
             state.isLoggedIn = false;
             storage.removeItem("persist")
         },
+        update: (state, action) => {
+          state.currentAccount = action.payload.currentAccount;
+          state.isLoggedIn = true;
+        },
     },
     extraReducers: {
         [HYDRATE]: (state, action) => {
