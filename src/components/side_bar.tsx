@@ -260,6 +260,8 @@ export default function SideBar() {
                                     </Link>
                                 </List>
                             </Collapse>
+                        </>
+                    }
                             {/* Account Management */}
                             <Link href="/managements/account"
                                   className={router.pathname == "/managements/account" ? "link active" : "link"}>
@@ -279,6 +281,8 @@ export default function SideBar() {
                                     </ListItemButton>
                                 </ListItem>
                             </Link>
+                    {currentRole.name === "admin" &&
+                        <>
                             {/* Company Management */}
                             <ListItem>
                                 <ListItemButton

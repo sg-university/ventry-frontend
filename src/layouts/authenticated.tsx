@@ -18,11 +18,11 @@ export default function Authenticated(props: any) {
         if (!currentAccount) {
             router.push("/authentications/login")
         } else {
-            if (router.pathname !== "/managements/pos") {
+            if (router.pathname !== "/managements/pos" && router.pathname !== "/managements/account") {
                 if (currentRole.name === "cashier") {
                     router.push(`/managements/pos`)
                 }
-            }
+            } 
         }
     }, [])
 
