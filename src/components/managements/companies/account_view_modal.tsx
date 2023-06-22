@@ -56,6 +56,7 @@ export default function AccountViewModalComponent() {
                     const content: Content<Account> = response.data
                     dispatch(messageModalSlice.actions.configure({
                         content: content.message,
+                        type: "succeed",
                         isShow: true
                     }))
                     dispatch(pageSlice.actions.configureCompanyAccountManagement({
