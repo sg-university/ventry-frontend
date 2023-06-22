@@ -55,7 +55,8 @@ function MainComponent() {
     const handleShow = () => {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
-            currentModal: 'viewModal'
+            currentModal: 'viewModal',
+            currentAction: undefined
         }));
     }
 
@@ -313,7 +314,8 @@ function ItemBundleComponent() {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
             isShowModal: !isShowModal,
-            currentModal: "noModal"
+            currentModal: "noModal",
+            currentAction: undefined
         }))
     }
 
@@ -559,7 +561,8 @@ function ItemBundleForm(props: any) {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
             isShowModal: !isShowModal,
-            currentModal: "noModal"
+            currentModal: "noModal",
+            currentAction: undefined
         }))
     }
 
@@ -604,7 +607,7 @@ function ItemBundleForm(props: any) {
                             <hr/>
                             <div className="button">
                                 <button type="submit" className="btn btn-primary">
-                                    {isInsert ? "Insert Item" : "Update Item"}
+                                    {isInsert ? "Insert Sub-Item" : "Update Sub-Item"}
                                 </button>
                                 <button type="button" className="btn btn-secondary" onClick={() => handleShow()}>
                                     Cancel
@@ -619,22 +622,26 @@ function ItemBundleForm(props: any) {
 
 export default function ItemUpdateModalComponent() {
     const pageState: PageState = useSelector((state: any) => state.page);
-    const {currentModalMenu, isShowModal} = pageState.itemManagement;
+    const {currentModalMenu, isShowModal, currentAction} = pageState.itemManagement;
     const dispatch = useDispatch();
     const handleShow = () => {
         dispatch(pageSlice.actions.configureItemManagement({
             ...pageState.itemManagement,
             isShowModal: !isShowModal,
-            currentModal: "noModal"
+            currentModal: "noModal",
+            currentAction: undefined
         }));
     }
     const handleSelectModalMenu = (eventKey: string | null) => {
-        dispatch(pageSlice.actions.configureItemManagement({...pageState.itemManagement, currentModalMenu: eventKey}))
+        dispatch(pageSlice.actions.configureItemManagement({...pageState.itemManagement, currentModalMenu: eventKey, currentAction: undefined}))
     }
     return (
         <Modal show={isShowModal} onHide={() => handleShow()} centered className="component item-update-modal">
             <Modal.Header closeButton className="header">
-                <Modal.Title>Update Item</Modal.Title>
+                { currentModalMenu == "main" && <Modal.Title>Update Item</Modal.Title> }
+                { currentModalMenu == "itemBundleForm" && currentAction == "insert" && <Modal.Title>Insert Sub-Item</Modal.Title> }
+                { currentModalMenu == "itemBundleForm" && currentAction == "update" && <Modal.Title>Update Sub-Item</Modal.Title> }
+                { currentModalMenu == "itemBundle" && currentAction == undefined && <Modal.Title>Update Item Bundle</Modal.Title> }
             </Modal.Header>
             <Nav variant="tabs" onSelect={(eventKey) => handleSelectModalMenu(eventKey)}>
                 <Nav.Item>
