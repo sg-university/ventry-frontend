@@ -12,7 +12,9 @@ import Content from "@/models/value_objects/contracts/content";
 import messageModalSlice from "@/slices/message_modal_slice";
 
 const updateSchema = Yup.object().shape({
-    name: Yup.string().required("Required"),
+    itemId: Yup.string().required("Required"),
+    itemName: Yup.string().required("Required"),
+    itemCode: Yup.string().required("Required"),
     quantityBefore: Yup.number().required("Required"),
     quantityAfter: Yup.number().required("Required"),
 });
@@ -38,7 +40,6 @@ export default function InventoryControlUpdateModalComponent() {
         }))
     }
     const handleSubmitUpdate = (values: any, actions: any) => {
-        console.log(values)
         inventoryControlService
             .patchOneById({
                 id: currentInventoryControl?.id,
