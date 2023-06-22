@@ -31,7 +31,7 @@ export default function CompanyAccount() {
     const {currentAccount} = authenticationState;
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, companyAccounts, roles} = pageState.companyAccountManagement;
-    const accounts = companyAccounts!.map(acc => ({role: roles!.find(role => role!.id === acc!.roleId), ...acc}))
+    const accounts = companyAccounts!.map(acc => ({role: roles!.find(role => role?.id === acc?.roleId), ...acc}))
     const dispatch = useDispatch();
 
     const fetchCompanyAccountsAndCurrentCompany = () => {
@@ -158,7 +158,7 @@ export default function CompanyAccount() {
                                     <div className="text">{value.name}</div>
                                 </div>
                                 <div className="role">
-                                    <div className="text">{value.role!.name}</div>
+                                    <div className="text">{value?.role?.name}</div>
                                 </div>
                             </div>
                             <div className="control">

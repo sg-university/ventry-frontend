@@ -17,7 +17,7 @@ import RoleService from "@/services/role_service";
 
 const loginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string().required("Required").min(6),
+    password: Yup.string().required("Required"),
 });
 
 export default function Login() {
