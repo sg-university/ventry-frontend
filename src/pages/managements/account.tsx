@@ -26,7 +26,7 @@ const updateSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
     role: Yup.string().required("Required"),
-    password: Yup.string().required("Required"),
+    password: Yup.string().required("Required").min(6),
     confirmPassword: Yup.string()
         .required("Required")
         .oneOf([Yup.ref("password"), ""], "Passwords must match"),
