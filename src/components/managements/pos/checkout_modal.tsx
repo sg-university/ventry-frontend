@@ -31,6 +31,11 @@ export default function CheckoutModalComponent() {
     const authenticationState: AuthenticationState = useSelector((state: any) => state.authentication);
     const {currentAccount} = authenticationState
     const dispatch = useDispatch();
+
+    const totalCostPrice = transactionItemMaps?.reduce((previous, current) => {
+        return previous + (items!.find(item => item.id == current.itemId)!.unitCostPrice! * current.quantity!)
+    }, 0)
+
     const handleShow = () => {
         dispatch(pageSlice.actions.configurePointOfSaleManagement({
             ...pageState.pointOfSaleManagement,
@@ -39,7 +44,17 @@ export default function CheckoutModalComponent() {
         }));
     }
 
-    const handleSubmitCheckout = (values: any) => {
+    const handleSubmitPay = (values: any) => {
+        if (values.sellPrice < totalCostPrice!) {
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: "The total sell price must be greater than or equal to the total cost price.",
+                isShow: true
+            }))
+
+            return
+        }
+
         transactionService.checkout({
             body: {
                 transaction: {
@@ -112,7 +127,7 @@ export default function CheckoutModalComponent() {
                             "paymentMethod": "cash",
                             "isRecord": true
                         }}
-                        onSubmit={handleSubmitCheckout}
+                        onSubmit={handleSubmitPay}
                         enableReinitialize
                     >
                         {

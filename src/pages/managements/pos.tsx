@@ -49,7 +49,7 @@ export default function PointOfSale() {
     const pageState: PageState = useSelector((state: any) => state.page);
     const {currentModal, items, transactionItemMaps, currentTransaction} = pageState.pointOfSaleManagement;
 
-    const totalPrice = transactionItemMaps?.reduce((previous, current) => {
+    const totalSellPrice = transactionItemMaps?.reduce((previous, current) => {
         return previous + (items!.find(item => item.id == current.itemId)!.unitSellPrice! * current.quantity!)
     }, 0)
 
@@ -190,7 +190,7 @@ export default function PointOfSale() {
             return
         }
 
-        if (totalPrice == 0) {
+        if (totalSellPrice == 0) {
             dispatch(messageModalSlice.actions.configure({
                 type: "failed",
                 isShow: true,
@@ -206,7 +206,7 @@ export default function PointOfSale() {
             currentTransaction: {
                 id: undefined,
                 accountId: currentAccount?.id,
-                sellPrice: totalPrice,
+                sellPrice: totalSellPrice,
                 timestamp: undefined,
                 createdAt: undefined,
                 updatedAt: undefined,
@@ -345,7 +345,7 @@ export default function PointOfSale() {
                             <div className="pad">
                                 <div className="total">
                                     <div className="title"><h4>Total</h4></div>
-                                    <div className="number"><h5>Rp. {totalPrice}</h5></div>
+                                    <div className="number"><h5>Rp. {totalSellPrice}</h5></div>
                                 </div>
                             </div>
                         </div>
