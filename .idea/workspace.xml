@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a347916c-2399-4f00-8919-2a6675d272a9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_view_modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/managements/companies/account_insert_modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/managements/companies/account_insert_modal.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +166,8 @@
       <workItem from="1686980840501" duration="5535000" />
       <workItem from="1687161493369" duration="8043000" />
       <workItem from="1687251906676" duration="1849000" />
-      <workItem from="1687426146713" duration="754000" />
+      <workItem from="1687426146713" duration="3242000" />
+      <workItem from="1687579678158" duration="22000" />
     </task>
     <servers />
   </component>

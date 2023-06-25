@@ -86,6 +86,14 @@ export default function AccountInsertModalComponent() {
             }
         }).then((response) => {
             const content: Content<Account> = response.data;
+            if (content.data == null) {
+                dispatch(messageModalSlice.actions.configure({
+                    content: "Insert Account failed: Email already exists.",
+                    type: "failed",
+                    isShow: true
+                }))
+                return;
+            }
             dispatch(messageModalSlice.actions.configure({
                 content: "Insert Account succeed.",
                 type: "succeed",
