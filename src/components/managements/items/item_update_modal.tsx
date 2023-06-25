@@ -303,7 +303,8 @@ function ItemBundleComponent() {
             const content: Content<ItemBundleMap[]> = response.data;
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
-                currentItemBundleMaps: content.data
+                currentItemBundleMaps: content.data,
+                currentAction: undefined
             }))
         }).catch((error) => {
             console.log(error)
@@ -438,7 +439,8 @@ function ItemBundleForm(props: any) {
             dispatch(pageSlice.actions.configureItemManagement({
                 ...pageState.itemManagement,
                 currentModalMenu: "itemBundle",
-                currentItemBundleMaps: content.data
+                currentItemBundleMaps: content.data,
+                currentAction: undefined
             }))
         }).catch((error) => {
             console.log(error)
