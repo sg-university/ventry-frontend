@@ -45,7 +45,7 @@ export default function CheckoutModalComponent() {
     }
 
     const handleSubmitPay = (values: any) => {
-        if (values.sellPrice < totalCostPrice!) {
+        if (values.sellPrice < totalCostPrice) {
             dispatch(messageModalSlice.actions.configure({
                 type: "failed",
                 content: "The total sell price must be greater than or equal to the total cost price.",
