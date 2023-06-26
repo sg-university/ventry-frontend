@@ -16,6 +16,7 @@ import confirmationModalSlice from "@/slices/confirmation_modal_slice";
 
 type FormikInitialValues = {
     transactionTimestamp: string
+    transactionTotalSellPrice: number
     currentTransactionItemMaps: TransactionItemMap[]
     newTransactionItemMaps: TransactionItemMap[]
 }
@@ -87,15 +88,13 @@ export default function TransactionUpdateModalComponent() {
     const handleSubmitUpdate = (values: FormikInitialValues) => {
         const newTransactionItemMaps: TransactionItemMap[] = values.newTransactionItemMaps
         const currentTransactionItemMaps: TransactionItemMap[] = values.currentTransactionItemMaps
-        const allTransactionItemMaps: TransactionItemMap[] = [...currentTransactionItemMaps, ...newTransactionItemMaps]
-        const totalSellPrice: number = allTransactionItemMaps!.reduce((total, tim) => total + tim.sellPrice!, 0)
 
         transactionService
             .patchOneById({
                 id: currentTransaction!.id,
                 body: {
                     accountId: currentTransaction!.accountId,
-                    sellPrice: totalSellPrice,
+                    sellPrice: values.transactionTotalSellPrice,
                     timestamp: new Date(values.transactionTimestamp).toISOString()
                 }
             }).then((response) => {
@@ -179,16 +178,39 @@ export default function TransactionUpdateModalComponent() {
         }))
     }
 
-    const getNewTransactionItemMapQuantity = (value: Item, props: FormikProps<FormikInitialValues>): string => {
+    const getNewTransactionItemMapQuantity = (props: FormikProps<FormikInitialValues>, value: Item): string => {
         const newTransactionItemMaps: TransactionItemMap[] = props.values.newTransactionItemMaps
         const index: number = newTransactionItemMaps.findIndex((tim) => tim.itemId === value.id)
         return `newTransactionItemMaps[${index}].quantity`
     }
 
-    const getNewTransactionItemMapSellPrice = (value: Item, props: FormikProps<FormikInitialValues>): string => {
+    const getNewTransactionItemMapSellPrice = (props: FormikProps<FormikInitialValues>, value: Item): string => {
         const newTransactionItemMaps: TransactionItemMap[] = props.values.newTransactionItemMaps
         const index: number = newTransactionItemMaps.findIndex((tim) => tim.itemId === value.id)
         return `newTransactionItemMaps[${index}].sellPrice`
+    }
+
+    const handleChangeCurrentTransactionItemMapSellPrice = (event: any, props: FormikProps<FormikInitialValues>, index: number, value: TransactionItemMap) => {
+        if (event.target.value < 0) {
+            dispatch(messageModalSlice.actions.configure({
+                type: "failed",
+                content: "Quantity must be greater than or equal to 0.",
+                isShow: true
+            }))
+            return
+        }
+
+        const sellPrice: number = event.target.value * items!.find(item => item.id === value.itemId)!.unitSellPrice
+        props.handleChange(event)
+        props.setFieldValue(
+            `currentTransactionItemMaps[${index}].sellPrice`,
+            sellPrice
+        )
+        props.values.currentTransactionItemMaps[index].sellPrice = sellPrice
+        props.setFieldValue(
+            "transactionTotalSellPrice",
+            [...props.values.newTransactionItemMaps, ...props.values.currentTransactionItemMaps].reduce((total, tim) => total + tim.sellPrice!, 0)
+        )
     }
 
     const handleChangeNewTransactionItemMapQuantity = (event: any, props: FormikProps<FormikInitialValues>, value: Item) => {
@@ -201,27 +223,40 @@ export default function TransactionUpdateModalComponent() {
             return
         }
 
+        const newTransactionItemMaps: TransactionItemMap[] = props.values.newTransactionItemMaps.map((tim) => {
+                if (tim.itemId === value.id) {
+                    return {
+                        ...tim,
+                        quantity: event.target.value,
+                        sellPrice: value.unitSellPrice * event.target.value
+                    };
+                } else {
+                    return tim;
+                }
+            }
+        )
         props.handleChange(event)
         props.setFieldValue(
             "newTransactionItemMaps",
-            props.values.newTransactionItemMaps.map((tim) => {
-                    if (tim.itemId === value.id) {
-                        return {
-                            ...tim,
-                            quantity: event.target.value,
-                            sellPrice: value.unitSellPrice * event.target.value
-                        }
-                    } else {
-                        return tim
-                    }
-                }
-            )
+            newTransactionItemMaps
+        )
+        props.setFieldValue(
+            "transactionTotalSellPrice",
+            [...newTransactionItemMaps, ...props.values.currentTransactionItemMaps].reduce((total, tim) => total + tim.sellPrice!, 0)
         )
     }
 
+    const getTransactionTotalSellPrice = (props: FormikProps<FormikInitialValues>): number => {
+        const totalSellPriceCurrentTransactionItemMaps: number = props.values.currentTransactionItemMaps.reduce((total, tim) => total + tim.sellPrice!, 0)
+        const totalSellPriceNewCurrentTransactionItemMaps: number = props.values.newTransactionItemMaps.reduce((total, tim) => total + tim.sellPrice!, 0)
+        return totalSellPriceCurrentTransactionItemMaps + totalSellPriceNewCurrentTransactionItemMaps
+    }
+
+
     const formikInitialValues: FormikInitialValues = {
         transactionTimestamp: moment(new Date(currentTransaction!.timestamp)).format("YYYY-MM-DDTHH:mm"),
-        currentTransactionItemMaps: currentTransactionItemMaps!,
+        transactionTotalSellPrice: currentTransactionItemMaps!.reduce((total, tim) => total + tim.sellPrice!, 0),
+        currentTransactionItemMaps: currentTransactionItemMaps,
         newTransactionItemMaps: items!.map((item) => {
             return {
                 id: undefined,
@@ -258,10 +293,19 @@ export default function TransactionUpdateModalComponent() {
                             (props) => (
                                 <Form>
                                     <div className="transaction-timestamp">
+                                        <label>Timestamp</label>
                                         <Field
                                             className="form-control"
                                             type="datetime-local"
                                             name="transactionTimestamp"
+                                        />
+                                    </div>
+                                    <div className="transaction-total-sell-price mt-3">
+                                        <label>Total Sell Price</label>
+                                        <Field
+                                            className="form-control"
+                                            type="number"
+                                            name="transactionTotalSellPrice"
                                         />
                                     </div>
                                     <div className="current-transaction-item-maps">
@@ -290,13 +334,7 @@ export default function TransactionUpdateModalComponent() {
                                                                 type="number"
                                                                 name={`currentTransactionItemMaps[${index}].quantity`}
                                                                 className="form-control"
-                                                                onChange={(event: any) => {
-                                                                    props.handleChange(event)
-                                                                    props.setFieldValue(
-                                                                        `currentTransactionItemMaps[${index}].sellPrice`,
-                                                                        event.target.value * items!.find(item => item.id === value.itemId)!.unitSellPrice
-                                                                    )
-                                                                }}
+                                                                onChange={(event: any) => handleChangeCurrentTransactionItemMapSellPrice(event, props, index, value)}
                                                             />
                                                         </td>
                                                         <td>
@@ -334,7 +372,7 @@ export default function TransactionUpdateModalComponent() {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {items!.map((value, index) => {
+                                            {items!.filter(item => !props.values.currentTransactionItemMaps!.map(tim => tim.itemId).includes(item.id)).map((value, index) => {
                                                 return (
                                                     <tr key={value.id}>
                                                         <td>{value.id}</td>
@@ -344,7 +382,7 @@ export default function TransactionUpdateModalComponent() {
                                                         <td>
                                                             <Field
                                                                 type="number"
-                                                                name={getNewTransactionItemMapQuantity(value, props)}
+                                                                name={getNewTransactionItemMapQuantity(props, value)}
                                                                 className="form-control"
                                                                 onChange={(event: any) => handleChangeNewTransactionItemMapQuantity(event, props, value)}
                                                             />
@@ -352,7 +390,7 @@ export default function TransactionUpdateModalComponent() {
                                                         <td>
                                                             <Field
                                                                 type="number"
-                                                                name={getNewTransactionItemMapSellPrice(value, props)}
+                                                                name={getNewTransactionItemMapSellPrice(props, value)}
                                                                 className="form-control"
                                                             />
                                                         </td>
