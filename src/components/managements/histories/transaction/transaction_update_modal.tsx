@@ -246,13 +246,6 @@ export default function TransactionUpdateModalComponent() {
         )
     }
 
-    const getTransactionTotalSellPrice = (props: FormikProps<FormikInitialValues>): number => {
-        const totalSellPriceCurrentTransactionItemMaps: number = props.values.currentTransactionItemMaps.reduce((total, tim) => total + tim.sellPrice!, 0)
-        const totalSellPriceNewCurrentTransactionItemMaps: number = props.values.newTransactionItemMaps.reduce((total, tim) => total + tim.sellPrice!, 0)
-        return totalSellPriceCurrentTransactionItemMaps + totalSellPriceNewCurrentTransactionItemMaps
-    }
-
-
     const formikInitialValues: FormikInitialValues = {
         transactionTimestamp: moment(new Date(currentTransaction!.timestamp)).format("YYYY-MM-DDTHH:mm"),
         transactionTotalSellPrice: currentTransactionItemMaps!.reduce((total, tim) => total + tim.sellPrice!, 0),
