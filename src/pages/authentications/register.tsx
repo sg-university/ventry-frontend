@@ -164,23 +164,23 @@ export default function Register() {
                             <Form>
                                 <div className="firstPageForm">
                                     <fieldset className="form-group">
-                                        <label htmlFor="name">Name</label>
-                                        <Field type="text" name="name" className="form-control mt-2"/>
+                                        <label htmlFor="name">Name<label htmlFor="code" className="text-danger">*</label></label>
+                                        <Field type="text" name="name" className="form-control mt-2" placeholder="Enter your name here"/>
                                         <ErrorMessage name="name" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label htmlFor="email">Email</label>
-                                        <Field type="email" name="email" className="form-control mt-2"/>
+                                        <label htmlFor="email">Email<label htmlFor="code" className="text-danger">*</label></label>
+                                        <Field type="email" name="email" className="form-control mt-2" placeholder="Enter your email here"/>
                                         <ErrorMessage name="email" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label htmlFor="password">Password</label>
-                                        <Field type="password" name="password" className="form-control mt-2"/>
+                                        <label htmlFor="password">Password<label htmlFor="code" className="text-danger">*</label></label>
+                                        <Field type="password" name="password" className="form-control mt-2" placeholder="Passowrd must have at least 6 characters"/>
                                         <ErrorMessage name="password" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label htmlFor="confirmPassword">Confirm password</label>
-                                        <Field type="password" name="confirmPassword" className="form-control mt-2"/>
+                                        <label htmlFor="confirmPassword">Confirm password<label htmlFor="code" className="text-danger">*</label></label>
+                                        <Field type="password" name="confirmPassword" className="form-control mt-2" placeholder="Confirm password must match with password"/>
                                         <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
                                     </fieldset>
 

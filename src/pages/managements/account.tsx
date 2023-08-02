@@ -187,8 +187,8 @@ export default function Accounts() {
                                         <ErrorMessage name="password" component="div" className="text-danger"/>
                                     </fieldset>
                                     <fieldset className="form-group pt-2">
-                                        <label htmlFor="confirmPassword">Confirm password</label>
-                                        <Field type="password" name="confirmPassword" className="form-control mt-1"/>
+                                        <label htmlFor="confirmPassword">Confirm password<label htmlFor="code" className="text-danger">*</label></label>
+                                        <Field type="password" name="confirmPassword" className="form-control mt-1" placeholder="Confirm password must match with password"/>
                                         <ErrorMessage name="confirmPassword" component="div" className="text-danger"/>
                                     </fieldset>
                                     <button type="submit" className="btn btn-primary pt-2">

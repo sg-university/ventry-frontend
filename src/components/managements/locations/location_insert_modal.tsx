@@ -101,11 +101,12 @@ export default function LocationInsertModalComponent() {
                             <Form>
                                 <div className="row">
                                     <fieldset className="form-group">
-                                        <label htmlFor="name">Name</label>
+                                        <label htmlFor="name">Name<label htmlFor="code" className="text-danger">*</label></label>
                                         <Field
                                             type="text"
                                             name="name"
                                             className="form-control"
+                                            placeholder="Enter your location name"
                                         />
                                         <ErrorMessage
                                             name="name"
@@ -116,11 +117,12 @@ export default function LocationInsertModalComponent() {
                                 </div>
                                 <div className="row">
                                     <fieldset className="form-group">
-                                        <label htmlFor="description">Description</label>
+                                        <label htmlFor="description">Description<label htmlFor="code" className="text-danger">*</label></label>
                                         <Field
                                             type="text"
                                             name="description"
                                             className="form-control"
+                                            placeholder="Enter you location description"
                                         />
                                         <ErrorMessage
                                             name="description"
@@ -131,11 +133,12 @@ export default function LocationInsertModalComponent() {
                                 </div>
                                 <div className="row">
                                     <fieldset className="form-group">
-                                        <label htmlFor="address">Address</label>
+                                        <label htmlFor="address">Address<label htmlFor="code" className="text-danger">*</label></label>
                                         <Field
                                             type="text"
                                             name="address"
                                             className="form-control"
+                                            placeholder="Enter your location address"
                                         />
                                         <ErrorMessage
                                             name="address"

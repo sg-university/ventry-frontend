@@ -115,13 +115,13 @@ export default function Login() {
                         {(props) => (
                             <Form>
                                 <fieldset className="form-group pb-2">
-                                    <label htmlFor="email">Email</label>
-                                    <Field type="email" name="email" className="form-control mt-2"/>
+                                    <label htmlFor="email">Email<label htmlFor="code" className="text-danger">*</label></label>
+                                    <Field type="email" name="email" className="form-control mt-2" placeholder="Email"/>
                                     <ErrorMessage name="email" component="div" className="text-danger"/>
                                 </fieldset>
                                 <fieldset className="form-group pb-2">
-                                    <label htmlFor="password">Password</label>
-                                    <Field type="password" name="password" className="form-control mt-2"/>
+                                    <label htmlFor="password">Password<label htmlFor="code" className="text-danger">*</label></label>
+                                    <Field type="password" name="password" className="form-control mt-2" placeholder="Passowrd must have at least 6 characters"/>
                                     <ErrorMessage name="password" component="div" className="text-danger"/>
                                 </fieldset>
                                 <button type="submit" className="btn btn-primary">

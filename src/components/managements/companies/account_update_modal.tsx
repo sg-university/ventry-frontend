@@ -202,11 +202,12 @@ export default function AccountUpdateModalComponent() {
                                 </div>
                                 <div className="row">
                                     <fieldset className="form-group">
-                                        <label htmlFor="password">Password</label>
+                                        <label htmlFor="password">Password<label htmlFor="code" className="text-danger">*</label></label>
                                         <Field
                                             type="password"
                                             name="password"
                                             className="form-control"
+                                            placeholder="Passowrd must have at least 6 characters"
                                         />
                                         <ErrorMessage
                                             name="password"
@@ -217,11 +218,12 @@ export default function AccountUpdateModalComponent() {
                                 </div>
                                 <div className="row">
                                     <fieldset className="form-group">
-                                        <label htmlFor="confirmPassword">Confirm Password</label>
+                                        <label htmlFor="confirmPassword">Confirm Password<label htmlFor="code" className="text-danger">*</label></label>
                                         <Field
                                             type="password"
                                             name="confirmPassword"
                                             className="form-control"
+                                            placeholder="Confirm password must match with password"
                                         />
                                         <ErrorMessage
                                             name="confirmPassword"

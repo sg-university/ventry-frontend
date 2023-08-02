@@ -145,8 +145,8 @@ function MainComponent() {
                     <Form>
                         <div className="row">
                             <fieldset className="form-group">
-                                <label htmlFor="code">Code</label>
-                                <Field type="text" name="code" className="form-control"/>
+                                <label htmlFor="code">Code<label htmlFor="code" className="text-danger">*</label></label>
+                                <Field type="text" name="code" className="form-control" placeholder="Enter your item code"/>
                                 <ErrorMessage
                                     name="code"
                                     component="div"
@@ -155,8 +155,8 @@ function MainComponent() {
                             </fieldset>
 
                             <fieldset className="form-group">
-                                <label htmlFor="type">Type</label>
-                                <Field type="text" name="type" className="form-control"/>
+                                <label htmlFor="type">Type<label htmlFor="code" className="text-danger">*</label></label>
+                                <Field type="text" name="type" className="form-control" placeholder="Enter your item type"/>
                                 <ErrorMessage
                                     name="type"
                                     component="div"
@@ -167,8 +167,8 @@ function MainComponent() {
 
                         <div className="row">
                             <fieldset className="form-group">
-                                <label htmlFor="name">Name</label>
-                                <Field type="text" name="name" className="form-control"/>
+                                <label htmlFor="name">Name<label htmlFor="code" className="text-danger">*</label></label>
+                                <Field type="text" name="name" className="form-control" placeholder="Enter your item name"/>
                                 <ErrorMessage
                                     name="name"
                                     component="div"
@@ -179,7 +179,7 @@ function MainComponent() {
 
                         <div className="row">
                             <fieldset className="form-group">
-                                <label htmlFor="quantity">Quantity</label>
+                                <label htmlFor="quantity">Quantity<label htmlFor="code" className="text-danger">*</label></label>
                                 <Field
                                     type="number"
                                     name="quantity"
@@ -193,11 +193,12 @@ function MainComponent() {
                             </fieldset>
 
                             <fieldset className="form-group">
-                                <label htmlFor="unitName">Unit Name</label>
+                                <label htmlFor="unitName">Unit Name<label htmlFor="code" className="text-danger">*</label></label>
                                 <Field
                                     type="text"
                                     name="unitName"
                                     className="form-control"
+                                    placeholder="Enter your unit name"
                                 />
                                 <ErrorMessage
                                     name="unitName"
@@ -209,7 +210,7 @@ function MainComponent() {
 
                         <div className="row">
                             <fieldset className="form-group">
-                                <label htmlFor="unitCostPrice">Cost</label>
+                                <label htmlFor="unitCostPrice">Cost<label htmlFor="code" className="text-danger">*</label></label>
                                 <Field
                                     type="number"
                                     name="unitCostPrice"
@@ -223,7 +224,7 @@ function MainComponent() {
                             </fieldset>
 
                             <fieldset className="form-group">
-                                <label htmlFor="unitSellPrice">Price</label>
+                                <label htmlFor="unitSellPrice">Price<label htmlFor="code" className="text-danger">*</label></label>
                                 <Field
                                     type="number"
                                     name="unitSellPrice"
@@ -239,12 +240,13 @@ function MainComponent() {
 
                         <div className="row">
                             <fieldset className="form-group">
-                                <label htmlFor="description">Description</label>
+                                <label htmlFor="description">Description<label htmlFor="code" className="text-danger">*</label></label>
                                 <Field
                                     as="textarea"
                                     type="text"
                                     name="description"
                                     className="form-control"
+                                    placeholder="Enter your item description"
                                 />
                                 <ErrorMessage
                                     name="description"
