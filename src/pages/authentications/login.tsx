@@ -121,7 +121,7 @@ export default function Login() {
                                 </fieldset>
                                 <fieldset className="form-group pb-2">
                                     <label htmlFor="password">Password<label htmlFor="code" className="text-danger">*</label></label>
-                                    <Field type="password" name="password" className="form-control mt-2" placeholder="Passowrd must have at least 6 characters"/>
+                                    <Field type="password" name="password" className="form-control mt-2" placeholder="Password must have at least 6 characters"/>
                                     <ErrorMessage name="password" component="div" className="text-danger"/>
                                 </fieldset>
                                 <button type="submit" className="btn btn-primary">
